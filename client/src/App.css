@@ -1,0 +1,70 @@
+.leftSideMenu {
+    height: 97.2vh;
+    position: relative;
+    padding: 30px;
+}
+
+.leftSideMenuData {
+    background-color: white;
+    height: 85vh;
+    width: calc(100% - 60px);
+    position: absolute;
+    border-radius: 10px;
+    margin: auto;
+    padding: 0px 30px;
+}
+
+.leftSideMenuData h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: var(--ion-color-primary);
+    text-align: center;
+}
+
+.bg-content {
+    --background: var(--ion-color-secondary-tint);
+    font-size: 12px;
+}
+
+.bg-content-users {
+    background-color: #fff;
+    margin: 20px;
+    border-radius: 10px;
+    height: calc(100vh - 120px);
+}
+
+.titles {
+    background-color: #fff;
+    margin: 20px;
+    padding: 0px 20px 0px 0px;
+    border-radius: 10px;
+}
+
+.tabla {
+    border-color: var(--ion-color-secondary-tint);
+    border-width: 1px;
+    border-style: solid;
+}
+
+.tabla-inicial {
+    border-top-left-radius: 10px;
+}
+
+.tabla-final {
+    border-top-right-radius: 10px;
+}
+
+.user-inputs {
+    border-radius: 10px;
+    height: calc(100vh - 150px);
+    background-color: #fff;
+    padding: 20px;
+}
+
+.center {
+    text-align: center;
+}
+
+
+/* Sizes */
+

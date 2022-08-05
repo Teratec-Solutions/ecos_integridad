@@ -1,0 +1,49 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "C:\\Users\\gorel\\Documents\\Tesso\\Ecos_Integridad\\ecos_integridad\\server\\src\\logs\\error\\.e7c25dbbd61c45466a2d04767c6f17c64138591a-audit.json",
+    "files": [
+        {
+            "date": 1658616861377,
+            "name": "C:\\Users\\gorel\\Documents\\Tesso\\Ecos_Integridad\\ecos_integridad\\server\\src\\logs\\error\\2022-07-23.log",
+            "hash": "e22db20aec2ec8ce058e07717ebf260a"
+        },
+        {
+            "date": 1658639637378,
+            "name": "C:\\Users\\gorel\\Documents\\Tesso\\Ecos_Integridad\\ecos_integridad\\server\\src\\logs\\error\\2022-07-24.log",
+            "hash": "c1a72b84936daf4f60d43665ba1f3651"
+        },
+        {
+            "date": 1658953089719,
+            "name": "C:\\Users\\gorel\\Documents\\Tesso\\Ecos_Integridad\\ecos_integridad\\server\\src\\logs\\error\\2022-07-27.log",
+            "hash": "16711ae1c4d1440f0e21208243b8ffb5"
+        },
+        {
+            "date": 1659105483276,
+            "name": "C:\\Users\\gorel\\Documents\\Tesso\\Ecos_Integridad\\ecos_integridad\\server\\src\\logs\\error\\2022-07-29.log",
+            "hash": "b6b19438b8e5827c6d50ab0ae8bfd199"
+        },
+        {
+            "date": 1659192534881,
+            "name": "C:\\Users\\gorel\\Documents\\Tesso\\Ecos_Integridad\\ecos_integridad\\server\\src\\logs\\error\\2022-07-30.log",
+            "hash": "5129e9a1ec31708a4d2523293195d8ef"
+        },
+        {
+            "date": 1659575228707,
+            "name": "C:\\Users\\gorel\\Documents\\Tesso\\Ecos_Integridad\\ecos_integridad\\server\\src\\logs\\error\\2022-08-03.log",
+            "hash": "6e44dceb133ec3fb1128e1241c9bf6f9"
+        },
+        {
+            "date": 1659616192249,
+            "name": "C:\\Users\\gorel\\Documents\\Tesso\\Ecos_Integridad\\ecos_integridad\\server\\src\\logs\\error\\2022-08-04.log",
+            "hash": "43573851d719fcdab3ee0f2a8cb80ddc"
+        },
+        {
+            "date": 1659711917659,
+            "name": "C:\\Users\\gorel\\Documents\\Tesso\\Ecos_Integridad\\ecos_integridad\\server\\src\\logs\\error\\2022-08-05.log",
+            "hash": "273c5a99be0f4514d7eeb9cbe3376da2"
+        }
+    ]
+}

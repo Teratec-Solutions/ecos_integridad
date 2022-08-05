@@ -1,0 +1,20 @@
+{
+  "name": "ecos_integridad",
+  "version": "1.0.0",
+  "description": "Ecos Aplicación Web",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm start --prefix server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-server": "npm run start-dev --prefix server",
+    "dev-client": "npm run dev --prefix client",
+    "dev": "concurrently --kill-others-on-fail \"npm run dev-server\" \"npm run dev-client\"",
+    "install-server": "cd ./server && npm install",
+    "install-client": "cd ./client && npm install"
+  },
+  "author": "Gonzalo Orellana <gonzalo.orellana@tesso.cl>",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.3.0"
+  }
+}

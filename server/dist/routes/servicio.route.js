@@ -1,0 +1,26 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const express_1 = require("express");
+const servicio_controller_1 = (0, tslib_1.__importDefault)(require("../controllers/servicio.controller"));
+const router = (0, express_1.Router)();
+router.post(`/crearServicio`, servicio_controller_1.default.crearServicio);
+router.post(`/borrarServicio`, servicio_controller_1.default.borrarServicio);
+router.get(`/obtenerServicios`, servicio_controller_1.default.obtenerServicios);
+router.post(`/crearTipoServicio`, servicio_controller_1.default.crearTipoServicio);
+router.post(`/borrarTipoServicio`, servicio_controller_1.default.borrarTipoServicio);
+router.get(`/obtenerTipoServicios`, servicio_controller_1.default.obtenerTipoServicios);
+router.post(`/crearProcedimiento`, servicio_controller_1.default.crearProcedimiento);
+router.post(`/borrarProcedimiento`, servicio_controller_1.default.borrarProcedimiento);
+router.get(`/obtenerProcedimientos`, servicio_controller_1.default.obtenerProcedimientos);
+router.post(`/crearSubMateria`, servicio_controller_1.default.crearSubMateria);
+router.post(`/borrarSubMateria`, servicio_controller_1.default.borrarSubMateria);
+router.get(`/obtenerSubMateria`, servicio_controller_1.default.obtenerSubMateria);
+router.post(`/crearGestion`, servicio_controller_1.default.crearGestion);
+router.post(`/borrarGestion`, servicio_controller_1.default.borrarGestion);
+router.get(`/obtenerGestiones`, servicio_controller_1.default.obtenerGestion);
+router.post(`/crearGestionDetalle`, servicio_controller_1.default.crearGestionDetalle);
+router.post(`/borrarGestionDetalle`, servicio_controller_1.default.borrarGestionDetalle);
+router.get(`/obtenerGestionDetalle`, servicio_controller_1.default.obtenerGestionDetalle);
+exports.default = router;
+//# sourceMappingURL=servicio.route.js.map

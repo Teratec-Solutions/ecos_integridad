@@ -1,0 +1,7 @@
+{
+  "name": "ecos_integridad_web",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

@@ -1,0 +1,35 @@
+import { ObjectId } from "mongoose";
+import { Empresa } from "./empresa.interface";
+export interface Cliente {
+    _id: ObjectId;
+    nombre: string;
+    apellido1: string;
+    apellido2: string;
+    email: string;
+    rut: string;
+    telefono: string;
+    celular: string;
+    direccion: string;
+    region: string;
+    ciudad: string;
+    depto: string;
+    origenDeContacto: string;
+    referidoPor: string;
+    googleAds: boolean;
+    formaDePago: string;
+    medioDePago: string;
+    materia: string;
+    descripcion: string;
+    vendedor: ObjectId;
+    empresa: Empresa;
+    createdAt: Date;
+    updatedAt: Date;
+    profesion: string;
+    nacionalidad: string;
+    estadoCivil: string;
+    detalleOrigenContacto: string;
+    detalleGoogleAds: string;
+    detalleFormaDePAgo: string;
+    detalleMedioDePago: string;
+    clienteTipo: string;
+}

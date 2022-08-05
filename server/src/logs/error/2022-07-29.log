@@ -1,0 +1,38 @@
+2022-07-29 12:56:04 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2022-07-29 12:56:45 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2022-07-29 12:57:09 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2022-07-29 12:58:17 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2022-07-29 13:00:01 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2022-07-29 13:00:10 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2022-07-29 13:00:19 error: [POST] /api/logout >> StatusCode:: 400, Message:: Se requieren credenciales
+2022-07-29 13:05:04 error: [GET] /assets/profile/profile_default.png >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
+2022-07-29 13:05:17 error: [GET] /assets/profile/profile_default.png >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
+2022-07-29 13:05:26 error: [GET] /..assets/profile/profile_default.png >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
+2022-07-29 13:05:44 error: [GET] /..assets/images/profile/profile_default.png >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
+2022-07-29 14:45:49 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2022-07-29 14:53:20 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2022-07-29 15:33:59 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2022-07-29 15:38:09 error: [POST] /api/logout >> StatusCode:: 400, Message:: Se requieren credenciales
+2022-07-29 15:38:16 error: [POST] /api/logout >> StatusCode:: 400, Message:: Se requieren credenciales
+2022-07-29 15:40:26 error: [POST] /api/logout >> StatusCode:: 400, Message:: Se requieren credenciales
+2022-07-29 15:41:20 error: [POST] /api/logout >> StatusCode:: 400, Message:: Se requieren credenciales
+2022-07-29 15:41:44 error: [POST] /api/logout >> StatusCode:: 400, Message:: Se requieren credenciales
+2022-07-29 15:41:51 error: [POST] /api/logout >> StatusCode:: 400, Message:: Se requieren credenciales
+2022-07-29 15:42:24 error: [POST] /api/logout >> StatusCode:: 400, Message:: Se requieren credenciales
+2022-07-29 15:42:52 error: [POST] /api/logout >> StatusCode:: 400, Message:: Se requieren credenciales
+2022-07-29 15:43:56 error: [POST] /api/logout >> StatusCode:: 409, Message:: Email  no encontrado
+2022-07-29 15:47:26 error: [GET] /assets/images/logo.png >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
+2022-07-29 16:39:41 error: [POST] /api/users/createUser >> StatusCode:: 500, Message:: E11000 duplicate key error collection: ecos-integridad.users index: rut_1 dup key: { rut: null }
+2022-07-29 16:48:35 error: [POST] /api/users/createUser >> StatusCode:: 500, Message:: E11000 duplicate key error collection: ecos-integridad.users index: rut_1 dup key: { rut: null }
+2022-07-29 16:48:38 error: [POST] /api/users/createUser >> StatusCode:: 500, Message:: E11000 duplicate key error collection: ecos-integridad.users index: rut_1 dup key: { rut: null }
+2022-07-29 16:49:02 error: [POST] /api/users/createUser >> StatusCode:: 500, Message:: User validation failed: nombre: Name is required, email: Path `email` is required.
+2022-07-29 16:49:03 error: [POST] /api/users/createUser >> StatusCode:: 500, Message:: User validation failed: nombre: Name is required, email: Path `email` is required.
+2022-07-29 16:49:03 error: [POST] /api/users/createUser >> StatusCode:: 500, Message:: User validation failed: nombre: Name is required, email: Path `email` is required.
+2022-07-29 16:49:03 error: [POST] /api/users/createUser >> StatusCode:: 500, Message:: User validation failed: nombre: Name is required, email: Path `email` is required.
+2022-07-29 16:49:03 error: [POST] /api/users/createUser >> StatusCode:: 500, Message:: User validation failed: nombre: Name is required, email: Path `email` is required.
+2022-07-29 16:49:04 error: [POST] /api/users/createUser >> StatusCode:: 500, Message:: User validation failed: nombre: Name is required, email: Path `email` is required.
+2022-07-29 16:49:37 error: [POST] /api/users/createUser >> StatusCode:: 500, Message:: E11000 duplicate key error collection: ecos-integridad.users index: rut_1 dup key: { rut: null }
+2022-07-29 16:51:11 error: [POST] /api/logout >> StatusCode:: 409, Message:: Email gonzalo.orellana@tesso.cl no encontrado
+2022-07-29 16:51:18 error: [GET] /favicon.ico >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
+2022-07-29 16:51:36 error: [POST] /api/logout >> StatusCode:: 400, Message:: Se requieren credenciales
+2022-07-29 16:53:26 error: [POST] /api/users/createUser >> StatusCode:: 500, Message:: E11000 duplicate key error collection: ecos-integridad.users index: rut_1 dup key: { rut: null }
