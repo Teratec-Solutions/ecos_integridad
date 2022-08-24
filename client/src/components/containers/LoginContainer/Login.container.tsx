@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonList, IonRow } from "@ionic/react"
+import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonList, IonRow, IonSpinner } from "@ionic/react"
 import { useState } from "react"
 import { eye } from 'ionicons/icons'
 import { PassingData } from "../../../interfaces/PassingData"
@@ -8,12 +8,14 @@ import axios from 'axios'
 import { Usuario } from "../../../interfaces/Usuario";
 import { useHistory } from "react-router";
 
-const LoginContainer = ({setIsAuth}:PassingData) => {
+const LoginContainer = ({setIsAuth, setUserType}:PassingData) => {
     const { register, handleSubmit } = useForm<LoginData>()
     const [ passwordType, setPasswordType ] = useState<any>('password')
+    const [ notLoading, setNotLoading ] = useState<boolean>(true)
     const history = useHistory()
     const login = async (data: LoginData) => {
         try {
+            setNotLoading(false)
             const response: any = await axios.post('/api/login', data)
             const user : Usuario = response.data.data
             console.log(user)
@@ -21,10 +23,15 @@ const LoginContainer = ({setIsAuth}:PassingData) => {
             window.localStorage.setItem('token', token)
             window.localStorage.setItem('usuario', JSON.stringify(user))
             if (user) {
+                setUserType(user.role)
                 setIsAuth(true)
-                history.push('/home')
+                setTimeout(() => {
+                    setNotLoading(true)
+                    history.push('/home')
+                }, 1000);
             }
         } catch (error) {
+            setNotLoading(true)
             console.log(error)
             alert('Un error en el login ha ocurrido')
         }
@@ -68,8 +75,8 @@ const LoginContainer = ({setIsAuth}:PassingData) => {
                                     <IonIcon icon={eye} />
                                 </IonButton>
                             </IonItem>
-                            <IonButton type={'submit'} expand={'block'}>
-                                Login
+                            <IonButton disabled={!notLoading} type={'submit'} expand={'block'}>
+                                <IonSpinner hidden={notLoading} name="bubbles" style={{ marginRight: 10 }}/>Login
                             </IonButton>
                         </form>
                     </IonCol>

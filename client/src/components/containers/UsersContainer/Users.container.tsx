@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonRow, IonTitle, IonToggle, IonToolbar } from "@ionic/react"
+import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonRow, IonSpinner, IonTitle, IonToggle, IonToolbar } from "@ionic/react"
 import axios, { AxiosResponse } from "axios"
 import { arrowBack, eye, pencil, trash } from "ionicons/icons"
 import { useEffect, useState } from "react"
@@ -9,6 +9,7 @@ import { io } from "socket.io-client";
 
 const UsersContainer = () => {
     const [ usuarios, setUsuarios ] = useState<Usuario[]>([])
+    const [ isLoading, setIsLoading ] = useState<boolean>(true)
     const history = useHistory()
     console.log(history)
     useEffect(() => {
@@ -16,6 +17,7 @@ const UsersContainer = () => {
         const socket = io()
         if (navigator.onLine) {
             socket.on(`actualizar_${usuario._id}`, data => {
+                setIsLoading(true)
                 console.log(data)
                 getUsuarios()
             })
@@ -26,6 +28,9 @@ const UsersContainer = () => {
         const response: AxiosResponse = await axios.get('/api/users/getUsers', { withCredentials: true })
         console.log(response.data.data)
         setUsuarios(response.data.data)
+        if (response) {
+            setIsLoading(false)
+        }
     }
     return (
         <IonContent className="bg-content">
@@ -43,7 +48,7 @@ const UsersContainer = () => {
                 </IonToolbar>
             </div>
             <div className="bg-content-users">
-                <IonGrid>
+                <IonGrid style={{ textAlign: 'center' }}>
                     <IonRow>
                         <IonCol size="0.5" className="tabla tabla-inicial">
                             <p style={{ textAlign: 'center' }}></p>
@@ -73,6 +78,7 @@ const UsersContainer = () => {
                             <p style={{ textAlign: 'center'}}></p>
                         </IonCol>
                     </IonRow>
+                    <IonSpinner hidden={!isLoading} name="bubbles"/>
                     {
                         usuarios?.map((usuario, index) => {
                             return (
@@ -115,10 +121,10 @@ const UsersContainer = () => {
                                         <IonButton fill={'clear'}>
                                             <IonIcon icon={eye} />
                                         </IonButton>
-                                        <IonButton fill={'clear'} onClick={() => {history.push(`/user/${usuario._id}`)}}>
+                                        <IonButton fill={'clear'} onClick={() => {history.push(`/user/${usuario._id}`)}} disabled={(usuario.role === "superAdmin") ? true : false}>
                                             <IonIcon icon={pencil} />
                                         </IonButton>
-                                        <IonButton fill={'clear'} color={'danger'}>
+                                        <IonButton fill={'clear'} color={'danger'} disabled={(usuario.role === "superAdmin") ? true : false}>
                                             <IonIcon icon={trash} />
                                         </IonButton>
                                     </IonCol>
@@ -128,7 +134,7 @@ const UsersContainer = () => {
                     }
                     {
                         (usuarios?.length === 0) && <div style={{ textAlign: 'center', width: '100%' }}>
-                            <p><strong>No hay usuarios</strong></p>
+                            <p hidden={isLoading}><strong>No hay usuarios</strong></p>
                         </div>
                     }
                 </IonGrid>

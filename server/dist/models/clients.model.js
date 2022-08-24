@@ -1,94 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const clienteSchema = new mongoose_1.Schema({
-    nombre: {
-        type: mongoose_1.Schema.Types.String,
+const clientSchema = new mongoose_1.Schema({
+    empresa: {
+        type: String,
+        required: [true, 'Name is required']
     },
-    apellido1: {
-        type: mongoose_1.Schema.Types.String,
+    habilitado: {
+        type: Boolean,
         required: false
     },
-    apellido2: {
-        type: mongoose_1.Schema.Types.String,
-        required: false
-    },
-    email: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    rut: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    telefono: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    celular: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    direccion: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    region: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    ciudad: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    depto: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    origenDeContacto: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    referidoPor: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    profesion: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    nacionalidad: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    estadoCivil: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    detalleOrigenContacto: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    detalleGoogleAds: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    detalleFormaDePAgo: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    detalleMedioDePago: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    googleAds: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    materia: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    state: {
-        type: mongoose_1.Schema.Types.Boolean,
-        default: true
-    },
-    descripcion: {
-        type: mongoose_1.Schema.Types.String,
-    },
-    vendedor: {
-        type: mongoose_1.Schema.Types.ObjectId,
-    },
-    clienteTipo: {
-        type: mongoose_1.Schema.Types.String,
-    } /* ,
-    empresa: [
+    contratos: [
         {
-            type: Schema.Types.ObjectId,
-            ref: 'Organization'
+            type: Object,
+            required: false
         }
-    ] */
+    ]
 }, {
     timestamps: true,
     toObject: {
@@ -98,6 +25,6 @@ const clienteSchema = new mongoose_1.Schema({
         virtuals: true
     }
 });
-const clienteModel = (0, mongoose_1.model)('Cliente', clienteSchema);
-exports.default = clienteModel;
+const clientModel = (0, mongoose_1.model)('Cliente', clientSchema);
+exports.default = clientModel;
 //# sourceMappingURL=clients.model.js.map

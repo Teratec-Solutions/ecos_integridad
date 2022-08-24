@@ -1,9 +1,10 @@
-import { IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonList, IonRow } from "@ionic/react"
+import { IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonRow } from "@ionic/react"
 import { briefcase, list, logOut, map, options, peopleCircle } from "ionicons/icons"
+import { useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { logout } from "../../../functions"
 
-const HomeContainer = () => {
+const HomeContainer = ({userType}:{userType: string}) => {
     const history = useHistory()
     const salir = async () => {
         const response = await logout()
@@ -11,6 +12,10 @@ const HomeContainer = () => {
             history.replace('/login')
         }
     }
+    useEffect(() => {
+      console.log(userType)
+    }, [])
+    
     return (
         <IonContent className="bg-content">
             <IonGrid>
@@ -25,13 +30,13 @@ const HomeContainer = () => {
                                         <strong>Lista de Usuarios</strong>
                                     </IonLabel>
                                 </IonItem>
-                                <IonItem button style={{ borderRadius: 30 }}>
+                                <IonItem button style={{ borderRadius: 30 }} onClick={() => {history.push('/clients')}}>
                                     <IonIcon slot="start" icon={briefcase} color={'primary'} />
                                     <IonLabel color={'primary'}>
                                         <strong>Lista de Clientes</strong>
                                     </IonLabel>
                                 </IonItem>
-                                <IonItem button style={{ borderRadius: 30 }}>
+                                <IonItem button style={{ borderRadius: 30 }} onClick={() => {history.push('/work-orders')}}>
                                     <IonIcon slot="start" icon={list} color={'primary'} />
                                     <IonLabel color={'primary'}>
                                         <strong>Lista de OT</strong>

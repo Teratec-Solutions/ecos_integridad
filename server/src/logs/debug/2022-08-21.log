@@ -1,0 +1,51 @@
+2022-08-21 12:13:28 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2022-08-21 12:13:28 info: [0mGET /api/users/getUsers [33m401[0m 187.963 ms - 40[0m
+2022-08-21 12:13:34 info: =================================
+2022-08-21 12:13:34 info: ======= ENV: development =======
+2022-08-21 12:13:34 info: 🚀 App listening on the port 5103
+2022-08-21 12:13:34 info: =================================
+2022-08-21 12:13:36 info: [0mPOST /api/logout [32m200[0m 104.516 ms - 403[0m
+2022-08-21 12:13:38 info: [0mPOST /api/login [32m200[0m 149.769 ms - 585[0m
+2022-08-21 12:13:42 info: [0mGET /api/users/getUsers [32m200[0m 162.931 ms - -[0m
+2022-08-21 12:13:52 info: [0mGET /api/users/getUsers [36m304[0m 164.388 ms - -[0m
+2022-08-21 12:13:57 info: [0mPOST /api/users/getUserById [32m200[0m 169.671 ms - 362[0m
+2022-08-21 12:14:01 info: [0mPOST /api/users/getUserById [32m200[0m 157.436 ms - 365[0m
+2022-08-21 12:18:44 info: =================================
+2022-08-21 12:18:44 info: ======= ENV: development =======
+2022-08-21 12:18:44 info: 🚀 App listening on the port 5103
+2022-08-21 12:18:44 info: =================================
+2022-08-21 12:19:36 info: =================================
+2022-08-21 12:19:36 info: ======= ENV: development =======
+2022-08-21 12:19:36 info: 🚀 App listening on the port 5103
+2022-08-21 12:19:36 info: =================================
+2022-08-21 21:30:31 error: [GET] /api/clients/getClients >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
+2022-08-21 21:30:31 info: [0mGET /api/clients/getClients [33m404[0m 59.020 ms - 151[0m
+2022-08-21 21:33:20 info: =================================
+2022-08-21 21:33:20 info: ======= ENV: development =======
+2022-08-21 21:33:20 info: 🚀 App listening on the port 5103
+2022-08-21 21:33:20 info: =================================
+2022-08-21 21:35:27 info: =================================
+2022-08-21 21:35:27 info: ======= ENV: development =======
+2022-08-21 21:35:27 info: 🚀 App listening on the port 5103
+2022-08-21 21:35:27 info: =================================
+2022-08-21 21:37:08 info: =================================
+2022-08-21 21:37:08 info: ======= ENV: development =======
+2022-08-21 21:37:08 info: 🚀 App listening on the port 5103
+2022-08-21 21:37:08 info: =================================
+2022-08-21 22:11:12 info: =================================
+2022-08-21 22:11:12 info: ======= ENV: development =======
+2022-08-21 22:11:12 info: 🚀 App listening on the port 5103
+2022-08-21 22:11:12 info: =================================
+2022-08-21 22:31:03 error: [GET] /api/clients/getClients >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
+2022-08-21 22:31:03 info: [0mGET /api/clients/getClients [33m404[0m 9.499 ms - 151[0m
+2022-08-21 22:32:21 error: [GET] /api/clients/getClients >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
+2022-08-21 22:32:21 info: [0mGET /api/clients/getClients [33m404[0m 3.453 ms - 151[0m
+2022-08-21 23:37:50 info: [0mPOST /api/logout [32m200[0m 150.715 ms - 403[0m
+2022-08-21 23:38:06 info: [0mPOST /api/login [32m200[0m 139.480 ms - 585[0m
+2022-08-21 23:38:33 error: [GET] /api/clients/getClients >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
+2022-08-21 23:38:33 info: [0mGET /api/clients/getClients [33m404[0m 4.856 ms - 151[0m
+2022-08-21 23:38:36 info: [0mGET /api/users/getUsers [36m304[0m 160.290 ms - -[0m
+2022-08-21 23:44:23 info: =================================
+2022-08-21 23:44:23 info: ======= ENV: development =======
+2022-08-21 23:44:23 info: 🚀 App listening on the port 5103
+2022-08-21 23:44:23 info: =================================

@@ -21,13 +21,14 @@ import '@ionic/react/css/display.css'
 /* Theme variables */
 import './theme/variables.css'
 import './App.css'
-import { HomePage, LoginPage, NoPermissionPage, OptionsPage, UserPage, UsersPage } from './pages'
+import { ClientPage, ClientsPage, HomePage, LoginPage, NoPermissionPage, OptionsPage, UserPage, UsersPage, WorkOrdersPage } from './pages'
 import { useEffect, useState } from 'react'
 
 setupIonicReact();
 
 const State = () => {
   const [ isAuth, setIsAuth ] = useState<boolean>(false)
+  const [ userType, setUserType ] = useState<string>('')
 
   useEffect(() => {
     console.log(isAuth)
@@ -41,10 +42,10 @@ const State = () => {
       <IonReactRouter>
         <IonRouterOutlet>
           <Route exact path="/login">
-            <LoginPage setIsAuth={setIsAuth} />
+            <LoginPage setIsAuth={setIsAuth} setUserType={setUserType} />
           </Route>
           <Route exact path="/home">
-            {isAuth ? <HomePage /> : <NoPermissionPage />}
+            {isAuth ? <HomePage userType={userType} /> : <NoPermissionPage />}
           </Route>
           <Route exact path="/user">
             {isAuth ? <UserPage /> : <NoPermissionPage />}
@@ -54,6 +55,18 @@ const State = () => {
           </Route>
           <Route exact path="/users">
             {isAuth ? <UsersPage /> : <NoPermissionPage />}
+          </Route>
+          <Route exact path="/clients">
+            {isAuth ? <ClientsPage /> : <NoPermissionPage />}
+          </Route>
+          <Route exact path="/client">
+            {isAuth ? <ClientPage /> : <NoPermissionPage />}
+          </Route>
+          <Route exact path="/client/:id">
+            {isAuth ? <ClientPage /> : <NoPermissionPage />}
+          </Route>
+          <Route exact path="/work-orders">
+            {isAuth ? <WorkOrdersPage /> : <NoPermissionPage />}
           </Route>
           <Route exact path="/options">
             {isAuth ? <OptionsPage /> : <NoPermissionPage />}

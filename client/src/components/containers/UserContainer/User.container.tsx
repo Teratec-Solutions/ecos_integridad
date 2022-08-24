@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar } from "@ionic/react"
+import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonRow, IonSelect, IonSelectOption, IonTitle, IonToggle, IonToolbar } from "@ionic/react"
 import axios, { AxiosResponse } from "axios"
 import { arrowBack, eye, eyeOff } from "ionicons/icons"
 import { useEffect, useState } from "react"
@@ -16,6 +16,8 @@ const UserContainer = () => {
     const [ password, setPassword ] = useState<string>('')
     const [ role, setRole ] = useState<string>('')
     const [ typePassword, setTypePassword ] = useState<any>('password')
+    const [ showLoading, setShowLoading ] = useState<boolean>(false)
+    const [ estado, setEstado ] = useState<boolean>(true)
     const history = useHistory()
     const _id: {id: string} = useParams()
     console.log(_id)
@@ -25,6 +27,7 @@ const UserContainer = () => {
 
     const init = async () => {
         if (_id.id) {
+            setShowLoading(true)
             const data = await axios.post('/api/users/getUserById', {id: _id.id})
             if (data) {
                 console.log(data.data.data)
@@ -36,12 +39,14 @@ const UserContainer = () => {
                 setRun(usuario.run)
                 setFono(usuario.fono)
                 setEmail(usuario.email)
+                setShowLoading(false)
+                setEstado(usuario.estado)
             }
         }
     }
     
     const crearUsuario = async () => {
-        const usuario = {
+        const createUser = {
             nombre: nombre,
             apellido1: apellido1,
             apellido2: apellido2,
@@ -51,8 +56,20 @@ const UserContainer = () => {
             email: email,
             password: password,
             estado: true
-        } as Usuario
-        const response: AxiosResponse = await axios.post('/api/users/createUser', usuario)
+        }
+        const editUser = {
+            _id: _id.id,
+            nombre: nombre,
+            apellido1: apellido1,
+            apellido2: apellido2,
+            run: run,
+            fono: fono,
+            role: role,
+            email: email,
+            estado: estado
+        }
+        const usuario = _id.id ? editUser : createUser as Usuario
+        const response: AxiosResponse = await axios.post(`/api/users/${_id.id ? 'editUser' : 'createUser'}`, usuario)
         if (response) {
             history.goBack()
             nuevoUsuarioCreado()
@@ -60,6 +77,13 @@ const UserContainer = () => {
     }
     return (
         <IonContent className="bg-content">
+            <IonLoading
+                cssClass='my-custom-class'
+                isOpen={showLoading}
+                /* onDidDismiss={() => setShowLoading(false)} */
+                message={'Cargando datos...'}
+                /* duration={5000} */
+            />
             <div className="titles">
                 <IonToolbar style={{ borderRadius: 10 }}>
                     <IonButton slot="start" fill={'clear'} onClick={() => {history.goBack()}}>
@@ -170,7 +194,16 @@ const UserContainer = () => {
                                     </IonItem>
                                 </IonCol>
                                 <IonCol sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="6" sizeXl="6">
-                                    <IonItem>
+                                    <IonItem hidden={_id.id ? false : true}>
+                                        <IonLabel position={'floating'}>
+                                            Estado
+                                        </IonLabel>
+                                        <IonSelect value={estado} interface={'popover'} onIonChange={(e: any) => {setEstado(e.target.value)}}>
+                                            <IonSelectOption value={true}>Activado</IonSelectOption>
+                                            <IonSelectOption value={false}>Desactivado</IonSelectOption>
+                                        </IonSelect>
+                                    </IonItem>
+                                    <IonItem hidden={_id.id ? true : false}>
                                         <IonLabel position={'floating'}>
                                             Password
                                         </IonLabel>
@@ -194,7 +227,7 @@ const UserContainer = () => {
                                 </IonCol>
                                 <IonCol>
                                     <IonButton expand={'block'} onClick={() => {crearUsuario()}}>
-                                        Crear Usuario
+                                        {_id.id ? 'Editar' : 'Crear'} Usuario
                                     </IonButton>
                                 </IonCol>
                             </IonRow>
