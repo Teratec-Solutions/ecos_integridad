@@ -1,10 +1,13 @@
-import { IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonRow } from "@ionic/react"
+import { IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonRow, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react"
+import axios, { AxiosResponse } from "axios"
 import { briefcase, list, logOut, map, options, peopleCircle } from "ionicons/icons"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { logout } from "../../../functions"
+import { Cliente } from "../../../interfaces/Cliente"
 
 const HomeContainer = ({userType}:{userType: string}) => {
+    const [clientes, setClientes] = useState<Cliente[]>([])
     const history = useHistory()
     const salir = async () => {
         const response = await logout()
@@ -14,8 +17,16 @@ const HomeContainer = ({userType}:{userType: string}) => {
     }
     useEffect(() => {
       console.log(userType)
+      getClientes()
     }, [])
-    
+    const getClientes = async () => {
+        const response: AxiosResponse = await axios.get('/api/clients/getClients', { withCredentials: true })
+        console.log(response.data.data)
+        setClientes(response.data.data)
+        /* if (response) {
+            setIsLoading(false)
+        } */
+    }
     return (
         <IonContent className="bg-content">
             <IonGrid>
@@ -66,11 +77,44 @@ const HomeContainer = ({userType}:{userType: string}) => {
                             </div>
                         </div>
                     </IonCol>
-                    <IonCol sizeXs="12" sizeSm="12" sizeMd="8" sizeLg="6" sizeXl="4">
-                        
+                    <IonCol sizeXl="3">
+                        <div className="leftSideMenu">
+                            <div className="leftSideMenuData">
+                                <h1>Clientes</h1>
+                                {
+                                    clientes.map((cliente, index) => {
+                                        return (
+                                            <IonItem button key={index}>
+                                                <IonLabel color={'primary'}>
+                                                    {cliente.empresa.nombre}
+                                                </IonLabel>
+                                            </IonItem>
+                                        )
+                                    })
+                                }
+                                {
+                                    (clientes.length === 0) && <IonItem>
+                                                                    <IonLabel color={'primary'}>
+                                                                        Sin Clientes Inscritos
+                                                                    </IonLabel>
+                                                                </IonItem>
+                                }
+                            </div>
+                        </div>
                     </IonCol>
-                    <IonCol sizeXl="5">
-
+                    <IonCol sizeXl="6">
+                        <div className="leftSideMenu">
+                            <div className="leftSideMenuData">
+                                <h1>
+                                    Datos del cliente
+                                </h1>
+                                <p>
+                                    <strong>
+                                        No disponible
+                                    </strong>
+                                </p>
+                            </div>
+                        </div>
                     </IonCol>
                 </IonRow>
             </IonGrid>

@@ -23,5 +23,5 @@ export interface Usuario {
     fechaTitulacion?: string
     imagenPerfil: string
     role: string
-    createdAt: string
+    createdAt: Date
 }

@@ -5,6 +5,7 @@ import LoginContainer from "./LoginContainer/Login.container";
 import OptionsContainer from "./OptionContainer/Options.container";
 import UserContainer from "./UserContainer/User.container";
 import UsersContainer from "./UsersContainer/Users.container";
+import WorkOrderContainer from "./WorkOrderContainer/WorkOrder.container";
 import WorkOrdersContainer from "./WorkOrdersContainer/WorkOrders.container";
 
 export {
@@ -15,5 +16,6 @@ export {
     OptionsContainer,
     ClientsContainer,
     ClientContainer,
-    WorkOrdersContainer
+    WorkOrdersContainer,
+    WorkOrderContainer
 }

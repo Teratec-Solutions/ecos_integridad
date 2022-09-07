@@ -1,5 +1,5 @@
 .map {
-    height: 83vh;
+    height: calc(100vh - 140px);
     width: 100%;
     background-color: #ccc;
     border-radius: 10px;

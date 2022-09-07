@@ -6,6 +6,7 @@ import NoPermissionPage from "./NoPermission/NoPermission.page";
 import OptionsPage from "./Options/Options.page";
 import UserPage from "./User/User.page";
 import UsersPage from "./Users/Users.page";
+import WorkOrderPage from "./WorkOrder/WorkOrder.page";
 import WorkOrdersPage from "./WorkOrders/WorkOrders.page";
 
 export {
@@ -17,5 +18,6 @@ export {
     NoPermissionPage,
     ClientsPage,
     ClientPage,
-    WorkOrdersPage
+    WorkOrdersPage,
+    WorkOrderPage
 }

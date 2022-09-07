@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const clientSchema = new mongoose_1.Schema({
     empresa: {
-        type: String,
+        type: Object,
         required: [true, 'Name is required']
     },
     habilitado: {
@@ -11,6 +11,12 @@ const clientSchema = new mongoose_1.Schema({
         required: false
     },
     contratos: [
+        {
+            type: Object,
+            required: false
+        }
+    ],
+    contactos: [
         {
             type: Object,
             required: false

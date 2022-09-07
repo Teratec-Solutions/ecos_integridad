@@ -21,7 +21,7 @@ import '@ionic/react/css/display.css'
 /* Theme variables */
 import './theme/variables.css'
 import './App.css'
-import { ClientPage, ClientsPage, HomePage, LoginPage, NoPermissionPage, OptionsPage, UserPage, UsersPage, WorkOrdersPage } from './pages'
+import { ClientPage, ClientsPage, HomePage, LoginPage, NoPermissionPage, OptionsPage, UserPage, UsersPage, WorkOrderPage, WorkOrdersPage } from './pages'
 import { useEffect, useState } from 'react'
 
 setupIonicReact();
@@ -67,6 +67,12 @@ const State = () => {
           </Route>
           <Route exact path="/work-orders">
             {isAuth ? <WorkOrdersPage /> : <NoPermissionPage />}
+          </Route>
+          <Route exact path="/work-order">
+            {isAuth ? <WorkOrderPage /> : <NoPermissionPage />}
+          </Route>
+          <Route exact path="/work-order/:id">
+            {isAuth ? <WorkOrderPage /> : <NoPermissionPage />}
           </Route>
           <Route exact path="/options">
             {isAuth ? <OptionsPage /> : <NoPermissionPage />}

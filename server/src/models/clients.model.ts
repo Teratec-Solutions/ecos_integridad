@@ -4,7 +4,7 @@ import { Cliente } from '@/interfaces/clients.interface'
 const clientSchema: Schema = new Schema(
     {
         empresa: {
-            type: String,
+            type: Object,
             required: [true, 'Name is required']
         },
         habilitado: {
@@ -12,6 +12,12 @@ const clientSchema: Schema = new Schema(
             required: false
         },
         contratos: [
+            {
+                type: Object,
+                required: false
+            }
+        ],
+        contactos: [
             {
                 type: Object,
                 required: false

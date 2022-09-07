@@ -1,15 +1,21 @@
 import { ObjectId } from "mongoose";
+import { User } from "./users.interface";
 export interface Cliente {
     _id: ObjectId;
     empresa: Empresa;
     habilitado: boolean;
     contratos: Contrato[];
+    createdAt: string;
+    createdBy: User[];
 }
 export interface Contrato {
     _id: ObjectId;
     tipoContrato: string;
     fechaInicio: Date;
     fechaTermino: Date;
+    createdAt: Date;
+    supervisores: User[];
+    operarios: User[];
 }
 export interface Empresa {
     nombre: string;
@@ -20,6 +26,12 @@ export interface Empresa {
     telefono: string;
     correo: string;
     contactos: ContactoEmpresa[];
+    imageLogo: string;
+    location?: {
+        lat: string;
+        lng: string;
+    };
+    alt?: string;
 }
 export interface ContactoEmpresa {
     nombre: string;
@@ -27,4 +39,5 @@ export interface ContactoEmpresa {
     run: string;
     telefono: string;
     correo: string;
+    imageProfile: string;
 }

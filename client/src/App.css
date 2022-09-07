@@ -1,12 +1,12 @@
 .leftSideMenu {
-    height: 97.2vh;
+    height: calc(100vh - 20px);
     position: relative;
-    padding: 30px;
+    padding: 20px;
 }
 
 .leftSideMenuData {
     background-color: white;
-    height: 85vh;
+    height: calc(100% - 20px);
     width: calc(100% - 60px);
     position: absolute;
     border-radius: 10px;

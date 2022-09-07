@@ -1,4 +1,5 @@
 import { ObjectId } from "mongoose"
+import { User } from "./users.interface"
 
 export interface Cliente {
     _id: ObjectId
@@ -6,6 +7,7 @@ export interface Cliente {
     habilitado: boolean
     contratos: Contrato[]
     createdAt: string
+    createdBy: User[]
 }
 
 export interface Contrato {
@@ -13,7 +15,10 @@ export interface Contrato {
     tipoContrato: string
     fechaInicio: Date
     fechaTermino: Date
-    createdAt: string
+    createdAt: Date
+    supervisores: User[]
+    operarios: User[]
+
 }
 
 export interface Empresa {
@@ -26,6 +31,11 @@ export interface Empresa {
     correo: string
     contactos: ContactoEmpresa[]
     imageLogo: string
+    location?: {
+        lat: string
+        lng: string
+    }
+    alt?: string
 }
 
 export interface ContactoEmpresa {

@@ -1,4 +1,4 @@
-const getDateWithTime = (time: string | undefined) => {
+const getDateWithTime = (time: Date | undefined) => {
     if (time) {
         const toDay = Date.now()
         let hr = (new Date(time).getHours().toString())

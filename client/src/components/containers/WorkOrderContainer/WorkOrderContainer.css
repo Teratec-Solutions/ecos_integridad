@@ -1,0 +1,23 @@
+.item-container-style {
+    border-color: var(--ion-color-secondary-shade);
+    border-width: 1px;
+    border-radius: 10px;
+    border-style: solid;
+    padding: 5px 10px;
+    background-color: transparent
+}
+
+.item-select-style {
+    --background-hover: transparent !important;
+}
+
+.item-style {
+    --border-width: 0px 0px 0px 0px !important;
+    --show-full-highlight: 0;
+    --background: transparent !important;
+    --background-hover: transparent !important;
+}
+
+.item-container-style:hover {
+    background-color: var(--ion-color-secondary-tint);
+}

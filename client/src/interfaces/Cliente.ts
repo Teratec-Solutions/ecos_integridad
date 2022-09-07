@@ -1,9 +1,12 @@
+import { Usuario } from "./Usuario"
+
 export interface Cliente {
-    _id: string
+    _id?: string
     empresa: Empresa
     habilitado: boolean
     contratos: Contrato[]
-    createdAt: string
+    createdAt?: Date
+    createdBy: Usuario[]
 }
 
 export interface Contrato {
@@ -11,24 +14,27 @@ export interface Contrato {
     tipoContrato: string
     fechaInicio: Date
     fechaTermino: Date
-    createdAt: string
+    createdAt: Date
+    supervisores: Usuario[]
+    operarios: Usuario[]
 }
 
 export interface Empresa {
     nombre: string
-    direccion: string
+    direccion?: string
     run: string
-    ciudad: string
-    pais: string
+    ciudad?: string
+    region?: string
+    pais?: string
     telefono: string
     correo: string
-    contactos: ContactoEmpresa[]
-    imageLogo: string
-    location: {
+    contactos?: ContactoEmpresa[]
+    imageLogo?: string
+    location?: {
         lat: string
         lng: string
     }
-    alt: string
+    alt?: string
 }
 
 export interface ContactoEmpresa {

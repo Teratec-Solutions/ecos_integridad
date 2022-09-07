@@ -43,7 +43,7 @@ const ClientsContainer = () => {
                     <IonTitle>
                         Listado de Clientes
                     </IonTitle>
-                    <IonButton slot="end">
+                    <IonButton slot="end" onClick={() => {history.push('/client')}}>
                         Nuevo Cliente
                     </IonButton>
                 </IonToolbar>
@@ -53,7 +53,7 @@ const ClientsContainer = () => {
                     <IonRow>
                         <IonCol>
                             <div className="map">
-
+                                <p style={{ width: '100%', textAlign: 'center', position: 'absolute' }}>Aquí va un mapa</p>
                             </div>
                         </IonCol>
                         <IonCol sizeXl="8" sizeLg="8" sizeMd="8">
@@ -77,39 +77,39 @@ const ClientsContainer = () => {
                                     <p style={{ textAlign: 'center'}}></p>
                                 </IonCol>
                             </IonRow>
-                            <div style={{ width: '100%', textAlign: 'center', marginTop: 50 }}>
+                            <div hidden={!isLoading} style={{ width: '100%', textAlign: 'center', marginTop: 50 }}>
                                 <IonSpinner hidden={!isLoading} name="bubbles"/>
                             </div>
                             {
                                 clientes?.map((cliente, index) => {
                                     return (
                                         <IonRow key={index}>
-                                            <IonCol size="0.5" className="tabla center">
-                                                <img src={`${cliente.empresa.imageLogo ? cliente.empresa.imageLogo : '../assets/images/logo/no-logo.png'}`} alt='profile' height={40} style={{ borderRadius: '50%' }} />
+                                            <IonCol size="1" className="tabla center">
+                                                <img src={`${cliente.empresa.imageLogo ? cliente.empresa.imageLogo : '../assets/images/logo/no-logo.jpg'}`} alt='profile' height={40} width={40} style={{ borderRadius: '50%' }} />
                                             </IonCol>
-                                            <IonCol size="2" className="tabla">
+                                            <IonCol size="3" className="tabla">
                                                 <p style={{ textAlign: 'center'}}>{cliente.empresa.nombre}</p>
                                             </IonCol>
-                                            <IonCol size="1" className="tabla">
+                                            <IonCol size="2" className="tabla">
                                                 <p style={{ textAlign: 'center'}}>{cliente.empresa.run}</p>
                                             </IonCol>
                                             <IonCol size="1" className="tabla" style={{ textAlign: 'center' }}>
-                                                <IonRow>
-                                                    <IonCol>
+                                                {/* <IonRow> */}
+                                                    {/* <IonCol>
                                                         <IonToggle
                                                             disabled={true}
                                                             checked={cliente.habilitado}
                                                         />
-                                                    </IonCol>
-                                                    <IonCol>
+                                                    </IonCol> */}
+                                                    {/* <IonCol> */}
                                                         <p>{cliente.habilitado ? 'Activado' : 'Desactivado'}</p>
-                                                    </IonCol>
-                                                </IonRow>
+                                                    {/* </IonCol> */}
+                                                {/* </IonRow> */}
                                             </IonCol>
-                                            <IonCol size="1" className="tabla">
+                                            <IonCol size="2" className="tabla">
                                                 <p style={{ textAlign: 'center'}}>{getDateWithTime(cliente.createdAt)}</p>
                                             </IonCol>
-                                            <IonCol size="2.5" className="tabla" style={{ textAlign: 'center' }}>
+                                            <IonCol size="3" className="tabla" style={{ textAlign: 'center' }}>
                                                 <IonButton fill={'clear'}>
                                                     <IonIcon icon={eye} />
                                                 </IonButton>
