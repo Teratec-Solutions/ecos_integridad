@@ -93,3 +93,26 @@
 2022-09-07 18:09:23 info: ======= ENV: development =======
 2022-09-07 18:09:23 info: 🚀 App listening on the port 5103
 2022-09-07 18:09:23 info: =================================
+2022-09-07 18:54:34 info: =================================
+2022-09-07 18:54:34 info: ======= ENV: development =======
+2022-09-07 18:54:34 info: 🚀 App listening on the port 5103
+2022-09-07 18:54:34 info: =================================
+2022-09-07 19:01:00 info: [0mGET /api/clients/getClients [32m200[0m 197.035 ms - 704[0m
+2022-09-07 19:02:55 info: [0mGET /api/clients/getClients [36m304[0m 247.564 ms - -[0m
+2022-09-07 19:07:08 info: [0mGET /api/clients/getClients [36m304[0m 228.669 ms - -[0m
+2022-09-07 19:07:14 info: [0mGET /api/clients/getClients [36m304[0m 172.177 ms - -[0m
+2022-09-07 20:56:27 info: [0mGET /api/clients/getClients [36m304[0m 185.139 ms - -[0m
+2022-09-07 20:57:24 info: [0mGET /api/clients/getClients [36m304[0m 153.794 ms - -[0m
+2022-09-07 20:57:52 info: [0mGET /api/clients/getClients [36m304[0m 164.441 ms - -[0m
+2022-09-07 21:08:16 info: [0mGET /api/users/getUsers [36m304[0m 158.691 ms - -[0m
+2022-09-07 21:08:21 info: [0mGET /api/clients/getClients [36m304[0m 155.457 ms - -[0m
+2022-09-07 21:08:47 info: [0mGET /api/orders/getWorkOrders [32m201[0m 164.399 ms - 40[0m
+2022-09-07 21:31:01 info: [0mGET /api/clients/getClients [36m304[0m 178.334 ms - -[0m
+2022-09-07 21:32:59 info: [0mGET /api/clients/getClients [36m304[0m 158.735 ms - -[0m
+2022-09-07 21:33:23 info: [0mGET /api/clients/getClients [36m304[0m 163.790 ms - -[0m
+2022-09-07 21:34:31 info: [0mGET /api/clients/getClients [36m304[0m 157.790 ms - -[0m
+2022-09-07 21:42:56 info: [0mGET /api/clients/getClients [36m304[0m 154.808 ms - -[0m
+2022-09-07 21:43:12 info: [0mGET /api/clients/getClients [36m304[0m 165.367 ms - -[0m
+2022-09-07 21:43:54 info: [0mGET /api/clients/getClients [36m304[0m 182.550 ms - -[0m
+2022-09-07 21:44:21 info: [0mGET /api/clients/getClients [36m304[0m 155.061 ms - -[0m
+2022-09-07 21:49:12 info: [0mGET /api/clients/getClients [36m304[0m 182.462 ms - -[0m

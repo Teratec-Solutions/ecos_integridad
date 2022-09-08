@@ -1,4 +1,4 @@
-import { IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonRow, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react"
+import { IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react"
 import axios, { AxiosResponse } from "axios"
 import { briefcase, list, logOut, map, options, peopleCircle } from "ionicons/icons"
 import { useEffect, useState } from "react"
@@ -8,6 +8,8 @@ import { Cliente } from "../../../interfaces/Cliente"
 
 const HomeContainer = ({userType}:{userType: string}) => {
     const [clientes, setClientes] = useState<Cliente[]>([])
+    const [clientesCache, setClientesCache] = useState<Cliente[]>([])
+    const [cliente, setCliente] = useState<Cliente>()
     const history = useHistory()
     const salir = async () => {
         const response = await logout()
@@ -23,9 +25,21 @@ const HomeContainer = ({userType}:{userType: string}) => {
         const response: AxiosResponse = await axios.get('/api/clients/getClients', { withCredentials: true })
         console.log(response.data.data)
         setClientes(response.data.data)
-        /* if (response) {
-            setIsLoading(false)
-        } */
+        setClientesCache(response.data.data)
+    }
+    const selectCliente = (cliente: Cliente) => {
+        console.log(cliente)
+        setCliente(cliente)
+    }
+    const searchCliente = (value: string) => {
+        const response = clientesCache.filter(cliente => {
+            if (cliente.empresa.nombre.match(value) || cliente.empresa.run.match(value)) {
+                return cliente
+            } else {
+                return null
+            }
+        })
+        setClientes(response)
     }
     return (
         <IonContent className="bg-content">
@@ -81,10 +95,11 @@ const HomeContainer = ({userType}:{userType: string}) => {
                         <div className="leftSideMenu">
                             <div className="leftSideMenuData">
                                 <h1>Clientes</h1>
+                                <IonSearchbar placeholder="Buscar Cliente" onIonChange={(e: any) => {searchCliente(e.detail.value)}} />
                                 {
                                     clientes.map((cliente, index) => {
                                         return (
-                                            <IonItem button key={index}>
+                                            <IonItem button key={index} onClick={() => {selectCliente(cliente)}}>
                                                 <IonLabel color={'primary'}>
                                                     {cliente.empresa.nombre}
                                                 </IonLabel>
@@ -108,11 +123,115 @@ const HomeContainer = ({userType}:{userType: string}) => {
                                 <h1>
                                     Datos del cliente
                                 </h1>
-                                <p>
-                                    <strong>
-                                        No disponible
-                                    </strong>
-                                </p>
+                                {
+                                    !cliente && 
+                                    <p>
+                                        Elija a un cliente    
+                                    </p>
+                                }
+                                {
+                                    cliente &&
+                                    <div>
+                                        <IonGrid>
+                                            <IonRow>
+                                                <IonCol>
+                                                    <IonRow>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                Nombre empresa:
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                {cliente.empresa.nombre}
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                    </IonRow>
+                                                    <IonRow>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                Run: 
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                {cliente.empresa.run}
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                    </IonRow>
+                                                    <IonRow>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                Dirección:
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                {cliente.empresa.direccion}
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                    </IonRow>
+                                                    <IonRow>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                Ciudad: 
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                {cliente.empresa.ciudad}
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                    </IonRow>
+                                                    <IonRow>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                Región: 
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                {cliente.empresa.region}
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                    </IonRow>
+                                                    <IonRow>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                Localización: 
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                {cliente.empresa.location?.lat} {cliente.empresa.location?.lng}
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                    </IonRow>
+                                                </IonCol>
+                                                <IonCol>
+                                                    <IonRow>
+                                                        <IonCol size="6">
+                                                            <IonLabel>
+                                                                Contactos: 
+                                                            </IonLabel>
+                                                        </IonCol>
+                                                        <IonCol size="6">
+                                                            {
+                                                                cliente.empresa.contactos?.map((usuario, index) => {
+                                                                    return (
+                                                                        <IonLabel key={index}>
+                                                                            {usuario.nombre} {usuario.apellido}
+                                                                        </IonLabel>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </IonCol>
+                                                    </IonRow>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonGrid>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </IonCol>
