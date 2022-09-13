@@ -1,32 +1,30 @@
-import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonRow, IonSpinner, IonTitle, IonToggle, IonToolbar } from "@ionic/react"
-import axios, { AxiosResponse } from "axios"
+import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonRow, IonSpinner, IonTitle, IonToolbar } from "@ionic/react"
+import { AxiosResponse } from "axios"
 import { arrowBack, eye, pencil, trash } from "ionicons/icons"
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { getDateWithTime, nombreRole } from "../../../functions"
 import { Usuario } from "../../../interfaces/Usuario"
 import { io } from "socket.io-client";
+import { clientsRouter } from "../../../router"
 
 const UsersContainer = () => {
     const [ usuarios, setUsuarios ] = useState<Usuario[]>([])
     const [ isLoading, setIsLoading ] = useState<boolean>(true)
     const history = useHistory()
-    console.log(history)
     useEffect(() => {
         const usuario : Usuario = JSON.parse(window.localStorage.getItem('usuario') || '{}')
         const socket = io()
         if (navigator.onLine) {
             socket.on(`actualizar_${usuario._id}`, data => {
                 setIsLoading(true)
-                console.log(data)
                 getUsuarios()
             })
         }
         getUsuarios()
     }, [])
     const getUsuarios = async () => {
-        const response: AxiosResponse = await axios.get('/api/users/getUsers', { withCredentials: true })
-        console.log(response.data.data)
+        const response: AxiosResponse = await clientsRouter.getClients()/* axios.get('/api/users/getUsers', { withCredentials: true }) */
         setUsuarios(response.data.data)
         if (response) {
             setIsLoading(false)
@@ -96,17 +94,7 @@ const UsersContainer = () => {
                                         <p style={{ textAlign: 'center'}}>{nombreRole(usuario.role)}</p>
                                     </IonCol>
                                     <IonCol size="1" className="tabla" style={{ textAlign: 'center' }}>
-                                        <IonRow>
-                                            <IonCol>
-                                                <IonToggle
-                                                    disabled={true}
-                                                    checked={usuario.estado}
-                                                />
-                                            </IonCol>
-                                            <IonCol>
-                                                <p>{usuario.estado ? 'Activado' : 'Desactivado'}</p>
-                                            </IonCol>
-                                        </IonRow>
+                                        <p style={{ color: usuario.estado ? 'green' : 'red' }}><strong>{usuario.estado ? 'Activado' : 'Desactivado'}</strong></p>
                                     </IonCol>
                                     <IonCol size="1" className="tabla">
                                         <p style={{ textAlign: 'center'}}>{usuario.fono}</p>

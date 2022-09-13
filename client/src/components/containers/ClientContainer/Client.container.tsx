@@ -1,10 +1,12 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonRow, IonTitle, IonToolbar } from "@ionic/react"
-import axios from "axios"
+import { AxiosResponse } from "axios"
 import { arrowBack } from "ionicons/icons"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router"
-import { Cliente } from "../../../interfaces/Cliente"
+import { nuevoClienteCreado } from "../../../connections/socket.connection"
+import { Cliente, Empresa } from "../../../interfaces/Cliente"
 import { Usuario } from "../../../interfaces/Usuario"
+import { clientsRouter } from "../../../router"
 
 const ClientContainer = () => {
     const _id: {id: string} = useParams()
@@ -19,22 +21,38 @@ const ClientContainer = () => {
     const [ correoEmpresa, setCorreoEmpresa ] = useState<string>('')
     const [ latitud, setLatitud ] = useState<string>('')
     const [ longitud, setLongitud ] = useState<string>('')
+    useEffect(() => {
+      if (_id.id) {
+        setShowLoading(true)
+        obtenerCliente()
+      }
+    }, [])
+    const obtenerCliente = async () => {
+        const response : AxiosResponse = await clientsRouter.getClientById(_id.id)
+        const empresa: Empresa = response.data.data.empresa
+        setCorreoEmpresa(empresa.correo)
+        setNombreEmpresa(empresa.nombre)
+        setRunEmpresa(empresa.run)
+        setFonoEmpresa(empresa.telefono)
+        setDireccion(empresa.direccion ? empresa.direccion : '')
+        empresa.ciudad && setCiudad(empresa.ciudad)
+        empresa.region && setRegion(empresa.region)
+        empresa.location?.lat && setLatitud(empresa.location?.lat)
+        empresa.location?.lng && setLongitud(empresa.location?.lng)
+        if (empresa) {
+            setShowLoading(false)
+        }
+    }
     const crearCliente = async () => {
-        /* console.log(nombreEmpresa,
-            runEmpresa,
-            fonoEmpresa,
-            direccion,
-            ciudad,
-            region,
-            latitud,
-            longitud,
-            correoEmpresa) */
-        const cliente : Cliente = {
+        const crearCliente : Cliente = {
             empresa: {
                 nombre: nombreEmpresa,
                 run: runEmpresa,
                 telefono: fonoEmpresa,
                 correo: correoEmpresa,
+                ciudad: ciudad,
+                direccion: direccion,
+                region: region,
                 location: {
                     lat: latitud,
                     lng: longitud
@@ -44,26 +62,35 @@ const ClientContainer = () => {
             contratos: [],
             createdBy: JSON.parse(localStorage.getItem('usuario') || '{}')
         }
-        console.log(cliente)
-        const response = await axios.post('/api/clients/createClient', cliente)
-        console.log(response)
-        if (response) {
-            back()
+        const editarCliente : Cliente = {
+            _id: _id.id,
+            empresa: {
+                nombre: nombreEmpresa,
+                run: runEmpresa,
+                telefono: fonoEmpresa,
+                correo: correoEmpresa,
+                ciudad: ciudad,
+                direccion: direccion,
+                region: region,
+                location: {
+                    lat: latitud,
+                    lng: longitud
+                }
+            },
+            habilitado: true,
+            contratos: [],
+            createdBy: JSON.parse(localStorage.getItem('usuario') || '{}')
         }
-        /* cliente.empresa.nombre = nombreEmpresa
-        cliente.empresa.run = runEmpresa
-        cliente.empresa.telefono = fonoEmpresa
-        cliente.empresa.direccion = direccion
-        cliente.empresa.ciudad = ciudad
-        cliente.empresa.region = region
-        cliente.empresa.location.lat = latitud
-        cliente.empresa.location.lng = longitud
-        cliente.empresa.correo = correoEmpresa
-        cliente.habilitado = true
-        cliente.contratos = []
-        const me: Usuario = JSON.parse(localStorage.getItem('usuario') || '{}')
-        cliente.createdBy = [me]
-        console.log(cliente) */
+        try {
+            const response: AxiosResponse = await (_id.id ? clientsRouter.editClient(editarCliente) : clientsRouter.createClient(crearCliente))
+            console.log(response)
+            if (response) {
+                history.goBack()
+                nuevoClienteCreado()
+            }
+        } catch (error: any) {
+            console.log(error)
+        }
     }
 
     const back = () => {
@@ -83,7 +110,7 @@ const ClientContainer = () => {
                         <IonIcon icon={arrowBack} />
                     </IonButton>
                     <IonTitle>
-                        Cliente
+                        {_id.id ? 'Editar' : 'Enrolar Nuevo'} Cliente
                     </IonTitle>
                 </IonToolbar>
             </div>

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { logout } from "../../../functions"
 import { Cliente } from "../../../interfaces/Cliente"
+import { clientsRouter } from "../../../router"
 
 const HomeContainer = ({userType}:{userType: string}) => {
     const [clientes, setClientes] = useState<Cliente[]>([])
@@ -22,10 +23,14 @@ const HomeContainer = ({userType}:{userType: string}) => {
       getClientes()
     }, [])
     const getClientes = async () => {
-        const response: AxiosResponse = await axios.get('/api/clients/getClients', { withCredentials: true })
-        console.log(response.data.data)
-        setClientes(response.data.data)
-        setClientesCache(response.data.data)
+        try {
+            const response: AxiosResponse = await clientsRouter.getClients() /* await axios.get('/api/clients/getClients', { withCredentials: true }) */
+            console.log(response.data.data)
+            setClientes(response.data.data)
+            setClientesCache(response.data.data)
+        } catch (error) {
+            console.log(error)
+        }
     }
     const selectCliente = (cliente: Cliente) => {
         console.log(cliente)

@@ -1,10 +1,11 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonRow, IonSelect, IonSelectOption, IonTitle, IonToggle, IonToolbar } from "@ionic/react"
-import axios, { AxiosResponse } from "axios"
+import { AxiosResponse } from "axios"
 import { arrowBack, eye, eyeOff } from "ionicons/icons"
 import { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router"
 import { nuevoUsuarioCreado } from "../../../connections/socket.connection"
 import { Usuario } from "../../../interfaces/Usuario"
+import { usersRouter } from "../../../router"
 
 const UserContainer = () => {
     const [ nombre, setNombre ] = useState<string>('')
@@ -20,28 +21,31 @@ const UserContainer = () => {
     const [ estado, setEstado ] = useState<boolean>(true)
     const history = useHistory()
     const _id: {id: string} = useParams()
-    console.log(_id)
     useEffect(() => {
         init()
     }, [])
 
     const init = async () => {
-        if (_id.id) {
-            setShowLoading(true)
-            const data = await axios.post('/api/users/getUserById', {id: _id.id})
-            if (data) {
-                console.log(data.data.data)
-                const usuario : Usuario = data.data.data
-                setNombre(usuario.nombre)
-                setApellido1(usuario.apellido1)
-                setApellido2(usuario.apellido2)
-                setRole(usuario.role)
-                setRun(usuario.run)
-                setFono(usuario.fono)
-                setEmail(usuario.email)
-                setShowLoading(false)
-                setEstado(usuario.estado)
+        try {
+            if (_id.id) {
+                setShowLoading(true)
+                const response: AxiosResponse = await usersRouter.getUserById(_id)/* axios.post('/api/users/getUserById', {id: _id.id}) */
+                if (response) {
+                    console.log(response.data.data)
+                    const usuario : Usuario = response.data.data
+                    setNombre(usuario.nombre)
+                    setApellido1(usuario.apellido1)
+                    setApellido2(usuario.apellido2)
+                    setRole(usuario.role)
+                    setRun(usuario.run)
+                    setFono(usuario.fono)
+                    setEmail(usuario.email)
+                    setShowLoading(false)
+                    setEstado(usuario.estado)
+                }
             }
+        } catch (error) {
+            console.log(error)
         }
     }
     
@@ -56,7 +60,7 @@ const UserContainer = () => {
             email: email,
             password: password,
             estado: true
-        }
+        } as Usuario
         const editUser = {
             _id: _id.id,
             nombre: nombre,
@@ -67,12 +71,16 @@ const UserContainer = () => {
             role: role,
             email: email,
             estado: estado
-        }
-        const usuario = _id.id ? editUser : createUser as Usuario
-        const response: AxiosResponse = await axios.post(`/api/users/${_id.id ? 'editUser' : 'createUser'}`, usuario)
-        if (response) {
-            history.goBack()
-            nuevoUsuarioCreado()
+        } as Usuario
+        try {
+            const usuario = _id.id ? editUser : createUser 
+            const response: AxiosResponse = await (_id.id ? usersRouter.editUser(usuario) : usersRouter.createUser(usuario))/* await axios.post(`/api/users/${_id.id ? 'editUser' : 'createUser'}`, usuario) */
+            if (response) {
+                history.goBack()
+                nuevoUsuarioCreado()
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
     return (

@@ -7,6 +7,7 @@ import { LoginData } from "../../../interfaces/Login";
 import axios from 'axios'
 import { Usuario } from "../../../interfaces/Usuario";
 import { useHistory } from "react-router";
+import { authRouter } from "../../../router";
 
 const LoginContainer = ({setIsAuth, setUserType}:PassingData) => {
     const { register, handleSubmit } = useForm<LoginData>()
@@ -16,7 +17,7 @@ const LoginContainer = ({setIsAuth, setUserType}:PassingData) => {
     const login = async (data: LoginData) => {
         try {
             setNotLoading(false)
-            const response: any = await axios.post('/api/login', data)
+            const response: any = await authRouter.login(data)
             const user : Usuario = response.data.data
             console.log(user)
             const token : string = response.data.token
@@ -30,10 +31,9 @@ const LoginContainer = ({setIsAuth, setUserType}:PassingData) => {
                     history.push('/home')
                 }, 1000);
             }
-        } catch (error) {
+        } catch (error: any) {
             setNotLoading(true)
-            console.log(error)
-            alert('Un error en el login ha ocurrido')
+            alert(error.response.data.message)
         }
     }
     return (

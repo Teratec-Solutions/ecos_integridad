@@ -51,7 +51,7 @@ const editClient = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteClient = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const clientId: string = req.params.id
+        const clientId: string = req.body._id
         const clientLocale = req.cookies.language || locale
         const deleteClientData: Cliente = await ClientsService.deleteClient(clientId, clientLocale)
 

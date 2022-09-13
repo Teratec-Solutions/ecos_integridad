@@ -12,3 +12,4 @@
 2022-09-07 11:22:08 error: [GET] /assets/images/logo/no-logo.png >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
 2022-09-07 11:23:41 error: [POST] /api/users/getUserById >> StatusCode:: 404, Message:: Ususario no encontrado
 2022-09-07 11:23:42 error: [GET] /assets/images/logo/no-logo.png >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
+2022-09-07 22:07:07 error: [POST] /api/users/getUserById >> StatusCode:: 404, Message:: Ususario no encontrado

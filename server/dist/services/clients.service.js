@@ -24,7 +24,6 @@ const editClient = async (usuario, locale = configs_1.env.locale) => {
     if ((0, util_1.isEmpty)(client))
         throw new HttpException_1.HttpException(400, (0, i18n_1.__)({ phrase: 'Datos de cliente no encontrados', locale }));
     const findClient = await client.findByIdAndUpdate(usuario._id, usuario);
-    console.log('Usuario editado: ', findClient);
     if (!findClient)
         throw new HttpException_1.HttpException(404, (0, i18n_1.__)({ phrase: 'Client not found', locale }));
     return findClient;

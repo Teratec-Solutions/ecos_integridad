@@ -1,36 +1,56 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonRow, IonSpinner, IonTitle, IonToggle, IonToolbar } from "@ionic/react"
-import axios, { AxiosResponse } from "axios"
+import { AxiosResponse } from "axios"
 import { arrowBack, eye, pencil, trash } from "ionicons/icons"
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { io } from "socket.io-client"
 import { getDateWithTime } from "../../../functions"
 import { Cliente } from "../../../interfaces/Cliente"
+import { Usuario } from "../../../interfaces/Usuario"
+import { clientsRouter } from "../../../router"
 import './Clients.container.css'
 
 const ClientsContainer = () => {
     const [ clientes, setClientes ] = useState<Cliente[]>([])
     const [ isLoading, setIsLoading ] = useState<boolean>(true)
     const history = useHistory()
-    console.log(history)
     useEffect(() => {
-        const cliente : Cliente = JSON.parse(window.localStorage.getItem('cliente') || '{}')
+        const usuario : Usuario = JSON.parse(window.localStorage.getItem('usuario') || '{}')
         const socket = io()
         if (navigator.onLine) {
-            socket.on(`actualizar_${cliente._id}`, data => {
-                setIsLoading(true)
+            socket.on(`nuevoClienteCreado_${usuario._id}`, data => {
                 console.log(data)
+                setIsLoading(true)
                 getClientes()
             })
         }
         getClientes()
     }, [])
     const getClientes = async () => {
-        const response: AxiosResponse = await axios.get('/api/clients/getClients', { withCredentials: true })
-        console.log(response.data.data)
-        setClientes(response.data.data)
-        if (response) {
-            setIsLoading(false)
+        try {
+            const response: AxiosResponse = await clientsRouter.getClients()
+            setClientes(response.data.data)
+            if (response) {
+                setIsLoading(false)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const deleteClient = async (_id: string | undefined) => {
+        if (window.confirm('Confirme para borrar cliente')) {
+            try {
+                if (_id) {
+                    const response: AxiosResponse = await clientsRouter.deleteClient(_id)
+                    if (response) {
+                        alert('¡' + response.data.data.empresa.nombre + ' ' + response.data.message + '!')
+                        console.log(response)
+                        getClientes()
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
     return (
@@ -77,9 +97,6 @@ const ClientsContainer = () => {
                                     <p style={{ textAlign: 'center'}}></p>
                                 </IonCol>
                             </IonRow>
-                            <div hidden={!isLoading} style={{ width: '100%', textAlign: 'center', marginTop: 50 }}>
-                                <IonSpinner hidden={!isLoading} name="bubbles"/>
-                            </div>
                             {
                                 clientes?.map((cliente, index) => {
                                     return (
@@ -113,10 +130,10 @@ const ClientsContainer = () => {
                                                 <IonButton fill={'clear'}>
                                                     <IonIcon icon={eye} />
                                                 </IonButton>
-                                                <IonButton fill={'clear'} onClick={() => {history.push(`/user/${cliente._id}`)}}>
+                                                <IonButton fill={'clear'} onClick={() => {history.push(`/client/${cliente._id}`)}}>
                                                     <IonIcon icon={pencil} />
                                                 </IonButton>
-                                                <IonButton fill={'clear'} color={'danger'}>
+                                                <IonButton fill={'clear'} color={'danger'} onClick={() => { deleteClient(cliente._id) }}>
                                                     <IonIcon icon={trash} />
                                                 </IonButton>
                                             </IonCol>
@@ -130,7 +147,9 @@ const ClientsContainer = () => {
                                     <p hidden={isLoading}><strong>No hay clientes</strong></p>
                                 </div>
                             }
-                        
+                            <div hidden={!isLoading} style={{ width: '100%', textAlign: 'center', marginTop: 50 }}>
+                                <IonSpinner hidden={!isLoading} name="bubbles"/>
+                            </div>
                         </IonCol>
                     </IonRow>
                 </IonGrid>

@@ -49,7 +49,7 @@ const editClient = async (req, res, next) => {
 };
 const deleteClient = async (req, res, next) => {
     try {
-        const clientId = req.params.id;
+        const clientId = req.body._id;
         const clientLocale = req.cookies.language || env_1.locale;
         const deleteClientData = await clients_service_1.default.deleteClient(clientId, clientLocale);
         res.status(200).json({ data: deleteClientData, message: 'deleted' });

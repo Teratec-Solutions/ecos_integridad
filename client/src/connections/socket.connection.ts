@@ -6,7 +6,11 @@ const usuario : Usuario = JSON.parse(window.localStorage.getItem('usuario') || '
 const nuevoUsuarioCreado = () => {
     socket.emit('nuevoUsuario', {_id: usuario._id})
 }
+const nuevoClienteCreado = () => {
+    socket.emit('nuevoCliente', {_id: usuario._id})
+}
 
 export {
-    nuevoUsuarioCreado
+    nuevoUsuarioCreado,
+    nuevoClienteCreado
 }

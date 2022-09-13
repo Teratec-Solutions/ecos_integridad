@@ -19,6 +19,11 @@ const SocketController = async (server) => {
         socket.on('nuevoUsuario', (data) => {
             io.emit(`actualizar_${data._id}`, { title: 'Actualizados usuarios' });
         });
+        socket.on('nuevoCliente', (data) => {
+            console.log('Nuevo cliente creado');
+            console.log(data);
+            io.emit(`nuevoClienteCreado_${data._id}`, { title: 'Actualizados clientes' });
+        });
     });
 };
 exports.default = SocketController;
