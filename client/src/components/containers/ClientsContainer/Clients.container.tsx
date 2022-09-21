@@ -1,18 +1,23 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonRow, IonSpinner, IonTitle, IonToggle, IonToolbar } from "@ionic/react"
 import { AxiosResponse } from "axios"
-import { arrowBack, eye, pencil, trash } from "ionicons/icons"
-import { useEffect, useState } from "react"
+import { add, arrowBack, clipboard, eye, pencil, personAdd, trash } from "ionicons/icons"
+import { useEffect, useRef, useState } from "react"
 import { useHistory } from "react-router"
 import { io } from "socket.io-client"
 import { getDateWithTime } from "../../../functions"
 import { Cliente } from "../../../interfaces/Cliente"
 import { Usuario } from "../../../interfaces/Usuario"
 import { clientsRouter } from "../../../router"
+import { ClientContactModal, ClientContractModal, ClientModal } from "../../modals"
 import './Clients.container.css'
 
 const ClientsContainer = () => {
     const [ clientes, setClientes ] = useState<Cliente[]>([])
+    const [ cliente, setCliente ] = useState<Cliente>()
     const [ isLoading, setIsLoading ] = useState<boolean>(true)
+    const [ openModal, setOpenModal ] = useState<boolean>(false)
+    const [ openContractModal, setOpenContractModal ] = useState<boolean>(false)
+    const [ openClient, setOpenClient ] = useState<boolean>(false)
     const history = useHistory()
     useEffect(() => {
         const usuario : Usuario = JSON.parse(window.localStorage.getItem('usuario') || '{}')
@@ -29,6 +34,7 @@ const ClientsContainer = () => {
     const getClientes = async () => {
         try {
             const response: AxiosResponse = await clientsRouter.getClients()
+            console.log(response.data.data)
             setClientes(response.data.data)
             if (response) {
                 setIsLoading(false)
@@ -53,8 +59,32 @@ const ClientsContainer = () => {
             }
         }
     }
+    const sumarContrato = (cliente: Cliente) => {
+        setOpenContractModal(true)
+        setCliente(cliente)
+    }
+    const sumarContacto = (cliente: Cliente) => {
+        setOpenModal(true)
+        setCliente(cliente)
+    }
+    const closeModalContact = () => {
+        setOpenModal(false)
+    }
+    const closeModalContract = () => {
+        setOpenContractModal(false)
+    }
+    const openClientModal = (cliente: Cliente) => {
+        setOpenClient(true)
+        setCliente(cliente)
+    }
+    const closeClientModal = () => {
+        setOpenClient(false)
+    }
     return (
         <IonContent className="bg-content">
+            <ClientContactModal isOpen={openModal} closeModal={closeModalContact} cliente={cliente} />
+            <ClientContractModal isOpen={openContractModal} closeModal={closeModalContract} cliente={cliente} />
+            <ClientModal isOpen={openClient} closeModal={closeClientModal} cliente={cliente} />
             <div className="titles">
                 <IonToolbar style={{ borderRadius: 10 }}>
                     <IonButton slot="start" fill={'clear'} onClick={() => {history.goBack()}}>
@@ -81,7 +111,7 @@ const ClientsContainer = () => {
                                 <IonCol size="1" className="tabla tabla-inicial">
                                     <p style={{ textAlign: 'center' }}></p>
                                 </IonCol>
-                                <IonCol size="3" className="tabla">
+                                <IonCol size="2" className="tabla">
                                     <p style={{ textAlign: 'center'}}><strong>Nombre</strong></p>
                                 </IonCol>
                                 <IonCol size="2" className="tabla">
@@ -93,22 +123,23 @@ const ClientsContainer = () => {
                                 <IonCol size="2" className="tabla">
                                     <p style={{ textAlign: 'center'}}><strong>Fecha de creación</strong></p>
                                 </IonCol>
-                                <IonCol size="3" className="tabla tabla-final">
+                                <IonCol size="4" className="tabla tabla-final">
                                     <p style={{ textAlign: 'center'}}></p>
                                 </IonCol>
                             </IonRow>
                             {
                                 clientes?.map((cliente, index) => {
+                                    console.log(cliente)
                                     return (
                                         <IonRow key={index}>
                                             <IonCol size="1" className="tabla center">
                                                 <img src={`${cliente.empresa.imageLogo ? cliente.empresa.imageLogo : '../assets/images/logo/no-logo.jpg'}`} alt='profile' height={40} width={40} style={{ borderRadius: '50%' }} />
                                             </IonCol>
-                                            <IonCol size="3" className="tabla">
-                                                <p style={{ textAlign: 'center'}}>{cliente.empresa.nombre}</p>
+                                            <IonCol size="2" className="tabla">
+                                                <p style={{ textAlign: 'center'}}>{cliente.empresa && cliente.empresa.nombre}</p>
                                             </IonCol>
                                             <IonCol size="2" className="tabla">
-                                                <p style={{ textAlign: 'center'}}>{cliente.empresa.run}</p>
+                                                <p style={{ textAlign: 'center'}}>{cliente.empresa && cliente.empresa.run}</p>
                                             </IonCol>
                                             <IonCol size="1" className="tabla" style={{ textAlign: 'center' }}>
                                                 {/* <IonRow> */}
@@ -126,14 +157,20 @@ const ClientsContainer = () => {
                                             <IonCol size="2" className="tabla">
                                                 <p style={{ textAlign: 'center'}}>{getDateWithTime(cliente.createdAt)}</p>
                                             </IonCol>
-                                            <IonCol size="3" className="tabla" style={{ textAlign: 'center' }}>
-                                                <IonButton fill={'clear'}>
+                                            <IonCol size="4" className="tabla" style={{ textAlign: 'center' }}>
+                                                <IonButton fill={'clear'} onClick={() => { openClientModal(cliente) }}>
                                                     <IonIcon icon={eye} />
+                                                </IonButton>
+                                                <IonButton fill={'clear'} onClick={() => { sumarContrato(cliente) }}>
+                                                    <IonIcon icon={clipboard} />
+                                                </IonButton>
+                                                <IonButton fill={'clear'} onClick={() => { sumarContacto(cliente) }}>
+                                                    <IonIcon icon={personAdd} />
                                                 </IonButton>
                                                 <IonButton fill={'clear'} onClick={() => {history.push(`/client/${cliente._id}`)}}>
                                                     <IonIcon icon={pencil} />
                                                 </IonButton>
-                                                <IonButton fill={'clear'} color={'danger'} onClick={() => { deleteClient(cliente._id) }}>
+                                                <IonButton fill={'clear'} color={'danger'} onClick={() => { deleteClient(cliente._id ? cliente._id : '') }}>
                                                     <IonIcon icon={trash} />
                                                 </IonButton>
                                             </IonCol>

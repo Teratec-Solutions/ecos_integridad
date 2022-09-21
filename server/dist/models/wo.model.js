@@ -4,9 +4,25 @@ const mongoose_1 = require("mongoose");
 const woSchema = new mongoose_1.Schema({
     asignado: [
         {
-            type: Object
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'User'
         }
     ],
+    supervisor: [
+        {
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    prioridad: {
+        type: mongoose_1.Schema.Types.String
+    },
+    createdBy: {
+        type: mongoose_1.Schema.Types.String
+    },
+    descripcion: {
+        type: mongoose_1.Schema.Types.String
+    },
     fechaInicio: {
         type: Date
     },
@@ -15,17 +31,26 @@ const woSchema = new mongoose_1.Schema({
     },
     tareas: [
         {
-            type: Object
+            type: Object,
         }
     ],
     cliente: [
         {
-            type: Object
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'Cliente'
+        }
+    ],
+    contrato: [
+        {
+            type: Object,
         }
     ],
     deleted: {
         type: Boolean,
         required: false
+    },
+    nroWo: {
+        type: Number
     }
 }, {
     timestamps: true,

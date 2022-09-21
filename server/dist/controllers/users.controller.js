@@ -13,6 +13,26 @@ const getUsers = async (req, res, next) => {
         next(error);
     }
 };
+const getSupervisores = async (req, res, next) => {
+    try {
+        const findSupervisores = await users_service_1.default.findSupervisores();
+        res.status(200).json({ data: findSupervisores, message: 'lista supervisores' });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+const getOperadores = async (req, res, next) => {
+    try {
+        const findOperadores = await users_service_1.default.findOperadores();
+        res.status(200).json({ data: findOperadores, message: 'lista operadores' });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
 const getUserById = async (req, res, next) => {
     try {
         const userId = req.body.id;
@@ -60,6 +80,8 @@ const deleteUser = async (req, res, next) => {
 };
 exports.default = {
     getUsers,
+    getSupervisores,
+    getOperadores,
     getUserById,
     createUser,
     editUser,

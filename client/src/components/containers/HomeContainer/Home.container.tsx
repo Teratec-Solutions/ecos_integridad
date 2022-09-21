@@ -7,7 +7,7 @@ import { logout } from "../../../functions"
 import { Cliente } from "../../../interfaces/Cliente"
 import { clientsRouter } from "../../../router"
 
-const HomeContainer = ({userType}:{userType: string}) => {
+const HomeContainer = ({userType}:{userType: string | undefined}) => {
     const [clientes, setClientes] = useState<Cliente[]>([])
     const [clientesCache, setClientesCache] = useState<Cliente[]>([])
     const [cliente, setCliente] = useState<Cliente>()
@@ -223,10 +223,21 @@ const HomeContainer = ({userType}:{userType: string}) => {
                                                         <IonCol size="6">
                                                             {
                                                                 cliente.empresa.contactos?.map((usuario, index) => {
+                                                                    console.log(usuario)
                                                                     return (
-                                                                        <IonLabel key={index}>
-                                                                            {usuario.nombre} {usuario.apellido}
-                                                                        </IonLabel>
+                                                                        <div key={index}>
+                                                                            <IonLabel>
+                                                                                {usuario.nombre} {usuario.apellido}
+                                                                            </IonLabel>
+                                                                            <br />
+                                                                            <a href={`tel:${usuario.telefono}`}>
+                                                                                {usuario.telefono}
+                                                                            </a>
+                                                                            <br />
+                                                                            <a href={`mailto:${usuario.correo}`}>
+                                                                                {usuario.correo}
+                                                                            </a>
+                                                                        </div>
                                                                     )
                                                                 })
                                                             }

@@ -6,7 +6,7 @@ import { useHistory } from "react-router"
 import { getDateWithTime, nombreRole } from "../../../functions"
 import { Usuario } from "../../../interfaces/Usuario"
 import { io } from "socket.io-client";
-import { clientsRouter } from "../../../router"
+import { clientsRouter, usersRouter } from "../../../router"
 
 const UsersContainer = () => {
     const [ usuarios, setUsuarios ] = useState<Usuario[]>([])
@@ -24,7 +24,7 @@ const UsersContainer = () => {
         getUsuarios()
     }, [])
     const getUsuarios = async () => {
-        const response: AxiosResponse = await clientsRouter.getClients()/* axios.get('/api/users/getUsers', { withCredentials: true }) */
+        const response: AxiosResponse = await usersRouter.getUsers()/* axios.get('/api/users/getUsers', { withCredentials: true }) */
         setUsuarios(response.data.data)
         if (response) {
             setIsLoading(false)
@@ -61,24 +61,28 @@ const UsersContainer = () => {
                             <p style={{ textAlign: 'center'}}><strong>Tipo de usuario</strong></p>
                         </IonCol>
                         <IonCol size="1" className="tabla">
+                            <p style={{ textAlign: 'center'}}><strong>Roles</strong></p>
+                        </IonCol>
+                        <IonCol size="1" className="tabla">
                             <p style={{ textAlign: 'center'}}><strong>Estado</strong></p>
                         </IonCol>
                         <IonCol size="1" className="tabla">
                             <p style={{ textAlign: 'center'}}><strong>Fono contacto</strong></p>
                         </IonCol>
-                        <IonCol size="2" className="tabla">
+                        <IonCol size="1.5" className="tabla">
                             <p style={{ textAlign: 'center'}}><strong>Email contacto</strong></p>
                         </IonCol>
                         <IonCol size="1" className="tabla">
                             <p style={{ textAlign: 'center'}}><strong>Fecha de creación</strong></p>
                         </IonCol>
-                        <IonCol size="2.5" className="tabla tabla-final">
+                        <IonCol size="2" className="tabla tabla-final">
                             <p style={{ textAlign: 'center'}}></p>
                         </IonCol>
                     </IonRow>
                     <IonSpinner hidden={!isLoading} name="bubbles"/>
                     {
                         usuarios?.map((usuario, index) => {
+                            console.log(usuario)
                             return (
                                 <IonRow key={index}>
                                     <IonCol size="0.5" className="tabla center">
@@ -91,7 +95,10 @@ const UsersContainer = () => {
                                         <p style={{ textAlign: 'center'}}>{usuario.run}</p>
                                     </IonCol>
                                     <IonCol size="1" className="tabla">
-                                        <p style={{ textAlign: 'center'}}>{nombreRole(usuario.role)}</p>
+                                        <p style={{ textAlign: 'center'}}>{nombreRole(usuario.role ? usuario.role : '')}</p>
+                                    </IonCol>
+                                    <IonCol size="1" className="tabla">
+                                        <p style={{ textAlign: 'center'}}>{usuario.subRoles}</p>
                                     </IonCol>
                                     <IonCol size="1" className="tabla" style={{ textAlign: 'center' }}>
                                         <p style={{ color: usuario.estado ? 'green' : 'red' }}><strong>{usuario.estado ? 'Activado' : 'Desactivado'}</strong></p>
@@ -99,13 +106,13 @@ const UsersContainer = () => {
                                     <IonCol size="1" className="tabla">
                                         <p style={{ textAlign: 'center'}}>{usuario.fono}</p>
                                     </IonCol>
-                                    <IonCol size="2" className="tabla">
+                                    <IonCol size="1.5" className="tabla">
                                         <p style={{ textAlign: 'center'}}>{usuario.email}</p>
                                     </IonCol>
                                     <IonCol size="1" className="tabla">
                                         <p style={{ textAlign: 'center'}}>{getDateWithTime(usuario.createdAt)}</p>
                                     </IonCol>
-                                    <IonCol size="2.5" className="tabla" style={{ textAlign: 'center' }}>
+                                    <IonCol size="2" className="tabla" style={{ textAlign: 'center' }}>
                                         <IonButton fill={'clear'}>
                                             <IonIcon icon={eye} />
                                         </IonButton>

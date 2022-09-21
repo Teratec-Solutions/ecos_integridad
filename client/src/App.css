@@ -33,6 +33,37 @@
     height: calc(100vh - 120px);
 }
 
+.bg-content-list {
+    height: calc(100vh - 175px);
+    overflow-y: scroll;
+}
+
+.bg-content-list::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.bg-content-list::-webkit-scrollbar:vertical {
+    width:10px;
+}
+
+.bg-content-list::-webkit-scrollbar-button:increment,.bg-content-list::-webkit-scrollbar-button {
+    display: none;
+} 
+
+.bg-content-list::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.bg-content-list::-webkit-scrollbar-thumb {
+    background-color: var(--ion-color-primary-tint);
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+
+.bg-content-list::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}
+
 .titles {
     background-color: #fff;
     margin: 20px;

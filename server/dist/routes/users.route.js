@@ -10,5 +10,7 @@ router.post(`/editUser`, auth_middleware_1.default, users_controller_1.default.e
 router.post(`/getUserById`, auth_middleware_1.default, users_controller_1.default.getUserById);
 router.post(`/deleteUser`, auth_middleware_1.default, users_controller_1.default.deleteUser);
 router.get(`/getUsers`, auth_middleware_1.default, users_controller_1.default.getUsers);
+router.get(`/getSupervisores`, auth_middleware_1.default, users_controller_1.default.getSupervisores);
+router.get(`/getOperadores`, auth_middleware_1.default, users_controller_1.default.getOperadores);
 exports.default = router;
 //# sourceMappingURL=users.route.js.map

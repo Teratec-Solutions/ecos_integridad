@@ -28,8 +28,38 @@ const getUserById = async (_id: {id: string}): Promise<AxiosResponse|any> => {
     }
 }
 
+const getUsers = async (): Promise<AxiosResponse|any> => {
+    try {
+        const response = await axios.get('/api/users/getUsers')
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+const getSupervisores = async (): Promise<AxiosResponse|any> => {
+    try {
+        const response = await axios.get('/api/users/getSupervisores')
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+const getOperadores = async (): Promise<AxiosResponse|any> => {
+    try {
+        const response = await axios.get('/api/users/getOperadores')
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
 export default {
     createUser,
     editUser,
-    getUserById
+    getUserById,
+    getUsers,
+    getSupervisores,
+    getOperadores
 }

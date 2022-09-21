@@ -1,22 +1,24 @@
 import { Usuario } from "./Usuario"
 
 export interface Cliente {
-    _id?: string
+    _id: string | null
     empresa: Empresa
-    habilitado: boolean
-    contratos: Contrato[]
+    habilitado?: boolean
+    contratos?: Contrato[]
     createdAt?: Date
-    createdBy: Usuario[]
+    createdBy?: Usuario[]
 }
 
 export interface Contrato {
-    _id: string
-    tipoContrato: string
-    fechaInicio: Date
-    fechaTermino: Date
-    createdAt: Date
-    supervisores: Usuario[]
-    operarios: Usuario[]
+    _id?: string
+    tipoContrato?: string
+    descripcion?: string
+    fechaInicio?: Date
+    fechaTermino?: Date
+    createdAt?: Date
+    supervisores?: Usuario[]
+    operarios?: Usuario[]
+    cliente: string
 }
 
 export interface Empresa {
@@ -43,5 +45,5 @@ export interface ContactoEmpresa {
     run: string
     telefono: string
     correo: string
-    imageProfile: string
+    imageProfile?: string
 }

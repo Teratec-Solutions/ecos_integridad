@@ -8,14 +8,15 @@ import { Usuario } from "../../../interfaces/Usuario"
 import { usersRouter } from "../../../router"
 
 const UserContainer = () => {
-    const [ nombre, setNombre ] = useState<string>('')
-    const [ apellido1, setApellido1 ] = useState<string>('')
-    const [ apellido2, setApellido2 ] = useState<string>('')
-    const [ run, setRun ] = useState<string>('')
-    const [ fono, setFono ] = useState<string>('')
-    const [ email, setEmail ] = useState<string>('')
-    const [ password, setPassword ] = useState<string>('')
-    const [ role, setRole ] = useState<string>('')
+    const [ nombre, setNombre ] = useState<string>()
+    const [ apellido1, setApellido1 ] = useState<string>()
+    const [ apellido2, setApellido2 ] = useState<string>()
+    const [ run, setRun ] = useState<string>()
+    const [ fono, setFono ] = useState<string>()
+    const [ email, setEmail ] = useState<string>()
+    const [ password, setPassword ] = useState<string>()
+    const [ role, setRole ] = useState<string>()
+    const [ subRoles, setSubRoles ] = useState<string[]>([])
     const [ typePassword, setTypePassword ] = useState<any>('password')
     const [ showLoading, setShowLoading ] = useState<boolean>(false)
     const [ estado, setEstado ] = useState<boolean>(true)
@@ -41,7 +42,8 @@ const UserContainer = () => {
                     setFono(usuario.fono)
                     setEmail(usuario.email)
                     setShowLoading(false)
-                    setEstado(usuario.estado)
+                    setEstado(usuario.estado ? usuario.estado : false)
+                    setSubRoles(usuario.subRoles ? usuario.subRoles : [])
                 }
             }
         } catch (error) {
@@ -50,37 +52,43 @@ const UserContainer = () => {
     }
     
     const crearUsuario = async () => {
-        const createUser = {
-            nombre: nombre,
-            apellido1: apellido1,
-            apellido2: apellido2,
-            run: run,
-            fono: fono,
-            role: role,
-            email: email,
-            password: password,
-            estado: true
-        } as Usuario
-        const editUser = {
-            _id: _id.id,
-            nombre: nombre,
-            apellido1: apellido1,
-            apellido2: apellido2,
-            run: run,
-            fono: fono,
-            role: role,
-            email: email,
-            estado: estado
-        } as Usuario
-        try {
-            const usuario = _id.id ? editUser : createUser 
-            const response: AxiosResponse = await (_id.id ? usersRouter.editUser(usuario) : usersRouter.createUser(usuario))/* await axios.post(`/api/users/${_id.id ? 'editUser' : 'createUser'}`, usuario) */
-            if (response) {
-                history.goBack()
-                nuevoUsuarioCreado()
+        if (subRoles.length === 0) {
+            alert('Debe seleccionar el tipo de usuario')
+        } else {
+            const createUser = {
+                nombre: nombre,
+                apellido1: apellido1,
+                apellido2: apellido2,
+                run: run,
+                fono: fono,
+                role: role,
+                email: email,
+                password: password,
+                estado: true,
+                subRoles: subRoles
+            } as Usuario
+            const editUser = {
+                _id: _id.id,
+                nombre: nombre,
+                apellido1: apellido1,
+                apellido2: apellido2,
+                run: run,
+                fono: fono,
+                role: role,
+                email: email,
+                estado: estado,
+                subRoles: subRoles
+            } as Usuario
+            try {
+                const usuario = _id.id ? editUser : createUser 
+                const response: AxiosResponse = await (_id.id ? usersRouter.editUser(usuario) : usersRouter.createUser(usuario))/* await axios.post(`/api/users/${_id.id ? 'editUser' : 'createUser'}`, usuario) */
+                if (response) {
+                    history.goBack()
+                    nuevoUsuarioCreado()
+                }
+            } catch (error) {
+                console.log(error)
             }
-        } catch (error) {
-            console.log(error)
         }
     }
     return (
@@ -165,14 +173,18 @@ const UserContainer = () => {
                                 <IonCol sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="4" sizeXl="4">
                                     <IonItem>
                                         <IonLabel position={'floating'}>
-                                            Teléfono
+                                            Sub Rol
                                         </IonLabel>
-                                        <IonInput
+                                        <IonSelect value={subRoles} interface={'popover'} multiple onIonChange={(e: any) => {setSubRoles(e.target.value)}}>
+                                            <IonSelectOption value={'Supervisor'}>Supervisor</IonSelectOption>
+                                            <IonSelectOption value={'Operador'}>Operador</IonSelectOption>
+                                        </IonSelect>
+                                        {/* <IonInput
                                             name="telefono"
                                             value={fono}
                                             type={'tel'}
                                             onIonChange={(e: any) => {setFono(e.target.value)}}
-                                        />
+                                        /> */}
                                     </IonItem>
                                 </IonCol>
                                 <IonCol sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="4" sizeXl="4">
@@ -188,7 +200,20 @@ const UserContainer = () => {
                                 </IonCol>
                             </IonRow>
                             <IonRow>
-                                <IonCol sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="6" sizeXl="6">
+                                <IonCol sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="4" sizeXl="4">
+                                    <IonItem>
+                                        <IonLabel position={'floating'}>
+                                            Teléfono
+                                        </IonLabel>
+                                        <IonInput
+                                            name="telefono"
+                                            value={fono}
+                                            type={'tel'}
+                                            onIonChange={(e: any) => {setFono(e.target.value)}}
+                                        />
+                                    </IonItem>
+                                </IonCol>
+                                <IonCol sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="4" sizeXl="4">
                                     <IonItem>
                                         <IonLabel position={'floating'}>
                                             Email
@@ -201,7 +226,7 @@ const UserContainer = () => {
                                         />
                                     </IonItem>
                                 </IonCol>
-                                <IonCol sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="6" sizeXl="6">
+                                <IonCol sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="4" sizeXl="4">
                                     <IonItem hidden={_id.id ? false : true}>
                                         <IonLabel position={'floating'}>
                                             Estado

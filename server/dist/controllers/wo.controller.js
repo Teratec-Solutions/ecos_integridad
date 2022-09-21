@@ -11,6 +11,15 @@ const getWorkOrders = async (req, res, next) => {
         next(error);
     }
 };
+const getNumberWorkOrders = async (req, res, next) => {
+    try {
+        const total = await wo_service_1.default.getNumberWorkOrders();
+        res.status(201).json({ data: { total: total }, message: 'total de ordenes' });
+    }
+    catch (error) {
+        next(error);
+    }
+};
 const createWorkOrder = async (req, res, next) => {
     const orden = req.body;
     try {
@@ -21,8 +30,30 @@ const createWorkOrder = async (req, res, next) => {
         next(error);
     }
 };
+const editWorkOrder = async (req, res, next) => {
+    const orden = req.body;
+    try {
+        const response = await wo_service_1.default.editWorkOrder(orden);
+        res.status(201).json({ data: response, message: 'orden editada' });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+const deleteWorkOrder = async (req, res, next) => {
+    console.log(req.body._id);
+    try {
+        const response = await wo_service_1.default.deleteWorkOrder(req.body._id);
+        res.status(201).json({ message: 'orden elimnada' });
+    }
+    catch (error) {
+    }
+};
 exports.default = {
     getWorkOrders,
-    createWorkOrder
+    getNumberWorkOrders,
+    createWorkOrder,
+    editWorkOrder,
+    deleteWorkOrder
 };
 //# sourceMappingURL=wo.controller.js.map

@@ -11,11 +11,13 @@ export interface Cliente {
 export interface Contrato {
     _id: ObjectId;
     tipoContrato: string;
+    descripcion: string;
     fechaInicio: Date;
     fechaTermino: Date;
     createdAt: Date;
     supervisores: User[];
     operarios: User[];
+    cliente?: ObjectId;
 }
 export interface Empresa {
     nombre: string;

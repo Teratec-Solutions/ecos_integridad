@@ -10,7 +10,8 @@ import { __ } from 'i18n'
 const client = clientModel
 
 const findAllClient = async () => {
-    const clients: Cliente[] = await client.find()
+    const clients: Cliente[] = await client.find().populate('contratos')
+    console.log(clients)
     return clients
 }
 

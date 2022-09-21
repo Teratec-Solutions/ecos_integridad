@@ -32,7 +32,7 @@ const getDateWithTime = (time: Date | undefined) => {
                 dayName = 'Domingo'
             }
         }
-        const date = new Date(time).getDate() + 1
+        const date = new Date(time).getDate()
         const month = new Date(time).getMonth()
         let monthName
         if (month === 0) {

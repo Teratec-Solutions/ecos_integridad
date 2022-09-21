@@ -1,14 +1,20 @@
 import { Orden } from '@/interfaces/wo.interface'
 import WoService from '@/services/wo.service'
-import { locale } from '@configs/env'
 import { NextFunction, Request, Response } from 'express'
-import { ObjectId } from 'mongoose'
-
 
 const getWorkOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const response = await WoService.getWorkOrders()
         res.status(201).json({ data: response, message: 'lista de ordenes' })
+    } catch (error) {
+        next(error)
+    }
+}
+
+const getNumberWorkOrders = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const total = await WoService.getNumberWorkOrders()
+        res.status(201).json({ data: { total: total }, message: 'total de ordenes' })
     } catch (error) {
         next(error)
     }
@@ -24,7 +30,30 @@ const createWorkOrder = async (req: Request, res: Response, next: NextFunction) 
     }
 }
 
+const editWorkOrder = async (req: Request, res: Response, next: NextFunction) => {
+    const orden: Orden = req.body
+    try {
+        const response = await WoService.editWorkOrder(orden)
+        res.status(201).json({ data: response, message: 'orden editada' })
+    } catch (error) {
+        next(error)
+    }
+}
+
+const deleteWorkOrder = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body._id)
+    try {
+        const response = await WoService.deleteWorkOrder(req.body._id)
+        res.status(201).json({ message: 'orden elimnada' })
+    } catch (error) {
+        
+    }
+}
+
 export default {
     getWorkOrders,
-    createWorkOrder
+    getNumberWorkOrders,
+    createWorkOrder,
+    editWorkOrder,
+    deleteWorkOrder
 }

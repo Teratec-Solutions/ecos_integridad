@@ -44,7 +44,8 @@ const ClientContainer = () => {
         }
     }
     const crearCliente = async () => {
-        const crearCliente : Cliente = {
+        const crearCliente: Cliente = {
+            _id: null,
             empresa: {
                 nombre: nombreEmpresa,
                 run: runEmpresa,

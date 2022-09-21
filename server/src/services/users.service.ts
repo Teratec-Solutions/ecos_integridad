@@ -13,6 +13,16 @@ const findAllUser = async () => {
     return users
 }
 
+const findSupervisores = async () => {
+    const users: User[] = await user.find({ subRoles: {$in: ['Supervisor']} })
+    return users
+}
+
+const findOperadores = async () => {
+    const users: User[] = await user.find({ subRoles: {$in: ['Operador']} })
+    return users
+}
+
 const findUserById = async (userId: string, locale: string = env.locale) => {
     if (isEmpty(userId)) throw new HttpException(400, __({ phrase: 'An ID is required', locale }))
     const findUser: User = await user.findOne({ _id: userId }, '-password').populate('roles')
@@ -87,6 +97,8 @@ const deleteUser = async (userId: string, locale: string = env.locale) => {
 
 export default {
     findAllUser,
+    findSupervisores,
+    findOperadores,
     findUserById,
     editUser,
     findUsersByRole,

@@ -24,5 +24,6 @@ export interface User {
     fechaTitulacion?: string;
     imagenPerfil: string;
     role: string;
+    subRoles: string[];
     createdAt: string;
 }

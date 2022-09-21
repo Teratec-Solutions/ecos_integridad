@@ -9,5 +9,7 @@ router.post(`/editUser`, authMiddleware, UsersController.editUser)
 router.post(`/getUserById`, authMiddleware, UsersController.getUserById)
 router.post(`/deleteUser`, authMiddleware, UsersController.deleteUser)
 router.get(`/getUsers`, authMiddleware, UsersController.getUsers)
+router.get(`/getSupervisores`, authMiddleware, UsersController.getSupervisores)
+router.get(`/getOperadores`, authMiddleware, UsersController.getOperadores)
 
 export default router

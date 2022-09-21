@@ -15,12 +15,6 @@ const clientSchema = new mongoose_1.Schema({
             type: Object,
             required: false
         }
-    ],
-    contactos: [
-        {
-            type: Object,
-            required: false
-        }
     ]
 }, {
     timestamps: true,

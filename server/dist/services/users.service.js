@@ -12,6 +12,14 @@ const findAllUser = async () => {
     const users = await user.find();
     return users;
 };
+const findSupervisores = async () => {
+    const users = await user.find({ subRoles: { $in: ['Supervisor'] } });
+    return users;
+};
+const findOperadores = async () => {
+    const users = await user.find({ subRoles: { $in: ['Operador'] } });
+    return users;
+};
 const findUserById = async (userId, locale = configs_1.env.locale) => {
     if ((0, util_1.isEmpty)(userId))
         throw new HttpException_1.HttpException(400, (0, i18n_1.__)({ phrase: 'An ID is required', locale }));
@@ -79,6 +87,8 @@ const deleteUser = async (userId, locale = configs_1.env.locale) => {
 };
 exports.default = {
     findAllUser,
+    findSupervisores,
+    findOperadores,
     findUserById,
     editUser,
     findUsersByRole,

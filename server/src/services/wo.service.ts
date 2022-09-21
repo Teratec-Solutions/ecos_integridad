@@ -9,16 +9,36 @@ import { __ } from 'i18n'
 const workOrder = woModel
 
 const getWorkOrders = async () => {
-    const ordenes: Orden[] = await workOrder.find()
+    const ordenes: Orden[] = await workOrder.find().populate('asignado').populate('supervisor').populate('cliente')
     return ordenes
 }
 
+const getNumberWorkOrders = async () => {
+    const ordenes: Orden[] = await workOrder.find()
+    return ordenes.length
+}
+
 const createWorkOrder = async (orden: Orden) => {
+    const nroOt = await getNumberWorkOrders()
+    orden.nroWo = nroOt + 1
     const wo: Orden = await workOrder.create({...orden})
+    return wo
+}
+
+const editWorkOrder = async (orden: Orden) => {
+    const wo: Orden = await workOrder.findByIdAndUpdate(orden._id , orden)
+    return wo
+}
+
+const deleteWorkOrder = async (_id: string) => {
+    const wo: Orden = await workOrder.findByIdAndDelete(_id)
     return wo
 }
 
 export default {
     getWorkOrders,
-    createWorkOrder
+    getNumberWorkOrders,
+    createWorkOrder,
+    editWorkOrder,
+    deleteWorkOrder
 }

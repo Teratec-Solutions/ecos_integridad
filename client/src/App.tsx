@@ -28,7 +28,7 @@ setupIonicReact();
 
 const State = () => {
   const [ isAuth, setIsAuth ] = useState<boolean>(false)
-  const [ userType, setUserType ] = useState<string>('')
+  const [ userType, setUserType ] = useState<string | undefined>('')
 
   useEffect(() => {
     console.log(isAuth)

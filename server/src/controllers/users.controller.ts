@@ -13,6 +13,25 @@ const getUsers = async (req: RequestWithUser, res: Response, next: NextFunction)
         next(error)
     }
 }
+const getSupervisores = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+        const findSupervisores: User[] = await UserService.findSupervisores()
+        res.status(200).json({ data: findSupervisores, message: 'lista supervisores' })
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
+}
+
+const getOperadores = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+        const findOperadores: User[] = await UserService.findOperadores()
+        res.status(200).json({ data: findOperadores, message: 'lista operadores' })
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
+}
 
 const getUserById = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -63,6 +82,8 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
 
 export default {
     getUsers,
+    getSupervisores,
+    getOperadores,
     getUserById,
     createUser,
     editUser,

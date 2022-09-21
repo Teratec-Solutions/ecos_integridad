@@ -5,9 +5,25 @@ const woSchema: Schema = new Schema(
     {
         asignado: [
             {
-                type: Object
+                type: Schema.Types.ObjectId,
+                ref: 'User'
             }
         ],
+        supervisor: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ],
+        prioridad: {
+            type: Schema.Types.String
+        },
+        createdBy: {
+            type: Schema.Types.String
+        },
+        descripcion: {
+            type: Schema.Types.String
+        },
         fechaInicio: {
             type: Date
         },
@@ -16,17 +32,26 @@ const woSchema: Schema = new Schema(
         },
         tareas: [
             {
-                type: Object
+                type: Object,
             }
         ],
         cliente: [
             {
-                type: Object
+                type: Schema.Types.ObjectId,
+                ref: 'Cliente'
+            }
+        ],
+        contrato: [
+            {
+                type: Object,
             }
         ],
         deleted: {
             type: Boolean,
             required: false
+        },
+        nroWo: {
+            type: Number
         }
     },
     {
