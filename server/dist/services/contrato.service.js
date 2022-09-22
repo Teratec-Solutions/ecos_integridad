@@ -16,7 +16,17 @@ const guardarContrato = async (contrato) => {
     catch (error) {
     }
 };
+const leerContratosPorCliente = async (clienteId) => {
+    console.log('Cliente ID:', clienteId);
+    try {
+        const response = await contract.find({ cliente: clienteId });
+        return response;
+    }
+    catch (error) {
+    }
+};
 exports.default = {
-    guardarContrato
+    guardarContrato,
+    leerContratosPorCliente
 };
 //# sourceMappingURL=contrato.service.js.map

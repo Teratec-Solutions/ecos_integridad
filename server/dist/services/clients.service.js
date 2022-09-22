@@ -16,7 +16,7 @@ const findAllClient = async () => {
 const findClientById = async (clientId, locale = configs_1.env.locale) => {
     if ((0, util_1.isEmpty)(clientId))
         throw new HttpException_1.HttpException(400, (0, i18n_1.__)({ phrase: 'An ID is required', locale }));
-    const findClient = await client.findOne({ _id: clientId }, '-password').populate('roles');
+    const findClient = await client.findOne({ _id: clientId }, '-password').populate('contratos');
     if (!findClient)
         throw new HttpException_1.HttpException(404, (0, i18n_1.__)({ phrase: 'User not found', locale }));
     return findClient;

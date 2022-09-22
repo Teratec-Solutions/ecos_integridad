@@ -18,6 +18,7 @@ const createWorkOrder = async (orden) => {
     return wo;
 };
 const editWorkOrder = async (orden) => {
+    console.log(orden);
     const wo = await workOrder.findByIdAndUpdate(orden._id, orden);
     return wo;
 };
@@ -25,11 +26,16 @@ const deleteWorkOrder = async (_id) => {
     const wo = await workOrder.findByIdAndDelete(_id);
     return wo;
 };
+const getWoById = async (orderId) => {
+    const wo = await workOrder.findById(orderId).populate('asignado').populate('supervisor').populate('cliente');
+    return wo;
+};
 exports.default = {
     getWorkOrders,
     getNumberWorkOrders,
     createWorkOrder,
     editWorkOrder,
-    deleteWorkOrder
+    deleteWorkOrder,
+    getWoById
 };
 //# sourceMappingURL=wo.service.js.map

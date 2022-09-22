@@ -6,5 +6,6 @@ const auth_middleware_1 = (0, tslib_1.__importDefault)(require("../middlewares/a
 const contrato_controller_1 = (0, tslib_1.__importDefault)(require("../controllers/contrato.controller"));
 const router = (0, express_1.Router)();
 router.post(`/guardarContrato`, auth_middleware_1.default, contrato_controller_1.default.guardarContrato);
+router.post(`/leerContratosPorCliente`, auth_middleware_1.default, contrato_controller_1.default.leerContratosPorCliente);
 exports.default = router;
 //# sourceMappingURL=contratos.route.js.map

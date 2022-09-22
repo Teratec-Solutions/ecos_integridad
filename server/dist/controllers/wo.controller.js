@@ -49,11 +49,23 @@ const deleteWorkOrder = async (req, res, next) => {
     catch (error) {
     }
 };
+const getWoById = async (req, res, next) => {
+    const ordenId = req.body.orderId;
+    console.log(ordenId);
+    try {
+        const response = await wo_service_1.default.getWoById(ordenId);
+        res.status(201).json({ data: response, message: 'orden enviada' });
+    }
+    catch (error) {
+        next(error);
+    }
+};
 exports.default = {
     getWorkOrders,
     getNumberWorkOrders,
     createWorkOrder,
     editWorkOrder,
-    deleteWorkOrder
+    deleteWorkOrder,
+    getWoById
 };
 //# sourceMappingURL=wo.controller.js.map
