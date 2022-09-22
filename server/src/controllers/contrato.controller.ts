@@ -9,6 +9,13 @@ const guardarContrato = async (req: Request, res: Response, next: NextFunction) 
     res.json({data: response, message: 'Contrato Guardado'})
 }
 
+const leerContratosPorCliente = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body)
+    const response = await contratoService.leerContratosPorCliente(req.body.clienteId)
+    res.json({data: response, message: `Contratos por ${req.body.clienteId}`})
+}
+
 export default {
-    guardarContrato
+    guardarContrato,
+    leerContratosPorCliente
 }

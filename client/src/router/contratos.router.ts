@@ -10,6 +10,26 @@ const guardarContrato = async (contrato: Contrato) => {
     }
 }
 
+const leerContratos = async () => {
+    try {
+        const response = await axios.get('/api/contratos/leerContratos')
+        return response
+    } catch (error) {
+        
+    }
+}
+
+const leerContratosPorCliente = async (clienteId: string) => {
+    try {
+        const response = await axios.post('/api/contratos/leerContratosPorCliente', {clienteId:clienteId})
+        return response
+    } catch (error) {
+        
+    }
+}
+
 export default {
-    guardarContrato
+    guardarContrato,
+    leerContratos,
+    leerContratosPorCliente
 }

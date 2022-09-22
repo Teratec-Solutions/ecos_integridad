@@ -26,6 +26,7 @@ const createWorkOrder = async (orden: Orden) => {
 }
 
 const editWorkOrder = async (orden: Orden) => {
+    console.log(orden)
     const wo: Orden = await workOrder.findByIdAndUpdate(orden._id , orden)
     return wo
 }
@@ -35,10 +36,16 @@ const deleteWorkOrder = async (_id: string) => {
     return wo
 }
 
+const getWoById = async (orderId: string) => {
+    const wo: Orden = await workOrder.findById(orderId).populate('asignado').populate('supervisor').populate('cliente')
+    return wo
+}
+
 export default {
     getWorkOrders,
     getNumberWorkOrders,
     createWorkOrder,
     editWorkOrder,
-    deleteWorkOrder
+    deleteWorkOrder,
+    getWoById
 }

@@ -31,7 +31,8 @@ const contratoSchema = new mongoose_1.Schema({
         }
     ],
     cliente: {
-        type: mongoose_1.Schema.Types.ObjectId
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'Cliente'
     }
 }, {
     timestamps: true,

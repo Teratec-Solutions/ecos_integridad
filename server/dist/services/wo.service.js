@@ -4,7 +4,7 @@ const tslib_1 = require("tslib");
 const wo_model_1 = (0, tslib_1.__importDefault)(require("../models/wo.model"));
 const workOrder = wo_model_1.default;
 const getWorkOrders = async () => {
-    const ordenes = await workOrder.find().populate('asignado').populate('cliente');
+    const ordenes = await workOrder.find().populate('asignado').populate('supervisor').populate('cliente');
     return ordenes;
 };
 const getNumberWorkOrders = async () => {

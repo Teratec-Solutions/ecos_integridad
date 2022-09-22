@@ -2,9 +2,9 @@ import { IonButton, IonCol, IonContent, IonDatetime, IonGrid, IonIcon, IonInput,
 import { AxiosResponse } from 'axios'
 import { arrowBack } from 'ionicons/icons'
 import { useEffect, useRef, useState } from 'react'
-import { useHistory } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import { Cliente, Contrato } from '../../../interfaces/Cliente'
-import { clientsRouter, usersRouter, woRouter } from '../../../router'
+import { clientsRouter, contratosRouter, usersRouter, woRouter } from '../../../router'
 import { close } from 'ionicons/icons'
 import './WorkOrderContainer.css'
 import { getSimpleDateTime } from '../../../functions'
@@ -12,7 +12,8 @@ import { Ordenes } from '../../../interfaces/Ordenes'
 import { Usuario } from '../../../interfaces/Usuario'
 
 const WorkOrderContainer = () => {
-    const [ woNumber, setWoNumber ] = useState<string>('')
+    const _id: {id: string} = useParams()
+    const [ woNumber, setWoNumber ] = useState<number>()
     const [ nombreSupervisor, setSupervisor ] = useState<string>('')
     const [ nombreAsignacion, setAsignacion ] = useState<string>('')
     const [ prioridad, setPrioridad ] = useState<string>('')
@@ -20,7 +21,7 @@ const WorkOrderContainer = () => {
     const [ openModalFechaEjecucion, setOpenModalFechaEjecucion ] = useState<boolean>(false)
     const [ description, setDescription ] = useState<string>('')
     const [ clientes, setClientes ] = useState<Cliente[]>([])
-    const [ clienteSeleccionado, setClienteSeleccionado ] = useState<string>('')
+    const [ clienteSeleccionado, setClienteSeleccionado ] = useState<string>()
     const [ contratoSeleccionado, setContratoSeleccionado ] = useState<string>()
     const [ contratos, setContratos ] = useState<Contrato[]>([])
     const [ supervisores, setSupervisores ] = useState<Usuario[]>([])
@@ -31,17 +32,17 @@ const WorkOrderContainer = () => {
     const [ operadorSeleccionado, setOperadorSeleccionado ] = useState<string>('')
     const [ userData, setUserData ] = useState<Usuario>()
     const [ showLoading, setShowLoading ] = useState<boolean>(false)
+    const [ contratoDeshabilitado, setContratoDeshabilitado ] = useState<boolean>(true)
     const history = useHistory()
     const modal = useRef<HTMLIonModalElement>(null);
     useEffect(() => {
+        console.log(_id)
         setShowLoading(true)
         init()
     }, [])
     const init = async () => {
         const response: AxiosResponse = await clientsRouter.getClients()
         setClientes(response.data.data)
-        const responseWO: AxiosResponse = await woRouter.getNumberWorkOrders()
-        setWoNumber((responseWO.data.data.total + 1))
         const responseSupervisores: AxiosResponse = await usersRouter.getSupervisores()
         setSupervisores(responseSupervisores.data.data)
         setSupervisoresCache(responseSupervisores.data.data)
@@ -50,7 +51,27 @@ const WorkOrderContainer = () => {
         setUsuariosCache(responseUsuarios.data.data)
         const u: Usuario = JSON.parse(window.localStorage.getItem('usuario')|| '{}')
         setUserData(u)
-        setShowLoading(false)
+        if (_id.id) {
+            const res: AxiosResponse = await woRouter.getWoById(_id.id)
+            const orden : Ordenes = res.data.data
+            console.log(orden)
+            orden.cliente && console.log(orden.cliente[0])
+            setWoNumber(orden.nroWo)
+            setPrioridad(orden.prioridad)
+            setFechaEjecucion(orden.fechaInicio)
+            orden.cliente && setClienteSeleccionado(orden.cliente[0]._id || '')
+            orden.supervisor && setSupervisor(`${orden.supervisor[0].nombre} ${orden.supervisor[0].apellido1} ${orden.supervisor[0].apellido2}`)
+            orden.supervisor && setSupervisorSeleccionado(orden.supervisor[0]._id)
+            orden.asignado && setAsignacion(`${orden.asignado[0].nombre} ${orden.asignado[0].apellido1} ${orden.asignado[0].apellido2}`)
+            orden.asignado && setOperadorSeleccionado(orden.asignado[0]._id)
+            orden.contrato && setContratoSeleccionado(orden.contrato[0]._id)
+            setDescription(orden.descripcion)
+            setShowLoading(false)
+        } else {
+            const responseWO: AxiosResponse = await woRouter.getNumberWorkOrders()
+            setWoNumber((responseWO.data.data.total + 1))
+            setShowLoading(false)
+        }
     }
     const guardarFechaEjecucion = (e: any) => {
         if (window.confirm(`Confirme la fecha ${getSimpleDateTime(e.target.value)}`)) {
@@ -89,8 +110,26 @@ const WorkOrderContainer = () => {
             setUsuarios(usuariosCache)
         }
     }
-    const seleccionarCliente = (_id: string) => {
-        setClienteSeleccionado(_id)
+    const seleccionarCliente = async (userString: string) => {
+        setClienteSeleccionado(userString)
+        const response = await clientsRouter.getClientById(userString)
+        /* setContratos(response?.data.data) */
+        /* console.log(response?.data.data) */
+        const client: Cliente = response?.data.data
+        client.contratos && setContratos(client.contratos)
+        if (client.contratos) {
+            if (client.contratos?.length > 0) {
+                setContratoDeshabilitado(false)
+                console.log(client.contratos)
+            } else {
+                setContratoDeshabilitado(true)
+                alert('Cliente no tiene contratos asignados')
+            }
+        }
+    }
+    
+    const seleccionarContrato = (contratoId: string) => {
+        setContratoSeleccionado(contratoId)
     }
     const selectSupervisor = (supervisor: string, supervisorNombre: string) => {
         setSupervisorSeleccionado(supervisor)
@@ -101,24 +140,47 @@ const WorkOrderContainer = () => {
         setAsignacion(usuarioNombre)
     }
     const guardarOrden = async () => {
-        if (window.confirm('¿Seguro desea guardar la nueva Oreden de Trabajo?')) {
-            setShowLoading(true)
-            const nuevaOrden : Ordenes = {
-                asignado: [{_id: operadorSeleccionado}],
-                supervisor: [{_id: supervisorSeleccionado}],
-                prioridad: prioridad,
-                createdBy: userData?._id,
-                descripcion: description,
-                fechaInicio: fechaEjecucion,
-                cliente: [{_id: clienteSeleccionado} as Cliente],
-                contrato: [{_id: contratoSeleccionado} as Contrato]
+        if (_id.id) {
+            if (window.confirm(`¿Seguro desea guardar edición de Oreden de Trabajo N°${woNumber}?`)) {
+                const editarOrden : Ordenes = {
+                    _id: _id.id,
+                    asignado: [{_id: operadorSeleccionado}],
+                    supervisor: [{_id: supervisorSeleccionado}],
+                    prioridad: prioridad,
+                    lastEditedBy: userData?._id,
+                    descripcion: description,
+                    fechaInicio: fechaEjecucion,
+                    cliente: [{_id: clienteSeleccionado} as Cliente],
+                    contrato: [{_id: contratoSeleccionado} as Contrato],
+                    nroWo: woNumber
+                }
+                const response : AxiosResponse = await woRouter.editOrder(editarOrden)
+                console.log(response)
+                if (response) {
+                    setShowLoading(false)
+                    history.goBack()
+                }
             }
-            console.log(nuevaOrden)
-            const response : AxiosResponse = await woRouter.saveOrder(nuevaOrden)
-            console.log(response)
-            if (response) {
-                setShowLoading(false)
-                history.goBack()
+        } else {
+            if (window.confirm('¿Seguro desea guardar la nueva Oreden de Trabajo?')) {
+                setShowLoading(true)
+                const nuevaOrden : Ordenes = {
+                    asignado: [{_id: operadorSeleccionado}],
+                    supervisor: [{_id: supervisorSeleccionado}],
+                    prioridad: prioridad,
+                    createdBy: userData?._id,
+                    descripcion: description,
+                    fechaInicio: fechaEjecucion,
+                    cliente: [{_id: clienteSeleccionado} as Cliente],
+                    contrato: [{_id: contratoSeleccionado} as Contrato]
+                }
+                console.log(nuevaOrden)
+                const response : AxiosResponse = await woRouter.saveOrder(nuevaOrden)
+                console.log(response)
+                if (response) {
+                    setShowLoading(false)
+                    history.goBack()
+                }
             }
         }
     }
@@ -163,10 +225,10 @@ const WorkOrderContainer = () => {
                                     <div className='item-container-style'>
                                         <IonItem className='item-style'>
                                             <IonLabel position={'floating'}>Prioridad</IonLabel>
-                                            <IonSelect onIonChange={(e:any) => { setPrioridad(e.target.value) }} interface={'popover'} className='item-select-style'>
-                                                <IonSelectOption>Crítico</IonSelectOption>
-                                                <IonSelectOption>Urgente</IonSelectOption>
-                                                <IonSelectOption>Simple</IonSelectOption>
+                                            <IonSelect value={prioridad} onIonChange={(e:any) => { setPrioridad(e.target.value) }} interface={'popover'} className='item-select-style'>
+                                                <IonSelectOption value={'Crítico'}>Crítico</IonSelectOption>
+                                                <IonSelectOption value={'Urgente'}>Urgente</IonSelectOption>
+                                                <IonSelectOption value={'Simple'}>Simple</IonSelectOption>
                                             </IonSelect>
                                         </IonItem>
                                     </div>
@@ -185,7 +247,7 @@ const WorkOrderContainer = () => {
                                     <div className='item-container-style'>
                                         <IonItem className='item-style'>
                                             <IonLabel position={'floating'}>Cliente</IonLabel>
-                                            <IonSelect onIonChange={(e: any) => {seleccionarCliente(e.target.value)}} interface={'popover'} className='item-select-style'>
+                                            <IonSelect value={clienteSeleccionado} onIonChange={(e: any) => {seleccionarCliente(e.target.value)}} interface={'popover'} className='item-select-style'>
                                                 {
                                                     clientes.map((cliente, index) => {
                                                         return (
@@ -199,14 +261,16 @@ const WorkOrderContainer = () => {
                                 </IonCol>
                                 <IonCol sizeXl='6' sizeLg='6' sizeMd='6' sizeSm='12' sizeXs='12'>
                                     <div className='item-container-style'>
-                                        <IonItem className='item-style'>
+                                        <IonItem className='item-style' disabled={contratoDeshabilitado}>
                                             <IonLabel position={'floating'}>Contrato</IonLabel>
-                                            <IonSelect interface={'popover'} className='item-select-style'>
-                                                <IonSelectOption>Contrato 1</IonSelectOption>
-                                                <IonSelectOption>Contrato 2</IonSelectOption>
-                                                <IonSelectOption>Contrato 3</IonSelectOption>
-                                                <IonSelectOption>Contrato 4</IonSelectOption>
-                                                <IonSelectOption>Contrato 5</IonSelectOption>
+                                            <IonSelect value={contratoSeleccionado} onIonChange={(e: any) => {seleccionarContrato(e.target.value)}} interface={'popover'} className='item-select-style'>
+                                                {
+                                                    contratos.map((contrato, index) => {
+                                                        return (
+                                                            <IonSelectOption key={index} value={contrato._id}>{contrato.descripcion}</IonSelectOption>
+                                                        )
+                                                    })
+                                                }
                                             </IonSelect>
                                         </IonItem>
                                     </div>
@@ -274,7 +338,7 @@ const WorkOrderContainer = () => {
                                 </IonCol>
                                 <IonCol>
                                     <IonButton color={'primary'} expand={'block'} onClick={() => {guardarOrden()}}>
-                                        Crear Orden
+                                        {(_id.id ? 'Editar ' : 'Crear ')} Orden
                                     </IonButton>
                                 </IonCol>
                             </IonRow>

@@ -73,7 +73,7 @@ const ClientContractModal = (
       <IonContent className='ion-padding'>
         <IonGrid>
           <IonRow>
-            <IonCol sizeXl='6' sizeLg='6' sizeMd='12' sizeSm='12' sizeXs='12'>
+            <IonCol sizeXl='12' sizeLg='12' sizeMd='12' sizeSm='12' sizeXs='12'>
               <IonItem>
                 <IonLabel position={'floating'}>Tipo de contrato</IonLabel>
                 <IonSelect interface={'popover'} value={tipoContrato} onIonChange={(e: any) => { setTipoContrato(e.target.value) }}>

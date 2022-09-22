@@ -1,6 +1,7 @@
 import { Cliente, Contrato } from "@/interfaces/clients.interface";
 import clientModel from "@/models/clients.model";
 import contratoModel from "@/models/contrato.model";
+import { ObjectId } from "mongoose";
 
 const contract = contratoModel
 const client = clientModel
@@ -17,6 +18,17 @@ const guardarContrato = async (contrato: Contrato) => {
     }
 }
 
+const leerContratosPorCliente = async (clienteId: ObjectId) => {
+    console.log('Cliente ID:', clienteId)
+    try {
+        const response = await contract.find({cliente: clienteId})
+        return response
+    } catch (error) {
+        
+    }
+}
+
 export default {
-    guardarContrato
+    guardarContrato,
+    leerContratosPorCliente
 }

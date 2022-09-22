@@ -3,9 +3,9 @@ import { AxiosResponse } from "axios"
 import { arrowBack } from "ionicons/icons"
 import { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router"
+import { format, validate } from "rut.js"
 import { nuevoClienteCreado } from "../../../connections/socket.connection"
 import { Cliente, Empresa } from "../../../interfaces/Cliente"
-import { Usuario } from "../../../interfaces/Usuario"
 import { clientsRouter } from "../../../router"
 
 const ClientContainer = () => {
@@ -44,53 +44,66 @@ const ClientContainer = () => {
         }
     }
     const crearCliente = async () => {
-        const crearCliente: Cliente = {
-            _id: null,
-            empresa: {
-                nombre: nombreEmpresa,
-                run: runEmpresa,
-                telefono: fonoEmpresa,
-                correo: correoEmpresa,
-                ciudad: ciudad,
-                direccion: direccion,
-                region: region,
-                location: {
-                    lat: latitud,
-                    lng: longitud
-                }
-            },
-            habilitado: true,
-            contratos: [],
-            createdBy: JSON.parse(localStorage.getItem('usuario') || '{}')
-        }
-        const editarCliente : Cliente = {
-            _id: _id.id,
-            empresa: {
-                nombre: nombreEmpresa,
-                run: runEmpresa,
-                telefono: fonoEmpresa,
-                correo: correoEmpresa,
-                ciudad: ciudad,
-                direccion: direccion,
-                region: region,
-                location: {
-                    lat: latitud,
-                    lng: longitud
-                }
-            },
-            habilitado: true,
-            contratos: [],
-            createdBy: JSON.parse(localStorage.getItem('usuario') || '{}')
-        }
-        try {
-            const response: AxiosResponse = await (_id.id ? clientsRouter.editClient(editarCliente) : clientsRouter.createClient(crearCliente))
-            console.log(response)
-            if (response) {
-                history.goBack()
-                nuevoClienteCreado()
+        if (validate(runEmpresa)) {
+            const crearCliente: Cliente = {
+                _id: null,
+                empresa: {
+                    nombre: nombreEmpresa,
+                    run: runEmpresa,
+                    telefono: fonoEmpresa,
+                    correo: correoEmpresa,
+                    ciudad: ciudad,
+                    direccion: direccion,
+                    region: region,
+                    location: {
+                        lat: latitud,
+                        lng: longitud
+                    }
+                },
+                habilitado: true,
+                contratos: [],
+                createdBy: JSON.parse(localStorage.getItem('usuario') || '{}')
             }
-        } catch (error: any) {
-            console.log(error)
+            const editarCliente : Cliente = {
+                _id: _id.id,
+                empresa: {
+                    nombre: nombreEmpresa,
+                    run: runEmpresa,
+                    telefono: fonoEmpresa,
+                    correo: correoEmpresa,
+                    ciudad: ciudad,
+                    direccion: direccion,
+                    region: region,
+                    location: {
+                        lat: latitud,
+                        lng: longitud
+                    }
+                },
+                habilitado: true,
+                contratos: [],
+                createdBy: JSON.parse(localStorage.getItem('usuario') || '{}')
+            }
+            try {
+                const response: AxiosResponse = await (_id.id ? clientsRouter.editClient(editarCliente) : clientsRouter.createClient(crearCliente))
+                console.log(response)
+                if (response) {
+                    history.goBack()
+                    nuevoClienteCreado()
+                }
+            } catch (error: any) {
+                console.log(error)
+            }
+        } else {
+            alert('Revise el rut ingresado. Formato no válido.')
+        }
+    }
+
+    const setRunWithFormat = (value: string) => {
+        console.log(format(value))
+        if (value.length > 0) {
+            setRunEmpresa(format(value))
+        } else if (value === '-') {
+            setRunEmpresa('')
         }
     }
 
@@ -142,10 +155,11 @@ const ClientContainer = () => {
                                             RUN Empresa
                                         </IonLabel>
                                         <IonInput
+                                            maxlength={12}
                                             name="run"
-                                            value={runEmpresa}
+                                            value={format(runEmpresa)}
                                             type={'text'}
-                                            onIonChange={(e: any) => {setRunEmpresa(e.target.value)}}
+                                            onIonChange={(e: any) => {setRunWithFormat(e.target.value)}}
                                         />
                                     </IonItem>
                                 </IonCol>

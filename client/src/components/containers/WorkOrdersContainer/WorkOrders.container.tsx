@@ -5,10 +5,13 @@ import { useHistory } from "react-router"
 import { getSimpleDateTime } from "../../../functions"
 import { Ordenes } from "../../../interfaces/Ordenes"
 import { woRouter } from "../../../router"
+import { WorkOrderModal } from "../../modals"
 
 const WorkOrdersContainer = () => {
     const [ orders, setOrders ] = useState<Ordenes[]>([])
     const [ isLoading, setIsLoading ] = useState<boolean>(true)
+    const [ openWoModal, setOpenWoModal ] = useState<boolean>(false)
+    const [ ordenData, setOrdenData ] = useState<Ordenes>()
     const history = useHistory()
     useEffect(() => {
         init()
@@ -30,8 +33,16 @@ const WorkOrdersContainer = () => {
             }
         }
     }
+    const openWoModalSelected = (orden: Ordenes) => {
+        setOrdenData(orden)
+        setOpenWoModal(true)
+    }
+    const closeWoModal = () => {
+        setOpenWoModal(false)
+    }
     return (
         <IonContent className="bg-content">
+            <WorkOrderModal isOpen={openWoModal} closeModal={closeWoModal} orden={ordenData} />
             <div className="titles">
                 <IonToolbar style={{ borderRadius: 10 }}>
                     <IonButton slot="start" fill={'clear'} onClick={() => {history.goBack()}}>
@@ -77,7 +88,6 @@ const WorkOrdersContainer = () => {
                         <IonSpinner hidden={!isLoading} name="bubbles"/>
                         {
                             orders?.map((orden, index) => {
-                                console.log(orden)
                                 return (
                                     <IonRow key={index}>
                                         <IonCol size="0.5" className="tabla">
@@ -102,11 +112,11 @@ const WorkOrdersContainer = () => {
                                             <p style={{ textAlign: 'center'}}>{getSimpleDateTime(orden.fechaInicio)}</p>
                                         </IonCol>
                                         <IonCol size="2" className="tabla" style={{ textAlign: 'center' }}>
-                                            <IonButton fill={'clear'}>
+                                            <IonButton fill={'clear'} onClick={() => { openWoModalSelected(orden) }}>
                                                 <IonIcon icon={eye} />
                                             </IonButton>
-                                            <IonButton fill={'clear'}>
-                                                <IonIcon icon={pencil} onClick={() => {history.push(`/work-order/${orden._id}`)}}/>
+                                            <IonButton fill={'clear'} onClick={() => {history.push(`/work-order/${orden._id}`)}}>
+                                                <IonIcon icon={pencil}/>
                                             </IonButton>
                                             <IonButton fill={'clear'} color={'danger'} onClick={() => {deleteOrder(orden._id)}}>
                                                 <IonIcon icon={trash} />

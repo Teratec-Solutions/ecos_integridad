@@ -1,6 +1,7 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonRow, IonSelect, IonSelectOption, IonTitle, IonToggle, IonToolbar } from "@ionic/react"
 import { AxiosResponse } from "axios"
 import { arrowBack, eye, eyeOff } from "ionicons/icons"
+import { format, validate } from 'rut.js'
 import { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router"
 import { nuevoUsuarioCreado } from "../../../connections/socket.connection"
@@ -50,45 +51,58 @@ const UserContainer = () => {
             console.log(error)
         }
     }
+
+    const setRunWithFormat = (value: string) => {
+        console.log(format(value))
+        if (value.length > 0) {
+            setRun(format(value))
+        } else if (value === '-') {
+            setRun('')
+        }
+    }
     
     const crearUsuario = async () => {
-        if (subRoles.length === 0) {
-            alert('Debe seleccionar el tipo de usuario')
-        } else {
-            const createUser = {
-                nombre: nombre,
-                apellido1: apellido1,
-                apellido2: apellido2,
-                run: run,
-                fono: fono,
-                role: role,
-                email: email,
-                password: password,
-                estado: true,
-                subRoles: subRoles
-            } as Usuario
-            const editUser = {
-                _id: _id.id,
-                nombre: nombre,
-                apellido1: apellido1,
-                apellido2: apellido2,
-                run: run,
-                fono: fono,
-                role: role,
-                email: email,
-                estado: estado,
-                subRoles: subRoles
-            } as Usuario
-            try {
-                const usuario = _id.id ? editUser : createUser 
-                const response: AxiosResponse = await (_id.id ? usersRouter.editUser(usuario) : usersRouter.createUser(usuario))/* await axios.post(`/api/users/${_id.id ? 'editUser' : 'createUser'}`, usuario) */
-                if (response) {
-                    history.goBack()
-                    nuevoUsuarioCreado()
+        if (validate(run ? run : '')) {
+            if (subRoles.length === 0) {
+                alert('Debe seleccionar el tipo de usuario')
+            } else {
+                const createUser = {
+                    nombre: nombre,
+                    apellido1: apellido1,
+                    apellido2: apellido2,
+                    run: run,
+                    fono: fono,
+                    role: role,
+                    email: email,
+                    password: password,
+                    estado: true,
+                    subRoles: subRoles
+                } as Usuario
+                const editUser = {
+                    _id: _id.id,
+                    nombre: nombre,
+                    apellido1: apellido1,
+                    apellido2: apellido2,
+                    run: run,
+                    fono: fono,
+                    role: role,
+                    email: email,
+                    estado: estado,
+                    subRoles: subRoles
+                } as Usuario
+                try {
+                    const usuario = _id.id ? editUser : createUser 
+                    const response: AxiosResponse = await (_id.id ? usersRouter.editUser(usuario) : usersRouter.createUser(usuario))/* await axios.post(`/api/users/${_id.id ? 'editUser' : 'createUser'}`, usuario) */
+                    if (response) {
+                        history.goBack()
+                        nuevoUsuarioCreado()
+                    }
+                } catch (error) {
+                    console.log(error)
                 }
-            } catch (error) {
-                console.log(error)
             }
+        } else {
+            alert('Revise el rut ingresado. Formato no válido.')
         }
     }
     return (
@@ -164,9 +178,9 @@ const UserContainer = () => {
                                         </IonLabel>
                                         <IonInput
                                             name="run"
-                                            value={run}
+                                            value={format(run ? run : '')}
                                             type={'text'}
-                                            onIonChange={(e: any) => {setRun(e.target.value)}}
+                                            onIonChange={(e: any) => {setRunWithFormat(e.target.value)}}
                                         />
                                     </IonItem>
                                 </IonCol>

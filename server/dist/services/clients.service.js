@@ -9,7 +9,8 @@ const bcrypt_1 = (0, tslib_1.__importDefault)(require("bcrypt"));
 const i18n_1 = require("i18n");
 const client = clients_model_1.default;
 const findAllClient = async () => {
-    const clients = await client.find();
+    const clients = await client.find().populate('contratos');
+    console.log(clients);
     return clients;
 };
 const findClientById = async (clientId, locale = configs_1.env.locale) => {

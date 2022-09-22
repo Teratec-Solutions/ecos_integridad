@@ -1,4 +1,4 @@
-import { IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react"
+import { IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from "@ionic/react"
 import axios, { AxiosResponse } from "axios"
 import { briefcase, list, logOut, map, options, peopleCircle } from "ionicons/icons"
 import { useEffect, useState } from "react"
@@ -140,111 +140,172 @@ const HomeContainer = ({userType}:{userType: string | undefined}) => {
                                         <IonGrid>
                                             <IonRow>
                                                 <IonCol>
-                                                    <IonRow>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                Nombre empresa:
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                {cliente.empresa.nombre}
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                    </IonRow>
-                                                    <IonRow>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                Run: 
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                {cliente.empresa.run}
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                    </IonRow>
-                                                    <IonRow>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                Dirección:
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                {cliente.empresa.direccion}
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                    </IonRow>
-                                                    <IonRow>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                Ciudad: 
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                {cliente.empresa.ciudad}
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                    </IonRow>
-                                                    <IonRow>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                Región: 
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                {cliente.empresa.region}
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                    </IonRow>
-                                                    <IonRow>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                Localización: 
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                {cliente.empresa.location?.lat} {cliente.empresa.location?.lng}
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                    </IonRow>
+                                                    <div style={
+                                                        {
+                                                            borderRadius: 20,
+                                                            borderColor: '#ccc',
+                                                            borderStyle: 'solid',
+                                                            borderWidth: 2,
+                                                            padding: 5,
+                                                            margin: 5
+                                                        }
+                                                    }>
+                                                        <IonRow>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    Nombre empresa:
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    {cliente.empresa.nombre}
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                        </IonRow>
+                                                        <IonRow>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    Run: 
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    {cliente.empresa.run}
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                        </IonRow>
+                                                        <IonRow>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    Dirección:
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    {cliente.empresa.direccion}
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                        </IonRow>
+                                                        <IonRow>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    Ciudad: 
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    {cliente.empresa.ciudad}
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                        </IonRow>
+                                                        <IonRow>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    Región: 
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    {cliente.empresa.region}
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                        </IonRow>
+                                                        <IonRow>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    Localización: 
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    {cliente.empresa.location?.lat} {cliente.empresa.location?.lng}
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                        </IonRow>
+                                                    </div>
                                                 </IonCol>
                                                 <IonCol>
-                                                    <IonRow>
-                                                        <IonCol size="6">
-                                                            <IonLabel>
-                                                                Contactos: 
-                                                            </IonLabel>
-                                                        </IonCol>
-                                                        <IonCol size="6">
-                                                            {
-                                                                cliente.empresa.contactos?.map((usuario, index) => {
-                                                                    console.log(usuario)
-                                                                    return (
-                                                                        <div key={index}>
-                                                                            <IonLabel>
-                                                                                {usuario.nombre} {usuario.apellido}
-                                                                            </IonLabel>
-                                                                            <br />
-                                                                            <a href={`tel:${usuario.telefono}`}>
-                                                                                {usuario.telefono}
-                                                                            </a>
-                                                                            <br />
-                                                                            <a href={`mailto:${usuario.correo}`}>
-                                                                                {usuario.correo}
-                                                                            </a>
-                                                                        </div>
-                                                                    )
-                                                                })
-                                                            }
-                                                        </IonCol>
-                                                    </IonRow>
+                                                    <div style={
+                                                        {
+                                                            borderRadius: 20,
+                                                            borderColor: '#ccc',
+                                                            borderStyle: 'solid',
+                                                            borderWidth: 2,
+                                                            padding: 5,
+                                                            margin: 5
+                                                        }
+                                                    }>
+                                                        <IonRow>
+                                                            <IonCol size="6">
+                                                                <IonLabel>
+                                                                    Contactos: 
+                                                                </IonLabel>
+                                                            </IonCol>
+                                                            <IonCol size="6">
+                                                                {
+                                                                    cliente.empresa.contactos?.map((usuario, index) => {
+                                                                        console.log(usuario)
+                                                                        return (
+                                                                            <div key={index}>
+                                                                                <IonLabel>
+                                                                                    {usuario.nombre} {usuario.apellido}
+                                                                                </IonLabel>
+                                                                                <br />
+                                                                                <a href={`tel:${usuario.telefono}`}>
+                                                                                    {usuario.telefono}
+                                                                                </a>
+                                                                                <br />
+                                                                                <a href={`mailto:${usuario.correo}`}>
+                                                                                    {usuario.correo}
+                                                                                </a>
+                                                                            </div>
+                                                                        )
+                                                                    })
+                                                                }
+                                                            </IonCol>
+                                                        </IonRow>
+                                                    </div>
                                                 </IonCol>
                                             </IonRow>
+                                            {
+                                                <div style={{ width: '100%' }}>
+                                                    <div style={{ width: '100%', textAlign: 'center' }}>
+                                                        <h1>
+                                                            Contratos
+                                                        </h1>
+                                                    </div>
+                                                    <IonRow>
+                                                        {
+                                                            cliente.contratos?.map((contrato, index) => {
+                                                                return (
+                                                                    <IonCol key={index} size={'6'}>
+                                                                        <div style={
+                                                                            {
+                                                                                borderRadius: 20,
+                                                                                borderColor: '#ccc',
+                                                                                borderStyle: 'solid',
+                                                                                borderWidth: 2,
+                                                                                padding: 5,
+                                                                                margin: 5
+                                                                            }
+                                                                        }>
+                                                                            <p>
+                                                                                Descripción:
+                                                                            </p>
+                                                                            <p>
+                                                                                {contrato.descripcion}
+                                                                            </p>
+                                                                            <p>
+                                                                                Tipo de Contrato: {contrato.tipoContrato}
+                                                                            </p>
+                                                                        </div>
+                                                                    </IonCol>
+                                                                )
+                                                            })
+                                                        }
+                                                    </IonRow>
+                                                </div>
+                                            }
                                         </IonGrid>
                                     </div>
                                 }

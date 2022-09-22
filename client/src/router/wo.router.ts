@@ -46,10 +46,20 @@ const getNumberWorkOrders = async (): Promise<AxiosResponse|any> => {
     }
 }
 
+const getWoById = async (orderId: string): Promise<AxiosResponse|any> => {
+    try {
+        const response : AxiosResponse = await axios.post('api/orders/getWoById', {orderId: orderId})
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
 export default {
     saveOrder,
     editOrder,
     getWoList,
     getNumberWorkOrders,
-    deleteOrder
+    deleteOrder,
+    getWoById
 }

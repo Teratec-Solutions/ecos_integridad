@@ -7,10 +7,13 @@ import { getDateWithTime, nombreRole } from "../../../functions"
 import { Usuario } from "../../../interfaces/Usuario"
 import { io } from "socket.io-client";
 import { clientsRouter, usersRouter } from "../../../router"
+import { UserModal } from "../../modals"
 
 const UsersContainer = () => {
     const [ usuarios, setUsuarios ] = useState<Usuario[]>([])
     const [ isLoading, setIsLoading ] = useState<boolean>(true)
+    const [ openUserModal, setOpenUserModal ] = useState<boolean>(false)
+    const [ userToUserModal, setUserToUserModal ] = useState<Usuario>()
     const history = useHistory()
     useEffect(() => {
         const usuario : Usuario = JSON.parse(window.localStorage.getItem('usuario') || '{}')
@@ -30,8 +33,16 @@ const UsersContainer = () => {
             setIsLoading(false)
         }
     }
+    const closeUsuarioModal = () => {
+        setOpenUserModal(false)
+    }
+    const openUsuarioData = async (usuario: Usuario) => {
+        setOpenUserModal(true)
+        setUserToUserModal(usuario)
+    }
     return (
         <IonContent className="bg-content">
+            <UserModal isOpen={openUserModal} usuario={userToUserModal} closeModal={closeUsuarioModal} />
             <div className="titles">
                 <IonToolbar style={{ borderRadius: 10 }}>
                     <IonButton slot="start" fill={'clear'} onClick={() => {history.goBack()}}>
@@ -113,7 +124,7 @@ const UsersContainer = () => {
                                         <p style={{ textAlign: 'center'}}>{getDateWithTime(usuario.createdAt)}</p>
                                     </IonCol>
                                     <IonCol size="2" className="tabla" style={{ textAlign: 'center' }}>
-                                        <IonButton fill={'clear'}>
+                                        <IonButton fill={'clear'} onClick={() => { openUsuarioData(usuario) }}>
                                             <IonIcon icon={eye} />
                                         </IonButton>
                                         <IonButton fill={'clear'} onClick={() => {history.push(`/user/${usuario._id}`)}} disabled={(usuario.role === "superAdmin") ? true : false}>

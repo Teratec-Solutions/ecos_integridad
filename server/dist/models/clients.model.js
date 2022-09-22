@@ -12,8 +12,9 @@ const clientSchema = new mongoose_1.Schema({
     },
     contratos: [
         {
-            type: Object,
-            required: false
+            type: mongoose_1.Schema.Types.ObjectId,
+            required: false,
+            ref: 'Contrato'
         }
     ]
 }, {

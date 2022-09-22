@@ -49,11 +49,22 @@ const deleteWorkOrder = async (req: Request, res: Response, next: NextFunction) 
         
     }
 }
+const getWoById = async (req: Request, res: Response, next: NextFunction) => {
+    const ordenId: string = req.body.orderId
+    console.log(ordenId)
+    try {
+        const response = await WoService.getWoById(ordenId)
+        res.status(201).json({ data: response, message: 'orden enviada' })
+    } catch (error) {
+        next(error)
+    }
+}
 
 export default {
     getWorkOrders,
     getNumberWorkOrders,
     createWorkOrder,
     editWorkOrder,
-    deleteWorkOrder
+    deleteWorkOrder,
+    getWoById
 }

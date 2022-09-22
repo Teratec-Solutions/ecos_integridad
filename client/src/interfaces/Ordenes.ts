@@ -7,6 +7,7 @@ export interface Ordenes {
     supervisor: Usuario[]
     prioridad: string
     createdBy?: string
+    lastEditedBy?: string
     descripcion: string
     fechaInicio?: Date
     fechaTermino?: Date
