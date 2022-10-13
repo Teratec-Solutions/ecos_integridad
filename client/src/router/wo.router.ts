@@ -55,11 +55,21 @@ const getWoById = async (orderId: string): Promise<AxiosResponse|any> => {
     }
 }
 
+const getWoByUserId = async (userId: string | undefined): Promise<AxiosResponse|any> => {
+    try {
+        const response : AxiosResponse = await axios.post('api/orders/getWoByUserId', {userId: userId})
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
 export default {
     saveOrder,
     editOrder,
     getWoList,
     getNumberWorkOrders,
     deleteOrder,
-    getWoById
+    getWoById,
+    getWoByUserId
 }

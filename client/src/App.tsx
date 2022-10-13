@@ -21,8 +21,10 @@ import '@ionic/react/css/display.css'
 /* Theme variables */
 import './theme/variables.css'
 import './App.css'
-import { ClientPage, ClientsPage, HomePage, LoginPage, NoPermissionPage, OptionsPage, UserPage, UsersPage, WorkOrderPage, WorkOrdersPage } from './pages'
+import { ClientPage, ClientsPage, HomePage, LoginPage, NoPermissionPage, OptionsPage, TemplatePage, TemplatesPage, UserPage, UsersPage, WorkOrderPage, WorkOrdersPage, WorkOrdersUserPage, WorkOrderUserPage } from './pages'
 import { useEffect, useState } from 'react'
+import { Usuario } from './interfaces/Usuario'
+import { MenuContainer } from './components/containers'
 
 setupIonicReact();
 
@@ -33,6 +35,8 @@ const State = () => {
   useEffect(() => {
     console.log(isAuth)
     if (localStorage.getItem('usuario')) {
+      const usuario : Usuario = JSON.parse(window.localStorage.getItem('usuario')||'{}')
+      setUserType(usuario.role)
       setIsAuth(true)
     }
   }, [isAuth])
@@ -40,7 +44,8 @@ const State = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        <IonRouterOutlet>
+        { (userType === 'usuario') && <MenuContainer /> }
+        <IonRouterOutlet id='main'>
           <Route exact path="/login">
             <LoginPage setIsAuth={setIsAuth} setUserType={setUserType} />
           </Route>
@@ -65,6 +70,15 @@ const State = () => {
           <Route exact path="/client/:id">
             {isAuth ? <ClientPage /> : <NoPermissionPage />}
           </Route>
+          <Route exact path="/work-orders-user">
+            {isAuth ? <WorkOrdersUserPage /> : <NoPermissionPage />}
+          </Route>
+          {/* <Route exact path="/work-order-user">
+            {isAuth ? <WorkOrderPage /> : <NoPermissionPage />}
+          </Route> */}
+          <Route exact path="/work-order-user/:id">
+            {isAuth ? <WorkOrderUserPage /> : <NoPermissionPage />}
+          </Route>
           <Route exact path="/work-orders">
             {isAuth ? <WorkOrdersPage /> : <NoPermissionPage />}
           </Route>
@@ -73,6 +87,12 @@ const State = () => {
           </Route>
           <Route exact path="/work-order/:id">
             {isAuth ? <WorkOrderPage /> : <NoPermissionPage />}
+          </Route>
+          <Route exact path="/templates">
+            {isAuth ? <TemplatesPage /> : <NoPermissionPage />}
+          </Route>
+          <Route exact path="/template/:id">
+            {isAuth ? <TemplatePage /> : <NoPermissionPage />}
           </Route>
           <Route exact path="/options">
             {isAuth ? <OptionsPage /> : <NoPermissionPage />}

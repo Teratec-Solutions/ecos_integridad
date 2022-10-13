@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonRow, IonSpinner, IonTitle, IonToolbar } from "@ionic/react"
+import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonRow, IonSpinner, IonTitle, IonToolbar } from "@ionic/react"
 import { arrowBack, eye, pencil, trash } from "ionicons/icons"
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router"
@@ -49,91 +49,115 @@ const WorkOrdersContainer = () => {
                         <IonIcon icon={arrowBack} />
                     </IonButton>
                     <IonTitle>
-                        Listado de OT
+                        Ordenes de Trabajo
                     </IonTitle>
-                    <IonButton slot="end" onClick={() => {history.push('/work-order')}}>
-                        Nueva OT
-                    </IonButton>
                 </IonToolbar>
             </div>
-            <div className="bg-content-users">
-                <IonGrid style={{ textAlign: 'center' }}>
-                    <IonRow style={{ paddingRight: 10 }}>
-                        <IonCol size="0.5" className="tabla">
-                            <p style={{ textAlign: 'center'}}><strong>Nro OT</strong></p>
-                        </IonCol>
-                        <IonCol size="2" className="tabla">
-                            <p style={{ textAlign: 'center'}}><strong>Cliente</strong></p>
-                        </IonCol>
-                        <IonCol size="2.5" className="tabla">
-                            <p style={{ textAlign: 'center'}}><strong>Descripción</strong></p>
-                        </IonCol>
-                        <IonCol size="1" className="tabla">
-                            <p style={{ textAlign: 'center'}}><strong>Prioridad</strong></p>
-                        </IonCol>
-                        <IonCol size="1" className="tabla">
-                            <p style={{ textAlign: 'center'}}><strong>Fono contacto</strong></p>
-                        </IonCol>
-                        <IonCol size="2" className="tabla">
-                            <p style={{ textAlign: 'center'}}><strong>Email contacto</strong></p>
-                        </IonCol>
-                        <IonCol size="1" className="tabla">
-                            <p style={{ textAlign: 'center'}}><strong>Fecha de inicio</strong></p>
-                        </IonCol>
-                        <IonCol size="2" className="tabla tabla-final">
-                            <p style={{ textAlign: 'center'}}></p>
-                        </IonCol>
-                    </IonRow>
-                    <div className="bg-content-list">
-                        <IonSpinner hidden={!isLoading} name="bubbles"/>
-                        {
-                            orders?.map((orden, index) => {
-                                return (
-                                    <IonRow key={index}>
-                                        <IonCol size="0.5" className="tabla">
-                                            <p style={{ textAlign: 'center'}}>{orden.nroWo}</p>
-                                        </IonCol>
-                                        <IonCol size="2" className="tabla">
-                                            <p style={{ textAlign: 'center'}}>{orden.cliente && (orden.cliente[0] && orden.cliente[0].empresa.nombre)}</p>
-                                        </IonCol>
-                                        <IonCol size="2.5" className="tabla">
-                                            <p style={{ textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{orden.descripcion}</p>
-                                        </IonCol>
-                                        <IonCol size="1" className="tabla">
-                                            <p style={{ textAlign: 'center'}}> {orden.prioridad} </p>
-                                        </IonCol>
-                                        <IonCol size="1" className="tabla">
-                                            <p style={{ textAlign: 'center'}}>{orden.cliente && (orden.cliente[0] && orden.cliente[0].empresa.telefono)}</p>
-                                        </IonCol>
-                                        <IonCol size="2" className="tabla">
-                                            <p style={{ textAlign: 'center'}}>{orden.cliente && (orden.cliente[0] && orden.cliente[0].empresa.correo)}</p>
-                                        </IonCol>
-                                        <IonCol size="1" className="tabla">
-                                            <p style={{ textAlign: 'center'}}>{getSimpleDateTime(orden.fechaInicio)}</p>
-                                        </IonCol>
-                                        <IonCol size="2" className="tabla" style={{ textAlign: 'center' }}>
-                                            <IonButton fill={'clear'} onClick={() => { openWoModalSelected(orden) }}>
-                                                <IonIcon icon={eye} />
-                                            </IonButton>
-                                            <IonButton fill={'clear'} onClick={() => {history.push(`/work-order/${orden._id}`)}}>
-                                                <IonIcon icon={pencil}/>
-                                            </IonButton>
-                                            <IonButton fill={'clear'} color={'danger'} onClick={() => {deleteOrder(orden._id)}}>
-                                                <IonIcon icon={trash} />
-                                            </IonButton>
-                                        </IonCol>
-                                    </IonRow>
-                                )
-                            })
-                        }
-                        {
-                            (orders.length === 0) && <div style={{ textAlign: 'center', width: '100%' }}>
-                                <p style={{ fontSize: 20 }} hidden={isLoading}><strong>No hay ordenes</strong></p>
-                            </div>
-                        }
-                    </div>
-                </IonGrid>
-            </div>
+            <IonGrid style={{ padding: 0 }}>
+                <IonRow style={{ padding: 0 }}>
+                    <IonCol sizeXl="2" style={{ padding: 0 }}>
+                        <div className="bg-content-wo menu-wo">
+                            <IonList>
+                                <IonListHeader>
+                                    <IonTitle style={{ textAlign: 'center' }}>
+                                        Menu
+                                    </IonTitle>
+                                </IonListHeader>
+                                <IonItem button onClick={() => {history.push('/work-order')}}>
+                                    <IonLabel>
+                                        Nueva Orden de Trabajo
+                                    </IonLabel>
+                                </IonItem>
+                                <IonItem button onClick={() => {history.push('/templates')}}>
+                                    <IonLabel>
+                                        Planillas de Protocolos
+                                    </IonLabel>
+                                </IonItem>
+                            </IonList>
+                        </div>
+                    </IonCol>
+                    <IonCol sizeXl="10" style={{ padding: 0 }}>
+                        <div className="bg-content-wo">
+                            <IonGrid style={{ textAlign: 'center' }}>
+                                <IonRow style={{ paddingRight: 10 }}>
+                                    <IonCol size="0.5" className="tabla">
+                                        <p style={{ textAlign: 'center'}}><strong>Nro OT</strong></p>
+                                    </IonCol>
+                                    <IonCol size="2" className="tabla">
+                                        <p style={{ textAlign: 'center'}}><strong>Cliente</strong></p>
+                                    </IonCol>
+                                    <IonCol size="2.5" className="tabla">
+                                        <p style={{ textAlign: 'center'}}><strong>Descripción</strong></p>
+                                    </IonCol>
+                                    <IonCol size="1" className="tabla">
+                                        <p style={{ textAlign: 'center'}}><strong>Prioridad</strong></p>
+                                    </IonCol>
+                                    <IonCol size="1" className="tabla">
+                                        <p style={{ textAlign: 'center'}}><strong>Fono contacto</strong></p>
+                                    </IonCol>
+                                    <IonCol size="2" className="tabla">
+                                        <p style={{ textAlign: 'center'}}><strong>Email contacto</strong></p>
+                                    </IonCol>
+                                    <IonCol size="1" className="tabla">
+                                        <p style={{ textAlign: 'center'}}><strong>Fecha de inicio</strong></p>
+                                    </IonCol>
+                                    <IonCol size="2" className="tabla tabla-final">
+                                        <p style={{ textAlign: 'center'}}></p>
+                                    </IonCol>
+                                </IonRow>
+                                <div className="bg-content-list">
+                                    <IonSpinner hidden={!isLoading} name="bubbles"/>
+                                    {
+                                        orders?.map((orden, index) => {
+                                            return (
+                                                <IonRow key={index}>
+                                                    <IonCol size="0.5" className="tabla">
+                                                        <p style={{ textAlign: 'center'}}>{orden.nroWo}</p>
+                                                    </IonCol>
+                                                    <IonCol size="2" className="tabla">
+                                                        <p style={{ textAlign: 'center'}}>{orden.cliente && (orden.cliente[0] && orden.cliente[0].empresa.nombre)}</p>
+                                                    </IonCol>
+                                                    <IonCol size="2.5" className="tabla">
+                                                        <p style={{ textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{orden.descripcion}</p>
+                                                    </IonCol>
+                                                    <IonCol size="1" className="tabla">
+                                                        <p style={{ textAlign: 'center'}}> {orden.prioridad} </p>
+                                                    </IonCol>
+                                                    <IonCol size="1" className="tabla">
+                                                        <p style={{ textAlign: 'center'}}>{orden.cliente && (orden.cliente[0] && orden.cliente[0].empresa.telefono)}</p>
+                                                    </IonCol>
+                                                    <IonCol size="2" className="tabla">
+                                                        <p style={{ textAlign: 'center'}}>{orden.cliente && (orden.cliente[0] && orden.cliente[0].empresa.correo)}</p>
+                                                    </IonCol>
+                                                    <IonCol size="1" className="tabla">
+                                                        <p style={{ textAlign: 'center'}}>{getSimpleDateTime(orden.fechaInicio)}</p>
+                                                    </IonCol>
+                                                    <IonCol size="2" className="tabla" style={{ textAlign: 'center' }}>
+                                                        <IonButton fill={'clear'} onClick={() => { openWoModalSelected(orden) }}>
+                                                            <IonIcon icon={eye} />
+                                                        </IonButton>
+                                                        <IonButton fill={'clear'} onClick={() => {history.push(`/work-order/${orden._id}`)}}>
+                                                            <IonIcon icon={pencil}/>
+                                                        </IonButton>
+                                                        <IonButton fill={'clear'} color={'danger'} onClick={() => {deleteOrder(orden._id)}}>
+                                                            <IonIcon icon={trash} />
+                                                        </IonButton>
+                                                    </IonCol>
+                                                </IonRow>
+                                            )
+                                        })
+                                    }
+                                    {
+                                        (orders.length === 0) && <div style={{ textAlign: 'center', width: '100%' }}>
+                                            <p style={{ fontSize: 20 }} hidden={isLoading}><strong>No hay ordenes</strong></p>
+                                        </div>
+                                    }
+                                </div>
+                            </IonGrid>
+                        </div>
+                    </IonCol>
+                </IonRow>
+            </IonGrid>
         </IonContent>
     )
 }

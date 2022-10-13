@@ -6,5 +6,6 @@ declare const _default: {
     editWorkOrder: (orden: Orden) => Promise<Orden>;
     deleteWorkOrder: (_id: string) => Promise<Orden>;
     getWoById: (orderId: string) => Promise<Orden>;
+    getWoByUserId: (userId: string) => Promise<Orden[]>;
 };
 export default _default;

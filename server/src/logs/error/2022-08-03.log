@@ -1,2 +1,0 @@
-2022-08-03 21:12:26 error: [POST] /api/users/getUserById >> StatusCode:: 400, Message:: Se requiere un ID
-2022-08-03 21:14:13 error: [POST] /api/users/getUserById >> StatusCode:: 400, Message:: Se requiere un ID

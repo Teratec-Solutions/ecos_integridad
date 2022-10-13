@@ -60,11 +60,23 @@ const getWoById = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
+const getWoByUserId = async (req: Request, res: Response, next: NextFunction) => {
+    const userId: string = req.body.userId
+    console.log(userId)
+    try {
+        const response = await WoService.getWoByUserId(userId)
+        res.status(201).json({ data: response, message: 'ordenes por usuario enviados' })
+    } catch (error) {
+        next(error)
+    }
+}
+
 export default {
     getWorkOrders,
     getNumberWorkOrders,
     createWorkOrder,
     editWorkOrder,
     deleteWorkOrder,
-    getWoById
+    getWoById,
+    getWoByUserId
 }

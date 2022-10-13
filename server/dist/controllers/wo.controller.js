@@ -60,12 +60,24 @@ const getWoById = async (req, res, next) => {
         next(error);
     }
 };
+const getWoByUserId = async (req, res, next) => {
+    const userId = req.body.userId;
+    console.log(userId);
+    try {
+        const response = await wo_service_1.default.getWoByUserId(userId);
+        res.status(201).json({ data: response, message: 'ordenes por usuario enviados' });
+    }
+    catch (error) {
+        next(error);
+    }
+};
 exports.default = {
     getWorkOrders,
     getNumberWorkOrders,
     createWorkOrder,
     editWorkOrder,
     deleteWorkOrder,
-    getWoById
+    getWoById,
+    getWoByUserId
 };
 //# sourceMappingURL=wo.controller.js.map

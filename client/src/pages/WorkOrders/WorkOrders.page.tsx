@@ -1,5 +1,5 @@
-import { IonPage } from "@ionic/react"
-import { WorkOrdersContainer } from "../../components/containers"
+import { IonPage } from '@ionic/react'
+import { WorkOrdersContainer } from '../../components/containers'
 
 const WorkOrdersPage = () => {
     return (

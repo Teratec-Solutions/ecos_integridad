@@ -14,7 +14,6 @@ const clientSchema: Schema = new Schema(
         contratos: [
             {
                 type: Schema.Types.ObjectId,
-                required: false,
                 ref: 'Contrato'
             }
         ]

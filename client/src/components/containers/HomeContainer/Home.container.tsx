@@ -57,19 +57,19 @@ const HomeContainer = ({userType}:{userType: string | undefined}) => {
                                 <IonItem button style={{ borderRadius: 30 }} onClick={() => {history.push('/users')}}>
                                     <IonIcon slot="start" icon={peopleCircle} color={'primary'} />
                                     <IonLabel color={'primary'}>
-                                        <strong>Lista de Usuarios</strong>
+                                        <strong>Usuarios</strong>
                                     </IonLabel>
                                 </IonItem>
                                 <IonItem button style={{ borderRadius: 30 }} onClick={() => {history.push('/clients')}}>
                                     <IonIcon slot="start" icon={briefcase} color={'primary'} />
                                     <IonLabel color={'primary'}>
-                                        <strong>Lista de Clientes</strong>
+                                        <strong>Clientes</strong>
                                     </IonLabel>
                                 </IonItem>
                                 <IonItem button style={{ borderRadius: 30 }} onClick={() => {history.push('/work-orders')}}>
                                     <IonIcon slot="start" icon={list} color={'primary'} />
                                     <IonLabel color={'primary'}>
-                                        <strong>Lista de OT</strong>
+                                        <strong>Ordenes de Trabajo</strong>
                                     </IonLabel>
                                 </IonItem>
                                 <IonItem button style={{ borderRadius: 30 }}>

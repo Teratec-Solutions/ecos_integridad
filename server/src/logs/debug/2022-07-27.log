@@ -1,7 +1,0 @@
-2022-07-27 16:18:13 info: =================================
-2022-07-27 16:18:13 info: ======= ENV: development =======
-2022-07-27 16:18:13 info: 🚀 App listening on the port 5103
-2022-07-27 16:18:13 info: =================================
-2022-07-27 17:16:34 info: [0mPOST /api/login [32m200[0m 202.318 ms - 585[0m
-2022-07-27 17:16:42 error: [POST] /api/logout >> StatusCode:: 400, Message:: Se requieren credenciales
-2022-07-27 17:16:42 info: [0mPOST /api/logout [33m400[0m 4.513 ms - 39[0m

@@ -1,5 +1,6 @@
 import { ObjectId } from "mongoose"
 import { Cliente, Contrato } from "./clients.interface"
+import { Template } from "./template.interface"
 import { User } from "./users.interface"
 
 export interface Orden {
@@ -14,6 +15,7 @@ export interface Orden {
     tareas: Tarea[]
     cliente: Cliente[]
     contrato?: Contrato[]
+    protocolo: Template[]
     deleted: boolean
     updatedAt: string
     createdAt: string

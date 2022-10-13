@@ -33,8 +33,8 @@ export interface Empresa {
     contactos?: ContactoEmpresa[]
     imageLogo?: string
     location?: {
-        lat: string
-        lng: string
+        lat: number
+        lng: number
     }
     alt?: string
 }

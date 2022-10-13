@@ -1,10 +1,10 @@
 import { IonPage } from "@ionic/react"
-import { HomeContainer } from "../../components/containers"
+import { HomeContainer, HomeUserContainer } from "../../components/containers"
 
 const HomePage = ({userType}:{userType: string | undefined}) => {
     return (
         <IonPage>
-            <HomeContainer userType={userType} />
+            {(userType === 'usuario') ? <HomeUserContainer userType={userType} /> : <HomeContainer userType={userType} />}
         </IonPage>
     )
 }

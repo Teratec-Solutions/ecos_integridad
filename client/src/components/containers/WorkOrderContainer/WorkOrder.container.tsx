@@ -4,12 +4,13 @@ import { arrowBack } from 'ionicons/icons'
 import { useEffect, useRef, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { Cliente, Contrato } from '../../../interfaces/Cliente'
-import { clientsRouter, contratosRouter, usersRouter, woRouter } from '../../../router'
+import { clientsRouter, contratosRouter, templateRouter, usersRouter, woRouter } from '../../../router'
 import { close } from 'ionicons/icons'
 import './WorkOrderContainer.css'
 import { getSimpleDateTime } from '../../../functions'
 import { Ordenes } from '../../../interfaces/Ordenes'
 import { Usuario } from '../../../interfaces/Usuario'
+import { Template } from '../../../interfaces/Template'
 
 const WorkOrderContainer = () => {
     const _id: {id: string} = useParams()
@@ -23,6 +24,8 @@ const WorkOrderContainer = () => {
     const [ clientes, setClientes ] = useState<Cliente[]>([])
     const [ clienteSeleccionado, setClienteSeleccionado ] = useState<string>()
     const [ contratoSeleccionado, setContratoSeleccionado ] = useState<string>()
+    const [ protocoloSeleccionado, setProtocoloSeleccionado ] = useState<string>()
+    const [ protocolos, setProtocolos ] = useState<Template[]>([])
     const [ contratos, setContratos ] = useState<Contrato[]>([])
     const [ supervisores, setSupervisores ] = useState<Usuario[]>([])
     const [ supervisoresCache, setSupervisoresCache ] = useState<Usuario[]>([])
@@ -65,6 +68,7 @@ const WorkOrderContainer = () => {
             orden.asignado && setAsignacion(`${orden.asignado[0].nombre} ${orden.asignado[0].apellido1} ${orden.asignado[0].apellido2}`)
             orden.asignado && setOperadorSeleccionado(orden.asignado[0]._id)
             orden.contrato && setContratoSeleccionado(orden.contrato[0]._id)
+            orden.protocolo[0] && setProtocoloSeleccionado(orden.protocolo[0]._id)
             setDescription(orden.descripcion)
             setShowLoading(false)
         } else {
@@ -128,8 +132,14 @@ const WorkOrderContainer = () => {
         }
     }
     
-    const seleccionarContrato = (contratoId: string) => {
+    const seleccionarContrato = async (contratoId: string) => {
         setContratoSeleccionado(contratoId)
+        const res = await templateRouter.getTemplateByContract(contratoId)
+        console.log(res)
+        setProtocolos(res.data.data)
+    }
+    const seleccionarProtocolo = async (protocoloId: string) => {
+        setProtocoloSeleccionado(protocoloId)
     }
     const selectSupervisor = (supervisor: string, supervisorNombre: string) => {
         setSupervisorSeleccionado(supervisor)
@@ -152,6 +162,7 @@ const WorkOrderContainer = () => {
                     fechaInicio: fechaEjecucion,
                     cliente: [{_id: clienteSeleccionado} as Cliente],
                     contrato: [{_id: contratoSeleccionado} as Contrato],
+                    protocolo: [{_id: protocoloSeleccionado} as Template],
                     nroWo: woNumber
                 }
                 const response : AxiosResponse = await woRouter.editOrder(editarOrden)
@@ -172,7 +183,8 @@ const WorkOrderContainer = () => {
                     descripcion: description,
                     fechaInicio: fechaEjecucion,
                     cliente: [{_id: clienteSeleccionado} as Cliente],
-                    contrato: [{_id: contratoSeleccionado} as Contrato]
+                    contrato: [{_id: contratoSeleccionado} as Contrato],
+                    protocolo: [{_id: protocoloSeleccionado} as Template],
                 }
                 console.log(nuevaOrden)
                 const response : AxiosResponse = await woRouter.saveOrder(nuevaOrden)
@@ -204,7 +216,7 @@ const WorkOrderContainer = () => {
                 </IonToolbar>
             </div>
             <div className='bg-content-users'>
-                <IonGrid>
+                <IonGrid className='container-data'>
                     <IonRow>
                         <IonCol>
 
@@ -268,6 +280,22 @@ const WorkOrderContainer = () => {
                                                     contratos.map((contrato, index) => {
                                                         return (
                                                             <IonSelectOption key={index} value={contrato._id}>{contrato.descripcion}</IonSelectOption>
+                                                        )
+                                                    })
+                                                }
+                                            </IonSelect>
+                                        </IonItem>
+                                    </div>
+                                </IonCol>
+                                <IonCol sizeXl='12' sizeLg='12' sizeMd='12' sizeSm='12' sizeXs='12'>
+                                    <div className='item-container-style'>
+                                        <IonItem className='item-style' disabled={contratoDeshabilitado}>
+                                            <IonLabel position={'floating'}>Protocolo</IonLabel>
+                                            <IonSelect value={protocoloSeleccionado} onIonChange={(e: any) => {seleccionarProtocolo(e.target.value)}} interface={'popover'} className='item-select-style'>
+                                                {
+                                                    protocolos.map((protocolo, index) => {
+                                                        return (
+                                                            <IonSelectOption key={index} value={protocolo._id}>{protocolo.nombrePlanilla}</IonSelectOption>
                                                         )
                                                     })
                                                 }

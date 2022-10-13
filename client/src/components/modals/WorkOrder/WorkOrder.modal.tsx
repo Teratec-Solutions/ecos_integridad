@@ -79,6 +79,20 @@ const WorkOrderModal = (
                             </p>
                         </IonCol>
                     </IonRow>
+                    <IonRow>
+                        <IonCol>
+                            <p>Protocolo o Plantilla asignada</p>
+                            <p>
+                                {
+                                    orden?.protocolo[0]
+                                    ?
+                                    orden?.protocolo[0].nombrePlanilla
+                                    :
+                                    'Orden sin protocolo asignado'
+                                }
+                            </p>
+                        </IonCol>
+                    </IonRow>
                 </IonGrid>
             </IonContent>
         </IonModal>

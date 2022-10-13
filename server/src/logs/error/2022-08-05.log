@@ -1,6 +1,0 @@
-2022-08-05 11:06:03 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
-2022-08-05 11:06:20 error: [GET] /favicon.ico >> StatusCode:: 404, Message:: ENOENT: no such file or directory, stat 'C:\Users\gorel\Documents\Tesso\Ecos_Integridad\ecos_integridad\client\build\index.html'
-2022-08-05 11:06:22 error: [POST] /api/logout >> StatusCode:: 500, Message:: Operation `users.findOne()` buffering timed out after 10000ms
-2022-08-05 11:06:38 error: [POST] /api/logout >> StatusCode:: 500, Message:: Operation `users.findOne()` buffering timed out after 10000ms
-2022-08-05 11:25:44 error: [POST] /api/login >> StatusCode:: 500, Message:: Operation `users.findOne()` buffering timed out after 10000ms
-2022-08-05 11:26:00 error: [POST] /api/login >> StatusCode:: 500, Message:: Operation `users.findOne()` buffering timed out after 10000ms

@@ -46,6 +46,12 @@ const woSchema: Schema = new Schema(
                 type: Object,
             }
         ],
+        protocolo: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Template'
+            }
+        ],
         deleted: {
             type: Boolean,
             required: false

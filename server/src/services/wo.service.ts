@@ -5,11 +5,12 @@ import { HttpException } from '@exceptions/HttpException'
 import { isEmpty } from '@utils/util'
 import bcrypt from 'bcrypt'
 import { __ } from 'i18n'
+import { ObjectId } from 'mongoose'
 
 const workOrder = woModel
 
 const getWorkOrders = async () => {
-    const ordenes: Orden[] = await workOrder.find().populate('asignado').populate('supervisor').populate('cliente')
+    const ordenes: Orden[] = await workOrder.find().populate('asignado').populate('supervisor').populate('cliente').populate('protocolo')
     return ordenes
 }
 
@@ -37,7 +38,12 @@ const deleteWorkOrder = async (_id: string) => {
 }
 
 const getWoById = async (orderId: string) => {
-    const wo: Orden = await workOrder.findById(orderId).populate('asignado').populate('supervisor').populate('cliente')
+    const wo: Orden = await workOrder.findById(orderId).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo')
+    return wo
+}
+
+const getWoByUserId = async (userId: string) => {
+    const wo: Orden[] = await workOrder.find({asignado: {"$all" : [userId]}}).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo')
     return wo
 }
 
@@ -47,5 +53,6 @@ export default {
     createWorkOrder,
     editWorkOrder,
     deleteWorkOrder,
-    getWoById
+    getWoById,
+    getWoByUserId
 }

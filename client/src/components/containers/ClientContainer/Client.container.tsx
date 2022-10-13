@@ -19,8 +19,8 @@ const ClientContainer = () => {
     const [ ciudad, setCiudad ] = useState<string>('')
     const [ region, setRegion ] = useState<string>('')
     const [ correoEmpresa, setCorreoEmpresa ] = useState<string>('')
-    const [ latitud, setLatitud ] = useState<string>('')
-    const [ longitud, setLongitud ] = useState<string>('')
+    const [ latitud, setLatitud ] = useState<number>()
+    const [ longitud, setLongitud ] = useState<number>()
     useEffect(() => {
       if (_id.id) {
         setShowLoading(true)
@@ -56,8 +56,8 @@ const ClientContainer = () => {
                     direccion: direccion,
                     region: region,
                     location: {
-                        lat: latitud,
-                        lng: longitud
+                        lat: latitud || 0,
+                        lng: longitud || 0
                     }
                 },
                 habilitado: true,
@@ -75,8 +75,8 @@ const ClientContainer = () => {
                     direccion: direccion,
                     region: region,
                     location: {
-                        lat: latitud,
-                        lng: longitud
+                        lat: latitud || 0,
+                        lng: longitud || 0
                     }
                 },
                 habilitado: true,

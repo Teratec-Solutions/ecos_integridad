@@ -10,5 +10,6 @@ router.get(`/getWorkOrders`, authMiddleware, WoController.getWorkOrders)
 router.get(`/getNumberWorkOrders`, authMiddleware, WoController.getNumberWorkOrders)
 router.post(`/deleteWorkOrder`, authMiddleware, WoController.deleteWorkOrder)
 router.post(`/getWoById`, authMiddleware, WoController.getWoById)
+router.post(`/getWoByUserId`, authMiddleware, WoController.getWoByUserId)
 
 export default router

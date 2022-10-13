@@ -4,7 +4,7 @@ const tslib_1 = require("tslib");
 const wo_model_1 = (0, tslib_1.__importDefault)(require("../models/wo.model"));
 const workOrder = wo_model_1.default;
 const getWorkOrders = async () => {
-    const ordenes = await workOrder.find().populate('asignado').populate('supervisor').populate('cliente');
+    const ordenes = await workOrder.find().populate('asignado').populate('supervisor').populate('cliente').populate('protocolo');
     return ordenes;
 };
 const getNumberWorkOrders = async () => {
@@ -27,7 +27,11 @@ const deleteWorkOrder = async (_id) => {
     return wo;
 };
 const getWoById = async (orderId) => {
-    const wo = await workOrder.findById(orderId).populate('asignado').populate('supervisor').populate('cliente');
+    const wo = await workOrder.findById(orderId).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo');
+    return wo;
+};
+const getWoByUserId = async (userId) => {
+    const wo = await workOrder.find({ asignado: { "$all": [userId] } }).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo');
     return wo;
 };
 exports.default = {
@@ -36,6 +40,7 @@ exports.default = {
     createWorkOrder,
     editWorkOrder,
     deleteWorkOrder,
-    getWoById
+    getWoById,
+    getWoByUserId
 };
 //# sourceMappingURL=wo.service.js.map

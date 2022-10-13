@@ -1,4 +1,5 @@
 import { Cliente, Contrato } from "./Cliente"
+import { Template } from "./Template"
 import { Usuario } from "./Usuario"
 
 export interface Ordenes {
@@ -14,6 +15,7 @@ export interface Ordenes {
     tareas?: Tarea[]
     cliente?: Cliente[]
     contrato?: Contrato[]
+    protocolo: Template[]
     deleted?: boolean
     updatedAt?: string
     createdAt?: string
@@ -21,5 +23,12 @@ export interface Ordenes {
 }
 
 export interface Tarea {
-    idOrden: string
+    idTarea: number
+    descripcion: string
+    imagenes?: []
+    locate?: {
+        lat: number,
+        lng: number,
+        alt?: string
+    }
 }

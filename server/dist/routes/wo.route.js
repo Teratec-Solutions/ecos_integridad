@@ -11,5 +11,6 @@ router.get(`/getWorkOrders`, auth_middleware_1.default, wo_controller_1.default.
 router.get(`/getNumberWorkOrders`, auth_middleware_1.default, wo_controller_1.default.getNumberWorkOrders);
 router.post(`/deleteWorkOrder`, auth_middleware_1.default, wo_controller_1.default.deleteWorkOrder);
 router.post(`/getWoById`, auth_middleware_1.default, wo_controller_1.default.getWoById);
+router.post(`/getWoByUserId`, auth_middleware_1.default, wo_controller_1.default.getWoByUserId);
 exports.default = router;
 //# sourceMappingURL=wo.route.js.map

@@ -45,6 +45,12 @@ const woSchema = new mongoose_1.Schema({
             type: Object,
         }
     ],
+    protocolo: [
+        {
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'Template'
+        }
+    ],
     deleted: {
         type: Boolean,
         required: false
