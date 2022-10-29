@@ -48,10 +48,10 @@ const initializeMiddlewares = () => {
     configureI18n();
     app.use(i18n_1.default.init);
     initializeRoutes();
-    app.use(express_1.default.static(path_1.default.resolve(__dirname, "../../client/build")));
+    app.use(express_1.default.static(path_1.default.resolve(__dirname, "../../ecos_integridad/build")));
     app.get('/*', (req, res) => {
-        console.log(path_1.default.resolve(__dirname, "../../client/build", "index.html"));
-        res.sendFile(path_1.default.resolve(__dirname, "../../client/build", "index.html"));
+        console.log(path_1.default.resolve(__dirname, "../../ecos_integridad/build", "index.html"));
+        res.sendFile(path_1.default.resolve(__dirname, "../../ecos_integridad/build", "index.html"));
     });
     app.use(express_1.default.urlencoded({ extended: true }));
     app.use((0, helmet_1.default)());

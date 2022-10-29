@@ -77,6 +77,10 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         required: false
     },
+    firma: {
+        type: mongoose_1.Schema.Types.String,
+        required: false
+    },
     subRoles: [
         {
             type: mongoose_1.Schema.Types.String,

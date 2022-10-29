@@ -42,7 +42,8 @@ const woSchema = new mongoose_1.Schema({
     ],
     contrato: [
         {
-            type: Object,
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'Contrato'
         }
     ],
     protocolo: [

@@ -78,6 +78,10 @@ const userSchema: Schema = new Schema(
             type: String,
             required: false
         },
+        firma: {
+            type: Schema.Types.String,
+            required: false
+        },
         subRoles: [
             {
                 type: Schema.Types.String,

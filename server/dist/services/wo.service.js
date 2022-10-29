@@ -27,11 +27,11 @@ const deleteWorkOrder = async (_id) => {
     return wo;
 };
 const getWoById = async (orderId) => {
-    const wo = await workOrder.findById(orderId).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo');
+    const wo = await workOrder.findById(orderId).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo').populate('contrato');
     return wo;
 };
 const getWoByUserId = async (userId) => {
-    const wo = await workOrder.find({ asignado: { "$all": [userId] } }).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo');
+    const wo = await workOrder.find({ asignado: { "$all": [userId] } }).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo').populate('contrato');
     return wo;
 };
 exports.default = {

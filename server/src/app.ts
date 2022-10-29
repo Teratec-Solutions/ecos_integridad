@@ -50,10 +50,10 @@ const initializeMiddlewares = () => {
     configureI18n()
     app.use(i18n.init)
     initializeRoutes()
-    app.use(express.static(path.resolve(__dirname, "../../client/build")))
+    app.use(express.static(path.resolve(__dirname, "../../ecos_integridad/build")))
     app.get('/*', (req: Request, res: Response) => {
-        console.log(path.resolve(__dirname, "../../client/build", "index.html"))
-        res.sendFile(path.resolve(__dirname, "../../client/build", "index.html"))
+        console.log(path.resolve(__dirname, "../../ecos_integridad/build", "index.html"))
+        res.sendFile(path.resolve(__dirname, "../../ecos_integridad/build", "index.html"))
     })
     app.use(express.urlencoded({ extended: true }))
     app.use(helmet())

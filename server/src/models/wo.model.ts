@@ -43,7 +43,8 @@ const woSchema: Schema = new Schema(
         ],
         contrato: [
             {
-                type: Object,
+                type: Schema.Types.ObjectId,
+                ref: 'Contrato'
             }
         ],
         protocolo: [

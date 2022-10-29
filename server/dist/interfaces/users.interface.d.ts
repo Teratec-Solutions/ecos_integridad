@@ -26,4 +26,5 @@ export interface User {
     role: string;
     subRoles: string[];
     createdAt: string;
+    firma: string;
 }

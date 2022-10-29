@@ -38,12 +38,12 @@ const deleteWorkOrder = async (_id: string) => {
 }
 
 const getWoById = async (orderId: string) => {
-    const wo: Orden = await workOrder.findById(orderId).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo')
+    const wo: Orden = await workOrder.findById(orderId).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo').populate('contrato')
     return wo
 }
 
 const getWoByUserId = async (userId: string) => {
-    const wo: Orden[] = await workOrder.find({asignado: {"$all" : [userId]}}).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo')
+    const wo: Orden[] = await workOrder.find({asignado: {"$all" : [userId]}}).populate('asignado').populate('supervisor').populate('cliente').populate('protocolo').populate('contrato')
     return wo
 }
 
