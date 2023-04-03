@@ -20,6 +20,7 @@ const path_1 = (0, tslib_1.__importDefault)(require("path"));
 const index_route_1 = (0, tslib_1.__importDefault)(require("./routes/index.route"));
 const accessControl_service_1 = (0, tslib_1.__importDefault)(require("./services/accessControl.service"));
 const socket_controller_1 = (0, tslib_1.__importDefault)(require("./controllers/socket.controller"));
+const multer_1 = (0, tslib_1.__importDefault)(require("multer"));
 process.env.SUPPRESS_NO_CONFIG_WARNING = 'true';
 const app = (0, express_1.default)();
 const port = configs_1.default.env.port;
@@ -43,7 +44,9 @@ const initializeMiddlewares = () => {
     app.use((0, cors_1.default)({ origin: configs_1.default.cors.origin, credentials: configs_1.default.cors.credentials }));
     app.use((0, hpp_1.default)());
     app.use((0, compression_1.default)());
+    app.use((0, multer_1.default)().any());
     app.use(express_1.default.json());
+    app.use(express_1.default.urlencoded({ extended: true }));
     app.use((0, cookie_parser_1.default)());
     configureI18n();
     app.use(i18n_1.default.init);
@@ -53,7 +56,6 @@ const initializeMiddlewares = () => {
         console.log(path_1.default.resolve(__dirname, "../../ecos_integridad/build", "index.html"));
         res.sendFile(path_1.default.resolve(__dirname, "../../ecos_integridad/build", "index.html"));
     });
-    app.use(express_1.default.urlencoded({ extended: true }));
     app.use((0, helmet_1.default)());
 };
 const initializeRoutes = () => {

@@ -18,6 +18,7 @@ import { Request, Response } from 'express'
 import router from './routes/index.route'
 import AccessControlServices from '@services/accessControl.service'
 import SocketController from './controllers/socket.controller'
+import multer from 'multer'
 
 process.env.SUPPRESS_NO_CONFIG_WARNING = 'true'
 const app: express.Application = express()
@@ -45,7 +46,9 @@ const initializeMiddlewares = () => {
     app.use(cors({ origin: config.cors.origin, credentials: config.cors.credentials }))
     app.use(hpp())
     app.use(compression())
+    app.use(multer().any())
     app.use(express.json())
+    app.use(express.urlencoded({ extended: true }))
     app.use(cookieParser())
     configureI18n()
     app.use(i18n.init)
@@ -55,7 +58,6 @@ const initializeMiddlewares = () => {
         console.log(path.resolve(__dirname, "../../ecos_integridad/build", "index.html"))
         res.sendFile(path.resolve(__dirname, "../../ecos_integridad/build", "index.html"))
     })
-    app.use(express.urlencoded({ extended: true }))
     app.use(helmet())
 }
 

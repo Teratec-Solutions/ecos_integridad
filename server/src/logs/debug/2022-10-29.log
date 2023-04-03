@@ -308,3 +308,7 @@
 2022-10-29 17:32:21 info: [0mGET /api/clients/getClients [36m304[0m 236.286 ms - -[0m
 2022-10-29 17:34:22 info: [0mGET /api/clients/getClients [36m304[0m 239.082 ms - -[0m
 2022-10-29 17:34:28 info: [0mGET /api/clients/getClients [36m304[0m 251.198 ms - -[0m
+2022-10-29 17:35:46 info: =================================
+2022-10-29 17:35:46 info: ======= ENV: development =======
+2022-10-29 17:35:46 info: 🚀 App listening on the port 5103
+2022-10-29 17:35:46 info: =================================

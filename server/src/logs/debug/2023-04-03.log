@@ -1,0 +1,30 @@
+2023-04-03 18:20:41 info: =================================
+2023-04-03 18:20:41 info: ======= ENV: development =======
+2023-04-03 18:20:41 info: 🚀 App listening on the port 5103
+2023-04-03 18:20:41 info: =================================
+2023-04-03 18:21:08 info: [0mPOST /api/login [32m200[0m 187.504 ms - 585[0m
+2023-04-03 18:21:09 info: [0mGET /api/clients/getClients [32m200[0m 266.529 ms - -[0m
+2023-04-03 18:21:15 info: [0mGET /api/users/getUsers [32m200[0m 219.668 ms - -[0m
+2023-04-03 18:21:29 error: [GET] /api/clients/getClients >> StatusCode:: 401, Message:: Wrong authentication token
+2023-04-03 18:21:29 info: [0mGET /api/clients/getClients [33m401[0m 3.406 ms - 40[0m
+2023-04-03 18:21:31 info: [0mPOST /api/logout [32m200[0m 78.429 ms - 403[0m
+2023-04-03 18:21:55 error: [POST] /api/login >> StatusCode:: 409, Message:: Contraseña incorrecta
+2023-04-03 18:21:55 info: [0mPOST /api/login [33m409[0m 145.842 ms - 36[0m
+2023-04-03 18:22:02 info: [0mPOST /api/login [32m200[0m 137.809 ms - -[0m
+2023-04-03 18:22:16 info: [0mPOST /api/login [32m200[0m 134.167 ms - -[0m
+2023-04-03 18:22:26 info: [0mPOST /api/orders/getWoByUserId [32m201[0m 326.048 ms - -[0m
+2023-04-03 18:22:27 info: [0mPOST /api/orders/getWoById [32m201[0m 247.811 ms - -[0m
+2023-04-03 18:23:36 info: [0mPOST /api/login [32m200[0m 134.404 ms - -[0m
+2023-04-03 18:23:48 info: [0mPOST /api/orders/getWoByUserId [32m201[0m 241.773 ms - -[0m
+2023-04-03 18:23:49 info: [0mPOST /api/orders/getWoById [32m201[0m 240.151 ms - -[0m
+2023-04-03 18:24:16 info: [0mPOST /api/orders/getWoByUserId [32m201[0m 244.127 ms - -[0m
+2023-04-03 18:24:20 info: [0mPOST /api/orders/getWoById [32m201[0m 242.429 ms - -[0m
+2023-04-03 18:25:38 info: [0mPOST /api/login [32m200[0m 136.965 ms - 631[0m
+2023-04-03 18:25:39 info: [0mGET /api/clients/getClients [32m200[0m 234.414 ms - -[0m
+2023-04-03 18:25:47 info: [0mGET /api/users/getUsers [32m200[0m 231.337 ms - -[0m
+2023-04-03 18:26:00 info: [0mPOST /api/logout [32m200[0m 73.784 ms - 449[0m
+2023-04-03 18:26:06 info: [0mPOST /api/login [32m200[0m 130.687 ms - -[0m
+2023-04-03 18:26:08 info: [0mGET /api/clients/getClients [36m304[0m 236.870 ms - -[0m
+2023-04-03 18:26:13 info: [0mGET /api/clients/getClients [36m304[0m 225.956 ms - -[0m
+2023-04-03 18:26:20 info: [0mGET /api/orders/getWorkOrders [32m201[0m 251.429 ms - -[0m
+2023-04-03 18:26:29 info: [0mGET /api/clients/getClients [36m304[0m 231.321 ms - -[0m

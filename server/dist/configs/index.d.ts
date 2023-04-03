@@ -11,6 +11,11 @@ declare const config: {
         locale: string;
         url: string;
         platformName: string;
+        account: string;
+        storageUrl: string;
+        accessKeys: string;
+        reportImagesContainer: string;
+        pdfContainer: string;
     };
     dbConfig: {
         host: string;
