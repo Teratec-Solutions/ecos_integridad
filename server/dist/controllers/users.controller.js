@@ -69,7 +69,7 @@ const editUser = async (req, res, next) => {
 };
 const deleteUser = async (req, res, next) => {
     try {
-        const userId = req.params.id;
+        const userId = req.body.id;
         const userLocale = req.cookies.language || env_1.locale;
         const deleteUserData = await users_service_1.default.deleteUser(userId, userLocale);
         res.status(200).json({ data: deleteUserData, message: 'deleted' });

@@ -22,17 +22,23 @@ const ClientsContainer = () => {
     const [ openClient, setOpenClient ] = useState<boolean>(false)
     const [ mapHeight, setMapHeight ] = useState<string | number>('')
     const [ mapWidth, setMapWidth ] = useState<string | number>('')
-    const [ locate, setLocation ] = useState<{lat: number, lng: number}>()
     const [ mapData, setMapData ] = useState<GoogleMap>()
+    const [mapElement, setMapElement] = useState(document.getElementById('map'))
     const history = useHistory()
     const mapRef = useRef<HTMLElement>()
     let newMap: GoogleMap
+
     useEffect(() => {
-        setLocation({lat: -37.179167, lng: -72.250023})
-        setMapHeight(document.getElementById('map')?.offsetHeight || '')
-        setMapWidth(document.getElementById('map')?.offsetWidth || '')
-        createMap()
-    }, [])
+       console.log(mapElement)
+       if (mapElement) {
+            setMapHeight(mapElement.offsetHeight)
+            setMapWidth(mapElement.offsetWidth)
+            createMap()
+       } else {
+            setMapElement(document.getElementById('map'))
+       }
+    },[mapElement])
+
     const deleteClient = async (_id: string | undefined) => {
         if (window.confirm('Confirme para borrar cliente')) {
             try {
@@ -103,8 +109,8 @@ const ClientsContainer = () => {
             apiKey: 'AIzaSyAjVKBoOpm3dayGqiMCxPyXmqBhU-hgUrA',
             config: {
                 center: {
-                    lat: locate ? locate.lat : -37.179167,
-                    lng: locate ? locate.lng : -72.250023,
+                    lat: -37.179167,
+                    lng: -72.250023,
                 },
                 zoom: 6
             }

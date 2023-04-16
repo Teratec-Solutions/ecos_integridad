@@ -31,6 +31,8 @@ export const AuthProvider = (props: any) => {
         if (window.localStorage.getItem('usuario')) {
             setUsuario(JSON.parse(window.localStorage.getItem('usuario')||'{}'))
             setIsAuth(true)
+        } else {
+            setIsAuth(false)
         }
     }, [])
 

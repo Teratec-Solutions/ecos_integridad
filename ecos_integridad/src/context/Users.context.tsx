@@ -27,7 +27,7 @@ export const UsersProvider = (props: any) => {
                 })
             }
         }
-    },[isAuth])
+    },[isAuth, usuario])
 
     useEffect(() => {
         if (userType === 'admin') {
