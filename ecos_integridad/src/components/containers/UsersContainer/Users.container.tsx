@@ -1,44 +1,32 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonRow, IonSpinner, IonTitle, IonToolbar } from "@ionic/react"
-import { AxiosResponse } from "axios"
 import { arrowBack, eye, pencil, trash } from "ionicons/icons"
-import { useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { useHistory } from "react-router"
 import { getDateWithTime, nombreRole } from "../../../functions"
 import { Usuario } from "../../../interfaces/Usuario"
-import { io } from "socket.io-client";
-import { clientsRouter, usersRouter } from "../../../router"
 import { UserModal } from "../../modals"
+import { UsersContext } from "../../../context/Users.context"
+import { usuarioEliminado } from "../../../connections/socket.connection"
+import { AuthContext } from "../../../context/Auth.context"
 
 const UsersContainer = () => {
-    const [ usuarios, setUsuarios ] = useState<Usuario[]>([])
-    const [ isLoading, setIsLoading ] = useState<boolean>(true)
-    const [ openUserModal, setOpenUserModal ] = useState<boolean>(false)
-    const [ userToUserModal, setUserToUserModal ] = useState<Usuario>()
+    const {users, loading, deleteUser} = useContext(UsersContext)
+    const {usuario} = useContext(AuthContext)
+    const [openUserModal, setOpenUserModal] = useState<boolean>(false)
+    const [userToUserModal, setUserToUserModal] = useState<Usuario>()
     const history = useHistory()
-    useEffect(() => {
-        const usuario : Usuario = JSON.parse(window.localStorage.getItem('usuario') || '{}')
-        const socket = io()
-        if (navigator.onLine) {
-            socket.on(`actualizar_${usuario._id}`, data => {
-                setIsLoading(true)
-                getUsuarios()
-            })
-        }
-        getUsuarios()
-    }, [])
-    const getUsuarios = async () => {
-        const response: AxiosResponse = await usersRouter.getUsers()/* axios.get('/api/users/getUsers', { withCredentials: true }) */
-        setUsuarios(response.data.data)
-        if (response) {
-            setIsLoading(false)
-        }
-    }
     const closeUsuarioModal = () => {
         setOpenUserModal(false)
     }
     const openUsuarioData = async (usuario: Usuario) => {
         setOpenUserModal(true)
         setUserToUserModal(usuario)
+    }
+    const removeUser = async (userId: string) => {
+        const response = await deleteUser(userId)
+        if (response && usuario) {
+            usuarioEliminado(usuario)
+        }
     }
     return (
         <IonContent className="bg-content">
@@ -90,10 +78,9 @@ const UsersContainer = () => {
                             <p style={{ textAlign: 'center'}}></p>
                         </IonCol>
                     </IonRow>
-                    <IonSpinner hidden={!isLoading} name="bubbles"/>
+                    <IonSpinner hidden={!loading} name="bubbles"/>
                     {
-                        usuarios?.map((usuario, index) => {
-                            console.log(usuario)
+                        users.map((usuario, index) => {
                             return (
                                 <IonRow key={index}>
                                     <IonCol size="0.5" className="tabla center">
@@ -124,13 +111,13 @@ const UsersContainer = () => {
                                         <p style={{ textAlign: 'center'}}>{getDateWithTime(usuario.createdAt)}</p>
                                     </IonCol>
                                     <IonCol size="2" className="tabla" style={{ textAlign: 'center' }}>
-                                        <IonButton fill={'clear'} onClick={() => { openUsuarioData(usuario) }}>
+                                        <IonButton fill={'clear'} onClick={() => {openUsuarioData(usuario)}}>
                                             <IonIcon icon={eye} />
                                         </IonButton>
                                         <IonButton fill={'clear'} onClick={() => {history.push(`/user/${usuario._id}`)}} disabled={(usuario.role === "superAdmin") ? true : false}>
                                             <IonIcon icon={pencil} />
                                         </IonButton>
-                                        <IonButton fill={'clear'} color={'danger'} disabled={(usuario.role === "superAdmin") ? true : false}>
+                                        <IonButton fill={'clear'} onClick={() => {removeUser(usuario._id)}} color={'danger'} disabled={(usuario.role === "superAdmin") ? true : false}>
                                             <IonIcon icon={trash} />
                                         </IonButton>
                                     </IonCol>
@@ -139,8 +126,8 @@ const UsersContainer = () => {
                         })
                     }
                     {
-                        (usuarios?.length === 0) && <div style={{ textAlign: 'center', width: '100%' }}>
-                            <p hidden={isLoading}><strong>No hay usuarios</strong></p>
+                        (users.length === 0) && <div style={{ textAlign: 'center', width: '100%' }}>
+                            <p hidden={loading}><strong>No hay usuarios</strong></p>
                         </div>
                     }
                 </IonGrid>

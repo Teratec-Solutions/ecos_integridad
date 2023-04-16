@@ -36,6 +36,7 @@
             "@email.templates/*": ["email.templates/*"]
         }
     },
-    "include": ["src/**/*.ts", "src/**/*.json", ".env"],
+    "include": ["src/**/*", "src/**/**/*.html"],
+    //"include": ["src/**/*.ts", "src/**/*.json", ".env"],
     "exclude": ["node_modules"]
 }

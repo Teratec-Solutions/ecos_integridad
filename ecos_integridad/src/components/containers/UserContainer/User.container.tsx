@@ -2,13 +2,15 @@ import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonInput, IonItem, Ion
 import { AxiosResponse } from "axios"
 import { arrowBack, eye, eyeOff } from "ionicons/icons"
 import { format, validate } from 'rut.js'
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router"
 import { nuevoUsuarioCreado } from "../../../connections/socket.connection"
 import { Usuario } from "../../../interfaces/Usuario"
 import { usersRouter } from "../../../router"
+import { AuthContext } from "../../../context/Auth.context"
 
 const UserContainer = () => {
+    const {usuario} = useContext(AuthContext)
     const [ nombre, setNombre ] = useState<string>()
     const [ apellido1, setApellido1 ] = useState<string>()
     const [ apellido2, setApellido2 ] = useState<string>()
@@ -62,7 +64,9 @@ const UserContainer = () => {
     }
     
     const crearUsuario = async () => {
-        if (validate(run ? run : '')) {
+        console.log(run)
+        if (run)
+        if (validate(run)) {
             if (subRoles.length === 0) {
                 alert('Debe seleccionar el tipo de usuario')
             } else {
@@ -91,11 +95,12 @@ const UserContainer = () => {
                     subRoles: subRoles
                 } as Usuario
                 try {
-                    const usuario = _id.id ? editUser : createUser 
-                    const response: AxiosResponse = await (_id.id ? usersRouter.editUser(usuario) : usersRouter.createUser(usuario))/* await axios.post(`/api/users/${_id.id ? 'editUser' : 'createUser'}`, usuario) */
+                    const usuarioData = _id.id ? editUser : createUser 
+                    const response: AxiosResponse = await (_id.id ? usersRouter.editUser(usuarioData) : usersRouter.createUser(usuarioData))/* await axios.post(`/api/users/${_id.id ? 'editUser' : 'createUser'}`, usuario) */
                     if (response) {
                         history.goBack()
-                        nuevoUsuarioCreado()
+                        if (usuario)
+                        nuevoUsuarioCreado(usuario)
                     }
                 } catch (error) {
                     console.log(error)

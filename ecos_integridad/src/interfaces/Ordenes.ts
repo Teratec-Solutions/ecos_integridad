@@ -12,6 +12,8 @@ export interface Ordenes {
     descripcion: string
     fechaInicio?: Date
     fechaTermino?: Date
+    fechaInicioEjecucion?: Date
+    fechaTerminoEjecucion?: Date
     tareas?: Tarea[]
     cliente?: Cliente[]
     contrato?: Contrato[]

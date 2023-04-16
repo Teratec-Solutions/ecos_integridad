@@ -1,21 +1,22 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonRow, IonSpinner, IonTitle, IonToolbar } from '@ionic/react'
 import { AxiosResponse } from 'axios'
 import { arrowBack, clipboard, eye, location, pencil, personAdd, trash } from 'ionicons/icons'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router'
-import { io } from 'socket.io-client'
 import { getDateWithTime } from '../../../functions'
 import { Cliente } from '../../../interfaces/Cliente'
-import { Usuario } from '../../../interfaces/Usuario'
 import { clientsRouter } from '../../../router'
 import { ClientContactModal, ClientContractModal, ClientModal } from '../../modals'
 import './Clients.container.css'
 import { GoogleMap } from '@capacitor/google-maps'
+import { ClientsContext } from '../../../context/Clients.context'
+import { clienteEliminado } from '../../../connections/socket.connection'
+import { AuthContext } from '../../../context/Auth.context'
 
 const ClientsContainer = () => {
-    const [ clientes, setClientes ] = useState<Cliente[]>([])
+    const {usuario} = useContext(AuthContext)
+    const {clients, loading} = useContext(ClientsContext)
     const [ cliente, setCliente ] = useState<Cliente>()
-    const [ isLoading, setIsLoading ] = useState<boolean>(true)
     const [ openModal, setOpenModal ] = useState<boolean>(false)
     const [ openContractModal, setOpenContractModal ] = useState<boolean>(false)
     const [ openClient, setOpenClient ] = useState<boolean>(false)
@@ -23,38 +24,15 @@ const ClientsContainer = () => {
     const [ mapWidth, setMapWidth ] = useState<string | number>('')
     const [ locate, setLocation ] = useState<{lat: number, lng: number}>()
     const [ mapData, setMapData ] = useState<GoogleMap>()
-    const [ markerIdCurrent, setMarkerIdeCurrent ] = useState<string>()
     const history = useHistory()
     const mapRef = useRef<HTMLElement>()
     let newMap: GoogleMap
     useEffect(() => {
-        const usuario : Usuario = JSON.parse(window.localStorage.getItem('usuario') || '{}')
-        const socket = io()
-        if (navigator.onLine) {
-            socket.on(`nuevoClienteCreado_${usuario._id}`, data => {
-                console.log(data)
-                setIsLoading(true)
-                getClientes()
-            })
-        }
-        getClientes()
+        setLocation({lat: -37.179167, lng: -72.250023})
+        setMapHeight(document.getElementById('map')?.offsetHeight || '')
+        setMapWidth(document.getElementById('map')?.offsetWidth || '')
+        createMap()
     }, [])
-    const getClientes = async () => {
-        try {
-            const response: AxiosResponse = await clientsRouter.getClients()
-            console.log(response.data.data)
-            setClientes(response.data.data)
-            if (response) {
-                setIsLoading(false)
-                setLocation({lat: -37.179167, lng: -72.250023})
-                setMapHeight(document.getElementById('map')?.offsetHeight || '')
-                setMapWidth(document.getElementById('map')?.offsetWidth || '')
-                createMap(response.data.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
     const deleteClient = async (_id: string | undefined) => {
         if (window.confirm('Confirme para borrar cliente')) {
             try {
@@ -63,7 +41,8 @@ const ClientsContainer = () => {
                     if (response) {
                         alert('¡' + response.data.data.empresa.nombre + ' ' + response.data.message + '!')
                         console.log(response)
-                        getClientes()
+                        if (usuario)
+                        clienteEliminado(usuario)
                     }
                 }
             } catch (error) {
@@ -116,7 +95,7 @@ const ClientsContainer = () => {
             })
         }
     }
-    const createMap = async (clientesData: Cliente[]) => {
+    const createMap = async (/* clientesData: Cliente[] */) => {
         if (!mapRef.current) return
         newMap = await GoogleMap.create({
             id: 'my-cool-map',
@@ -130,40 +109,11 @@ const ClientsContainer = () => {
                 zoom: 6
             }
         })
-        clientesData.map(async (cliente, index) => {
-            /* console.log(cliente.empresa.location?.lat, cliente.empresa.location?.lng) */
-            if (cliente.empresa.location && (cliente.empresa.location?.lat.toString().length > 0)) {
-                console.log(cliente.empresa.location.lat, cliente.empresa.location.lng)
-                await newMap.addMarker({
-                    coordinate: {
-                        lat: Number(cliente.empresa.location.lat),
-                        lng: Number(cliente.empresa.location.lng),
-                    }
-                })
-            } else {
-                console.log('no hay')
-            }
-        })
-        /* const markerId: string = await newMap.addMarker({
-            coordinate: {
-                lat: locate ? locate.lat : -37.179167,
-                lng: locate ? locate.lng : -72.250023,
-            }
-        }) */
-        /* setMarkerIdeCurrent(markerId) */
         setMapData(newMap)
         // Handle marker click
         await newMap.setOnMarkerClickListener((event) => {console.log(event)});
         await newMap.enableAccessibilityElements(false);
         await newMap.enableIndoorMaps(false)
-        /* // Enable marker clustering
-        await newMap.enableClustering();
-
-
-
-        // Clean up map reference
-        await newMap.destroy();
-        setMapData(newMap) */
     }
     const changeCamera = async (location: {lat: number, lng: number}) => {
         mapData?.setCamera({
@@ -204,14 +154,6 @@ const ClientsContainer = () => {
                                         height: mapHeight
                                     }}></capacitor-google-map>
                                 </div>
-                                {/* {
-                                    (latitud && longitud && zoomMap) && 
-                                    <MapsComponent
-                                        newMap={newMap}
-                                        height={mapHeight}
-                                        width={mapWidth}
-                                        location={location}
-                                    />} */}
                             </div>
                         </IonCol>
                         <IonCol sizeXl='8' sizeLg='8' sizeMd='8'>
@@ -236,7 +178,7 @@ const ClientsContainer = () => {
                                 </IonCol>
                             </IonRow>
                             {
-                                clientes?.map((cliente, index) => {
+                                clients.map((cliente, index) => {
                                     console.log(cliente)
                                     return (
                                         <IonRow key={index}>
@@ -281,12 +223,12 @@ const ClientsContainer = () => {
                                 })
                             }
                             {
-                                (clientes?.length === 0) && <div style={{ textAlign: 'center', width: '100%' }}>
-                                    <p hidden={isLoading}><strong>No hay clientes</strong></p>
+                                (clients.length === 0) && <div style={{ textAlign: 'center', width: '100%' }}>
+                                    <p hidden={loading}><strong>No hay clientes</strong></p>
                                 </div>
                             }
-                            <div hidden={!isLoading} style={{ width: '100%', textAlign: 'center', marginTop: 50 }}>
-                                <IonSpinner hidden={!isLoading} name='bubbles'/>
+                            <div hidden={!loading} style={{ width: '100%', textAlign: 'center', marginTop: 50 }}>
+                                <IonSpinner hidden={!loading} name='bubbles'/>
                             </div>
                         </IonCol>
                     </IonRow>

@@ -1,0 +1,141 @@
+2023-04-16 10:29:31 info: =================================
+2023-04-16 10:29:31 info: ======= ENV: development =======
+2023-04-16 10:29:31 info: 🚀 App listening on the port 5103
+2023-04-16 10:29:31 info: =================================
+2023-04-16 10:35:39 info: =================================
+2023-04-16 10:35:39 info: ======= ENV: development =======
+2023-04-16 10:35:39 info: 🚀 App listening on the port 5103
+2023-04-16 10:35:39 info: =================================
+2023-04-16 10:37:40 info: [0mPOST /api/logout [32m200[0m 123.746 ms - 403[0m
+2023-04-16 10:37:58 info: [0mPOST /api/login [32m200[0m 129.704 ms - 585[0m
+2023-04-16 10:37:59 info: [0mGET /api/clients/getClients [36m304[0m 228.274 ms - -[0m
+2023-04-16 10:38:07 info: [0mGET /api/orders/getWorkOrders [32m201[0m 148.871 ms - 40[0m
+2023-04-16 10:39:52 info: [0mPOST /api/clients/getClientById [32m200[0m 218.200 ms - 933[0m
+2023-04-16 10:40:00 info: [0mGET /api/orders/getWorkOrders [32m201[0m 148.515 ms - 40[0m
+2023-04-16 10:42:22 info: [0mGET /api/orders/getWorkOrders [32m201[0m 139.409 ms - 40[0m
+2023-04-16 10:42:28 info: [0mGET /api/templates/getTemplates [32m201[0m 147.066 ms - 643[0m
+2023-04-16 10:42:29 info: [0mGET /api/clients/getClients [36m304[0m 215.299 ms - -[0m
+2023-04-16 10:42:39 info: [0mPOST /api/templates/saveTemplate [32m201[0m 166.843 ms - 66[0m
+2023-04-16 10:42:49 info: [0mGET /api/templates/getTemplates [32m201[0m 244.940 ms - -[0m
+2023-04-16 10:42:49 info: [0mGET /api/clients/getClients [36m304[0m 219.540 ms - -[0m
+2023-04-16 10:42:59 info: [0mPOST /api/templates/saveTemplate [32m201[0m 157.461 ms - 66[0m
+2023-04-16 10:43:08 info: [0mPOST /api/templates/saveTemplate [32m201[0m 153.798 ms - 66[0m
+2023-04-16 10:43:20 info: [0mGET /api/templates/getTemplates [32m201[0m 224.625 ms - -[0m
+2023-04-16 10:43:21 info: [0mGET /api/clients/getClients [36m304[0m 214.549 ms - -[0m
+2023-04-16 10:43:39 info: [0mPOST /api/templates/saveTemplate [32m201[0m 161.068 ms - 66[0m
+2023-04-16 10:43:55 info: [0mGET /api/clients/getClients [36m304[0m 226.445 ms - -[0m
+2023-04-16 10:43:56 info: [0mGET /api/users/getSupervisores [36m304[0m 145.051 ms - -[0m
+2023-04-16 10:43:56 info: [0mGET /api/users/getOperadores [36m304[0m 136.261 ms - -[0m
+2023-04-16 10:43:57 info: [0mGET /api/orders/getNumberWorkOrders [32m201[0m 136.107 ms - 49[0m
+2023-04-16 10:44:01 info: [0mPOST /api/clients/getClientById [32m200[0m 214.814 ms - 933[0m
+2023-04-16 10:44:02 info: [0mPOST /api/templates/getTemplateByContract [32m201[0m 146.651 ms - -[0m
+2023-04-16 10:44:11 error: [POST] /api/orders/saveOrder >> StatusCode:: 500, Message:: WorkOrder validation failed: asignado.0: Cast to [ObjectId] failed for value "[{"_id":""}]" (type string) at path "asignado.0"
+2023-04-16 10:44:11 info: [0mPOST /api/orders/saveOrder [31m500[0m 146.531 ms - 148[0m
+2023-04-16 10:44:17 info: [0mGET /api/users/getUsers [32m200[0m 150.749 ms - 794[0m
+2023-04-16 10:44:17 info: [0mGET /api/clients/getClients [36m304[0m 216.658 ms - -[0m
+2023-04-16 10:44:18 info: [0mGET /api/clients/getClients [36m304[0m 209.402 ms - -[0m
+2023-04-16 10:44:18 info: [0mGET /api/orders/getWorkOrders [32m201[0m 140.744 ms - 40[0m
+2023-04-16 10:44:35 info: [0mGET /api/templates/getTemplates [32m201[0m 219.997 ms - -[0m
+2023-04-16 10:44:35 info: [0mGET /api/clients/getClients [36m304[0m 216.796 ms - -[0m
+2023-04-16 10:44:51 info: [0mPOST /api/templates/saveTemplate [32m201[0m 172.688 ms - 66[0m
+2023-04-16 10:44:58 info: [0mGET /api/templates/getTemplates [32m201[0m 219.786 ms - -[0m
+2023-04-16 10:44:59 info: [0mGET /api/clients/getClients [36m304[0m 211.123 ms - -[0m
+2023-04-16 10:45:12 info: [0mGET /api/clients/getClients [36m304[0m 217.222 ms - -[0m
+2023-04-16 10:45:12 info: [0mGET /api/users/getSupervisores [36m304[0m 139.008 ms - -[0m
+2023-04-16 10:45:13 info: [0mGET /api/users/getOperadores [36m304[0m 141.361 ms - -[0m
+2023-04-16 10:45:13 info: [0mGET /api/orders/getNumberWorkOrders [32m201[0m 136.717 ms - 49[0m
+2023-04-16 10:45:15 info: [0mPOST /api/clients/getClientById [32m200[0m 213.437 ms - 933[0m
+2023-04-16 10:45:17 info: [0mPOST /api/templates/getTemplateByContract [32m201[0m 142.763 ms - -[0m
+2023-04-16 10:46:25 info: [0mGET /api/orders/getWorkOrders [32m201[0m 144.395 ms - 40[0m
+2023-04-16 10:46:30 info: [0mGET /api/orders/getWorkOrders [32m201[0m 142.007 ms - 40[0m
+2023-04-16 11:18:34 info: [0mGET /api/clients/getClients [36m304[0m 247.954 ms - -[0m
+2023-04-16 11:32:35 info: =================================
+2023-04-16 11:32:35 info: ======= ENV: development =======
+2023-04-16 11:32:35 info: 🚀 App listening on the port 5103
+2023-04-16 11:32:35 info: =================================
+2023-04-16 11:32:49 info: [0mPOST /api/logout [32m200[0m 107.167 ms - 403[0m
+2023-04-16 11:33:03 info: [0mPOST /api/login [32m200[0m 130.541 ms - 585[0m
+2023-04-16 11:33:04 info: [0mGET /api/clients/getClients [32m200[0m 229.827 ms - 935[0m
+2023-04-16 11:33:36 info: [0mGET /api/users/getUsers [32m200[0m 151.317 ms - 794[0m
+2023-04-16 11:33:36 info: [0mGET /api/clients/getClients [32m200[0m 208.569 ms - 935[0m
+2023-04-16 11:33:38 info: [0mGET /api/clients/getClients [36m304[0m 229.470 ms - -[0m
+2023-04-16 11:35:36 info: [0mGET /api/clients/getClients [36m304[0m 230.978 ms - -[0m
+2023-04-16 11:36:45 info: [0mGET /api/clients/getClients [36m304[0m 260.672 ms - -[0m
+2023-04-16 11:37:16 info: [0mGET /api/clients/getClients [36m304[0m 221.715 ms - -[0m
+2023-04-16 11:44:12 info: [0mGET /api/clients/getClients [36m304[0m 225.186 ms - -[0m
+2023-04-16 11:44:40 info: [0mGET /api/clients/getClients [36m304[0m 217.908 ms - -[0m
+2023-04-16 11:46:39 info: [0mGET /api/clients/getClients [36m304[0m 221.096 ms - -[0m
+2023-04-16 11:46:49 info: [0mGET /api/users/getUsers [32m200[0m 152.975 ms - 794[0m
+2023-04-16 11:46:49 info: [0mGET /api/clients/getClients [32m200[0m 218.654 ms - 935[0m
+2023-04-16 11:47:13 info: [0mPOST /api/clients/getClientById [32m200[0m 222.001 ms - 933[0m
+2023-04-16 11:51:59 info: [0mGET /api/clients/getClients [36m304[0m 221.997 ms - -[0m
+2023-04-16 11:52:03 info: [0mGET /api/orders/getWorkOrders [32m201[0m 153.967 ms - 40[0m
+2023-04-16 11:52:07 info: [0mGET /api/clients/getClients [36m304[0m 224.335 ms - -[0m
+2023-04-16 11:52:08 info: [0mGET /api/users/getSupervisores [32m200[0m 148.421 ms - 429[0m
+2023-04-16 11:52:08 info: [0mGET /api/users/getOperadores [32m200[0m 153.814 ms - 40[0m
+2023-04-16 11:52:08 info: [0mGET /api/orders/getNumberWorkOrders [32m201[0m 139.379 ms - 49[0m
+2023-04-16 11:53:19 info: [0mPOST /api/users/createUser [32m201[0m 297.080 ms - 417[0m
+2023-04-16 11:53:32 info: [0mGET /api/users/getUsers [32m200[0m 153.118 ms - -[0m
+2023-04-16 11:53:32 info: [0mGET /api/clients/getClients [32m200[0m 233.113 ms - 935[0m
+2023-04-16 11:53:35 info: [0mGET /api/clients/getClients [36m304[0m 215.514 ms - -[0m
+2023-04-16 11:53:39 info: [0mGET /api/orders/getWorkOrders [32m201[0m 158.540 ms - 40[0m
+2023-04-16 11:53:44 info: [0mGET /api/clients/getClients [36m304[0m 221.878 ms - -[0m
+2023-04-16 11:53:44 info: [0mGET /api/users/getSupervisores [36m304[0m 139.425 ms - -[0m
+2023-04-16 11:53:44 info: [0mGET /api/users/getOperadores [32m200[0m 138.941 ms - 428[0m
+2023-04-16 11:53:45 info: [0mGET /api/orders/getNumberWorkOrders [32m201[0m 135.856 ms - 49[0m
+2023-04-16 11:53:58 info: [0mPOST /api/clients/getClientById [32m200[0m 224.897 ms - 933[0m
+2023-04-16 11:54:00 info: [0mPOST /api/templates/getTemplateByContract [32m201[0m 159.136 ms - -[0m
+2023-04-16 11:54:10 info: [0mPOST /api/orders/saveOrder [32m201[0m 278.793 ms - 532[0m
+2023-04-16 11:54:22 info: [0mGET /api/users/getUsers [32m200[0m 215.121 ms - -[0m
+2023-04-16 11:54:22 info: [0mGET /api/clients/getClients [32m200[0m 443.196 ms - 935[0m
+2023-04-16 11:54:22 info: [0mGET /api/orders/getWorkOrders [32m201[0m 523.658 ms - -[0m
+2023-04-16 12:04:51 info: [0mPOST /api/orders/deleteWorkOrder [32m201[0m 159.195 ms - 28[0m
+2023-04-16 12:04:52 info: [0mGET /api/orders/getWorkOrders [32m201[0m 141.001 ms - 40[0m
+2023-04-16 12:26:43 info: [0mGET /api/templates/getTemplates [32m201[0m 241.831 ms - -[0m
+2023-04-16 12:26:44 info: [0mGET /api/clients/getClients [32m200[0m 225.406 ms - 935[0m
+2023-04-16 13:10:20 info: [0mGET /api/clients/getClients [36m304[0m 236.345 ms - -[0m
+2023-04-16 13:12:04 info: [0mPOST /api/clients/createClient [32m201[0m 166.857 ms - 357[0m
+2023-04-16 13:12:39 info: [0mPOST /api/logout [32m200[0m 115.370 ms - 403[0m
+2023-04-16 13:12:58 info: [0mPOST /api/login [32m200[0m 130.988 ms - 585[0m
+2023-04-16 13:12:58 info: [0mGET /api/clients/getClients [32m200[0m 224.005 ms - -[0m
+2023-04-16 13:13:16 info: [0mGET /api/users/getUsers [32m200[0m 154.087 ms - -[0m
+2023-04-16 13:13:16 info: [0mGET /api/clients/getClients [32m200[0m 223.520 ms - -[0m
+2023-04-16 13:14:30 info: [0mGET /api/clients/getClients [36m304[0m 219.831 ms - -[0m
+2023-04-16 13:15:01 info: [0mGET /api/clients/getClients [36m304[0m 223.994 ms - -[0m
+2023-04-16 13:15:11 info: [0mPOST /api/clients/deleteClient [32m200[0m 156.306 ms - 401[0m
+2023-04-16 13:15:13 info: [0mGET /api/clients/getClients [32m200[0m 222.464 ms - 935[0m
+2023-04-16 13:15:14 info: [0mGET /api/clients/getClients [36m304[0m 236.563 ms - -[0m
+2023-04-16 13:15:45 info: [0mPOST /api/clients/createClient [32m201[0m 196.935 ms - 357[0m
+2023-04-16 13:15:46 info: [0mGET /api/clients/getClients [32m200[0m 224.838 ms - -[0m
+2023-04-16 13:15:46 info: [0mGET /api/clients/getClients [36m304[0m 226.882 ms - -[0m
+2023-04-16 14:57:56 info: [0mGET /api/clients/getClients [36m304[0m 222.401 ms - -[0m
+2023-04-16 15:00:51 info: [0mPOST /api/users/createUser [32m201[0m 294.052 ms - 430[0m
+2023-04-16 15:04:41 info: [0mGET /api/clients/getClients [36m304[0m 227.434 ms - -[0m
+2023-04-16 15:04:42 info: [0mGET /api/users/getUsers [32m200[0m 149.669 ms - -[0m
+2023-04-16 15:33:08 info: =================================
+2023-04-16 15:33:08 info: ======= ENV: development =======
+2023-04-16 15:33:08 info: 🚀 App listening on the port 5103
+2023-04-16 15:33:08 info: =================================
+2023-04-16 15:41:50 info: [0mGET /api/clients/getClients [32m200[0m 260.058 ms - -[0m
+2023-04-16 15:41:50 info: [0mGET /api/clients/getClients [32m200[0m 222.496 ms - -[0m
+2023-04-16 15:41:50 info: [0mGET /api/users/getUsers [32m200[0m 138.693 ms - -[0m
+2023-04-16 15:42:54 error: [POST] /api/users/deleteUser >> StatusCode:: 400, Message:: Se requiere un ID
+2023-04-16 15:42:54 info: [0mPOST /api/users/deleteUser [33m400[0m 122.020 ms - 31[0m
+2023-04-16 15:44:42 info: =================================
+2023-04-16 15:44:42 info: ======= ENV: development =======
+2023-04-16 15:44:42 info: 🚀 App listening on the port 5103
+2023-04-16 15:44:42 info: =================================
+2023-04-16 15:44:49 info: [0mPOST /api/users/deleteUser [32m200[0m 183.840 ms - 430[0m
+2023-04-16 15:44:50 info: [0mGET /api/users/getUsers [32m200[0m 149.039 ms - -[0m
+2023-04-16 15:45:24 info: [0mPOST /api/users/createUser [32m201[0m 400.666 ms - 429[0m
+2023-04-16 15:45:25 info: [0mGET /api/users/getUsers [32m200[0m 148.602 ms - -[0m
+2023-04-16 15:51:04 info: [0mPOST /api/clients/createClient [32m201[0m 165.358 ms - 370[0m
+2023-04-16 15:51:05 info: [0mGET /api/clients/getClients [32m200[0m 228.213 ms - -[0m
+2023-04-16 15:54:46 info: [0mPOST /api/users/createUser [32m201[0m 307.186 ms - 417[0m
+2023-04-16 15:54:47 info: [0mGET /api/users/getUsers [32m200[0m 145.877 ms - -[0m
+2023-04-16 15:55:27 info: [0mGET /api/orders/getWorkOrders [32m201[0m 146.993 ms - 40[0m
+2023-04-16 15:55:32 info: [0mGET /api/orders/getWorkOrders [32m201[0m 148.878 ms - 40[0m
+2023-04-16 15:55:33 info: [0mGET /api/clients/getClients [36m304[0m 223.096 ms - -[0m
+2023-04-16 15:55:34 info: [0mGET /api/users/getSupervisores [32m200[0m 140.801 ms - 830[0m
+2023-04-16 15:55:34 info: [0mGET /api/users/getOperadores [32m200[0m 140.760 ms - -[0m
+2023-04-16 15:55:35 info: [0mGET /api/orders/getNumberWorkOrders [32m201[0m 141.854 ms - 49[0m

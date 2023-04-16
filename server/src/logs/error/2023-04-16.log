@@ -1,0 +1,2 @@
+2023-04-16 10:44:11 error: [POST] /api/orders/saveOrder >> StatusCode:: 500, Message:: WorkOrder validation failed: asignado.0: Cast to [ObjectId] failed for value "[{"_id":""}]" (type string) at path "asignado.0"
+2023-04-16 15:42:54 error: [POST] /api/users/deleteUser >> StatusCode:: 400, Message:: Se requiere un ID

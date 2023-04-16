@@ -1,11 +1,10 @@
 import { IonPage } from "@ionic/react"
 import { LoginContainer } from "../../components/containers"
-import { PassingData } from "../../interfaces/PassingData"
 
-const LoginPage = ({setIsAuth, setUserType, setUserRole}:PassingData) => {
+const LoginPage = () => {
     return (
         <IonPage>
-            <LoginContainer setIsAuth={setIsAuth} setUserType={setUserType} setUserRole={setUserRole} />
+            <LoginContainer />
         </IonPage>
     )
 }

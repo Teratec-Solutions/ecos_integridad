@@ -29,6 +29,12 @@ const woSchema = new mongoose_1.Schema({
     fechaTermino: {
         type: Date
     },
+    fechaInicioEjecucion: {
+        type: Date
+    },
+    fechaTerminoEjecucion: {
+        type: Date
+    },
     tareas: [
         {
             type: Object,

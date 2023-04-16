@@ -22,103 +22,90 @@ import '@ionic/react/css/display.css'
 import './theme/variables.css'
 import './App.css'
 import { ClientPage, ClientsPage, HomePage, LoginPage, NoPermissionPage, OptionsPage, TemplatePage, TemplatesPage, UserPage, UsersPage, WorkOrderPage, WorkOrdersPage, WorkOrdersUserPage, WorkOrderUserPage } from './pages'
-import { useEffect, useState } from 'react'
-import { Usuario } from './interfaces/Usuario'
+import { useContext, useEffect } from 'react'
 import { MenuContainer } from './components/containers'
+import { AuthContext, AuthProvider } from './context/Auth.context'
+import { UsersProvider } from './context/Users.context'
+import { ClientsProvider } from './context/Clients.context'
 
 setupIonicReact();
 
-const State = () => {
-  const [ isAuth, setIsAuth ] = useState<boolean>(false)
-  const [ userType, setUserType ] = useState<string | undefined>('')
-  const [ userRole, setUserRole ] = useState<string | undefined>('')
-
-  useEffect(() => {
-    console.log(isAuth)
-    if (localStorage.getItem('usuario')) {
-      const usuario : Usuario = JSON.parse(window.localStorage.getItem('usuario')||'{}')
-      console.log(usuario)
-      if (usuario.subRoles) {
-        if (usuario.subRoles.length > 0) {
-          setUserType(usuario.subRoles[0])
-        } else {
-          setUserType('admin')
-        }
-    } else {
-        setUserType('admin')
-    }
-      setIsAuth(true)
-    }
-  }, [isAuth])
-
-  useEffect(() => {
-    console.log(userType)
-  }, [userType])
-
-  useEffect(() => {
-    console.log(userRole)
-  }, [userRole])
-  
-  
+const State = () => {  
   return (
     <IonApp>
-      <IonReactRouter>
-        { (userType === 'Operador') && <MenuContainer /> }
-        <IonRouterOutlet id='main'>
-          <Route exact path="/login">
-            <LoginPage setIsAuth={setIsAuth} setUserType={setUserType} setUserRole={setUserRole} />
-          </Route>
-          <Route exact path="/home">
-            {isAuth ? <HomePage userType={userType} /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/user">
-            {(isAuth  && ((userType === 'admin'||userRole === 'admin'))) ? <UserPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/user/:id">
-            {(isAuth  && ((userType === 'admin'||userRole === 'admin'))) ? <UserPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/users">
-            {(isAuth  && ((userType === 'admin'||userRole === 'admin'))) ? <UsersPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/clients">
-            {isAuth ? <ClientsPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/client">
-            {isAuth ? <ClientPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/client/:id">
-            {isAuth ? <ClientPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/work-orders-user">
-            {isAuth ? <WorkOrdersUserPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/work-order-user/:id">
-            {isAuth ? <WorkOrderUserPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/work-orders">
-            {isAuth ? <WorkOrdersPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/work-order">
-            {isAuth ? <WorkOrderPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/work-order/:id">
-            {isAuth ? <WorkOrderPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/templates">
-            {isAuth ? <TemplatesPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/template/:id">
-            {isAuth ? <TemplatePage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/options">
-            {isAuth ? <OptionsPage /> : <NoPermissionPage />}
-          </Route>
-          <Route exact path="/">
-            <Redirect to={isAuth ? '/home' : '/login'} />
-          </Route>
-        </IonRouterOutlet>
-      </IonReactRouter>
+      <AuthProvider>
+        <UsersProvider>
+          <ClientsProvider>
+            <EcosIntegridadApp />
+          </ClientsProvider>
+        </UsersProvider>
+      </AuthProvider>
     </IonApp>
+  )
+}
+
+const EcosIntegridadApp = () => {
+  const {userType, isAuth, userRole} = useContext(AuthContext)
+  useEffect(() => {
+    console.log(userType, isAuth, userRole)
+  }, [userType, isAuth, userRole])
+  return (
+    <IonReactRouter>
+      { (userType === 'Operador') && <MenuContainer /> }
+      <IonRouterOutlet id='main'>
+        <Route exact path="/login">
+          <LoginPage />
+        </Route>
+        <Route exact path="/home">
+          {isAuth ? <HomePage userType={userType} /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/user">
+          {(isAuth  && ((userType === 'admin'||userRole === 'admin'))) ? <UserPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/user/:id">
+          {(isAuth  && ((userType === 'admin'||userRole === 'admin'))) ? <UserPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/users">
+          {(isAuth  && ((userType === 'admin'||userRole === 'admin'))) ? <UsersPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/clients">
+          {isAuth ? <ClientsPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/client">
+          {isAuth ? <ClientPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/client/:id">
+          {isAuth ? <ClientPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/work-orders-user">
+          {isAuth ? <WorkOrdersUserPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/work-order-user/:id">
+          {isAuth ? <WorkOrderUserPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/work-orders">
+          {isAuth ? <WorkOrdersPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/work-order">
+          {isAuth ? <WorkOrderPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/work-order/:id">
+          {isAuth ? <WorkOrderPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/templates">
+          {isAuth ? <TemplatesPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/template/:id">
+          {isAuth ? <TemplatePage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/options">
+          {isAuth ? <OptionsPage /> : <NoPermissionPage />}
+        </Route>
+        <Route exact path="/">
+          <Redirect to={isAuth ? '/home' : '/login'} />
+        </Route>
+      </IonRouterOutlet>
+    </IonReactRouter>
   )
 }
 

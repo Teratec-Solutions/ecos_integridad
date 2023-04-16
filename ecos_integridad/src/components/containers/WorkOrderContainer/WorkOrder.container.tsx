@@ -19,7 +19,8 @@ const WorkOrderContainer = () => {
     const [ nombreAsignacion, setAsignacion ] = useState<string>('')
     const [ prioridad, setPrioridad ] = useState<string>('')
     const [ fechaEjecucion, setFechaEjecucion ] = useState<Date>()
-    const [ openModalFechaEjecucion, setOpenModalFechaEjecucion ] = useState<boolean>(false)
+    const [ fechaTermino, setFechaTermino ] = useState<Date>()
+    /* const [ openModalFechaEjecucion, setOpenModalFechaEjecucion ] = useState<boolean>(false) */
     const [ description, setDescription ] = useState<string>('')
     const [ clientes, setClientes ] = useState<Cliente[]>([])
     const [ clienteSeleccionado, setClienteSeleccionado ] = useState<string>()
@@ -36,8 +37,11 @@ const WorkOrderContainer = () => {
     const [ userData, setUserData ] = useState<Usuario>()
     const [ showLoading, setShowLoading ] = useState<boolean>(false)
     const [ contratoDeshabilitado, setContratoDeshabilitado ] = useState<boolean>(true)
+    const [ supervisorOpenPopover, setSupervisorOpenPopover ] = useState<boolean>(false)
+    const [ usuarioOpenPopover, setUsuarioOpenPopover ] = useState<boolean>(false)
     const history = useHistory()
-    const modal = useRef<HTMLIonModalElement>(null);
+    const modalInicio = useRef<HTMLIonModalElement>(null);
+    const modalTermino = useRef<HTMLIonModalElement>(null);
     useEffect(() => {
         console.log(_id)
         setShowLoading(true)
@@ -62,6 +66,7 @@ const WorkOrderContainer = () => {
             setWoNumber(orden.nroWo)
             setPrioridad(orden.prioridad)
             setFechaEjecucion(orden.fechaInicio)
+            setFechaTermino(orden.fechaTermino)
             orden.cliente && setClienteSeleccionado(orden.cliente[0]._id || '')
             orden.supervisor && setSupervisor(`${orden.supervisor[0].nombre} ${orden.supervisor[0].apellido1} ${orden.supervisor[0].apellido2}`)
             orden.supervisor && setSupervisorSeleccionado(orden.supervisor[0]._id)
@@ -83,13 +88,22 @@ const WorkOrderContainer = () => {
             closeFechaEjecucion()
         }
     }
+    const guardarFechaTermino = (e: any) => {
+        if (window.confirm(`Confirme la fecha ${getSimpleDateTime(e.target.value)}`)) {
+            setFechaTermino(e.target.value)
+            closeFechaTermino()
+        }
+    }
     const closeFechaEjecucion = () => {
-        modal.current?.dismiss()
+        modalInicio.current?.dismiss()
+    }
+    const closeFechaTermino = () => {
+        modalTermino.current?.dismiss()
     }
     const buscarSupervisores = (value: string) => {
         if (value.length > 2) {
             const dataFiltered = supervisoresCache.filter(usuario => {
-                if (`${usuario.nombre} ${usuario.apellido1} ${usuario.apellido2}`.match(value)||`${usuario.run}`.match(value)) {
+                if (`${usuario.nombre?.toLocaleLowerCase()} ${usuario.apellido1?.toLocaleLowerCase()} ${usuario.apellido2?.toLocaleLowerCase()}`.match(value.toLocaleLowerCase())||`${usuario.run}`.match(value)) {
                     return usuario
                 } else {
                     return null
@@ -103,7 +117,7 @@ const WorkOrderContainer = () => {
     const buscarUsuarios = (value: string) => {
         if (value.length > 2) {
             const dataFiltered = usuariosCache.filter(usuario => {
-                if (`${usuario.nombre} ${usuario.apellido1} ${usuario.apellido2}`.match(value)||`${usuario.run}`.match(value)) {
+                if (`${usuario.nombre?.toLocaleLowerCase()} ${usuario.apellido1?.toLocaleLowerCase()} ${usuario.apellido2?.toLocaleLowerCase()}`.match(value.toLocaleLowerCase())||`${usuario.run}`.match(value)) {
                     return usuario
                 } else {
                     return null
@@ -144,10 +158,12 @@ const WorkOrderContainer = () => {
     const selectSupervisor = (supervisor: string, supervisorNombre: string) => {
         setSupervisorSeleccionado(supervisor)
         setSupervisor(supervisorNombre)
+        setSupervisorOpenPopover(false)
     }
     const selectUsuario = (usuario: string, usuarioNombre: string) => {
         setOperadorSeleccionado(usuario)
         setAsignacion(usuarioNombre)
+        setUsuarioOpenPopover(false)
     }
     const guardarOrden = async () => {
         if (_id.id) {
@@ -223,7 +239,7 @@ const WorkOrderContainer = () => {
                         </IonCol>
                         <IonCol sizeXl='6' sizeLg='6' sizeMd='8' sizeSm='10' sizeXs='12'>
                             <IonRow>
-                                <IonCol sizeXl='2' sizeLg='2' sizeMd='6' sizeSm='12' sizeXs='12'>
+                                <IonCol sizeXl='4' sizeLg='4' sizeMd='4' sizeSm='12' sizeXs='12'>
                                     <div className='item-container-style'>
                                         <IonItem disabled={true}>
                                             <IonLabel position={'floating'}>N° OT</IonLabel>
@@ -233,7 +249,7 @@ const WorkOrderContainer = () => {
                                         </IonItem>
                                     </div>
                                 </IonCol>
-                                <IonCol sizeXl='4' sizeLg='4' sizeMd='6' sizeSm='12' sizeXs='12'>
+                                <IonCol sizeXl='8' sizeLg='8' sizeMd='8' sizeSm='12' sizeXs='12'>
                                     <div className='item-container-style'>
                                         <IonItem className='item-style'>
                                             <IonLabel position={'floating'}>Prioridad</IonLabel>
@@ -247,10 +263,20 @@ const WorkOrderContainer = () => {
                                 </IonCol>
                                 <IonCol sizeXl='6' sizeLg='6' sizeMd='6' sizeSm='12' sizeXs='12'>
                                     <div className='item-container-style'>
-                                        <IonItem className='item-style' button id='open-modal'>
+                                        <IonItem className='item-style' button id='open-modal-inicio'>
                                             <IonLabel style={{ paddingTop: 8, paddingBottom: 8}}>
                                                 Fecha Ejecución &nbsp;
                                                 {getSimpleDateTime(fechaEjecucion)}
+                                            </IonLabel>
+                                        </IonItem>
+                                    </div>
+                                </IonCol>
+                                <IonCol sizeXl='6' sizeLg='6' sizeMd='6' sizeSm='12' sizeXs='12'>
+                                    <div className='item-container-style'>
+                                        <IonItem className='item-style' button id='open-modal-termino'>
+                                            <IonLabel style={{ paddingTop: 8, paddingBottom: 8}}>
+                                                Fecha Término &nbsp;
+                                                {getSimpleDateTime(fechaTermino)}
                                             </IonLabel>
                                         </IonItem>
                                     </div>
@@ -305,10 +331,10 @@ const WorkOrderContainer = () => {
                                 </IonCol>
                                 <IonCol sizeXl='6' sizeLg='6' sizeMd='6' sizeSm='12' sizeXs='12'>
                                     <div className='item-container-style'>
-                                        <IonItem id="supervisor-trigger" button className='item-style'>
+                                        <IonItem id="supervisor-trigger" button className='item-style' onClick={() => {setSupervisorOpenPopover(true)}}>
                                             <IonLabel style={{ paddingTop: 8, paddingBottom: 8}}>Supervisor {nombreSupervisor}</IonLabel>
                                         </IonItem>
-                                        <IonPopover backdropDismiss dismissOnSelect trigger="supervisor-trigger" size='cover' alignment="start">
+                                        <IonPopover isOpen={supervisorOpenPopover} backdropDismiss /* dismissOnSelect */ trigger="supervisor-trigger" size='cover' alignment="start">
                                             <IonContent class="ion-padding" style={{ minWidth: 300 }}>
                                                 <IonSearchbar onIonChange={(e: any) => { buscarSupervisores(e.target.value) }} />
                                                 {
@@ -326,10 +352,10 @@ const WorkOrderContainer = () => {
                                 </IonCol>
                                 <IonCol sizeXl='6' sizeLg='6' sizeMd='6' sizeSm='12' sizeXs='12'>
                                     <div className='item-container-style'>
-                                        <IonItem id="usuario-trigger" button className='item-style'>
+                                        <IonItem id="usuario-trigger" button className='item-style' onClick={() => {setUsuarioOpenPopover(true)}}>
                                             <IonLabel style={{ paddingTop: 8, paddingBottom: 8}}>Asignación {nombreAsignacion}</IonLabel>
                                         </IonItem>
-                                        <IonPopover backdropDismiss dismissOnSelect trigger="usuario-trigger" size='cover' alignment="start">
+                                        <IonPopover isOpen={usuarioOpenPopover} backdropDismiss /* dismissOnSelect */ trigger="usuario-trigger" size='cover' alignment="start">
                                             <IonContent class="ion-padding" style={{ minWidth: 300 }}>
                                                 <IonSearchbar onIonChange={(e: any) => { buscarUsuarios(e.target.value) }} />
                                                 {
@@ -350,7 +376,7 @@ const WorkOrderContainer = () => {
                                         <IonItem className='item-style'>
                                             <IonTextarea
                                                 placeholder='Descipción...'
-                                                rows={10}
+                                                rows={8}
                                                 value={description}
                                                 onIonChange={(e: any) => {setDescription(e.target.value)}}
                                             />
@@ -378,12 +404,12 @@ const WorkOrderContainer = () => {
                 </IonGrid>
             </div>
             <IonModal
-                trigger='open-modal'
-                ref={modal}
+                trigger='open-modal-inicio'
+                ref={modalInicio}
             >
                 <IonToolbar>
                     <IonTitle>
-                        Seleccione Fecha de Ejecución
+                        Seleccione Fecha de Inicio Programado
                     </IonTitle>
                     <IonButton onClick={() => closeFechaEjecucion()} fill={'clear'} slot={'end'}>
                         <IonIcon icon={close} />
@@ -391,6 +417,25 @@ const WorkOrderContainer = () => {
                 </IonToolbar>
                 <IonDatetime
                     onIonChange={(e: any) => {guardarFechaEjecucion(e)}}
+                    firstDayOfWeek={1}
+                    id="datetime" 
+                    style={{ margin: 'auto', borderColor: '#ccc', borderStyle: 'solid', borderWidth: 1, borderRadius: 20 }}
+                />
+            </IonModal>
+            <IonModal
+                trigger='open-modal-termino'
+                ref={modalTermino}
+            >
+                <IonToolbar>
+                    <IonTitle>
+                        Seleccione Fecha de Término Programado
+                    </IonTitle>
+                    <IonButton onClick={() => closeFechaTermino()} fill={'clear'} slot={'end'}>
+                        <IonIcon icon={close} />
+                    </IonButton>
+                </IonToolbar>
+                <IonDatetime
+                    onIonChange={(e: any) => {guardarFechaTermino(e)}}
                     firstDayOfWeek={1}
                     id="datetime" 
                     style={{ margin: 'auto', borderColor: '#ccc', borderStyle: 'solid', borderWidth: 1, borderRadius: 20 }}

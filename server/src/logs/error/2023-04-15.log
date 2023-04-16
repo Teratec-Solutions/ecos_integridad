@@ -1,0 +1,3 @@
+2023-04-15 10:00:51 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2023-04-15 21:56:18 error: [POST] /api/templates/saveTemplate >> StatusCode:: 500, Message:: Cannot read property '_id' of null
+2023-04-15 21:56:19 error: [POST] /api/templates/saveTemplate >> StatusCode:: 500, Message:: Cannot read property '_id' of null

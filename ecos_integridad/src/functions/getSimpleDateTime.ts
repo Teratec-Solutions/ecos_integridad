@@ -2,23 +2,23 @@ const getSimpleDateTime = (time: Date | undefined) => {
     if (time) {
         const day = new Date(time).getDay()
         let dayName = ''
-        if (day === 1) {
+        if (day === 0) {
             dayName = 'Lunes'
-        } else if (day === 2) {
+        } else if (day === 1) {
             dayName = 'Martes'
-        } else if (day === 3) {
+        } else if (day === 2) {
             dayName = 'Miercoles'
-        } else if (day === 4) {
+        } else if (day === 3) {
             dayName = 'Jueves'
-        } else if (day === 5) {
+        } else if (day === 4) {
             dayName = 'Viernes'
-        } else if (day === 6) {
+        } else if (day === 5) {
             dayName = 'Sabado'
-        } else if (day === 0) {
+        } else if (day === 6) {
             dayName = 'Domingo'
         }
-        const date = new Date(time).getDate()
-        const month = new Date(time).getMonth()
+        const date = new Date(time).getUTCDate()
+        const month = new Date(time).getUTCMonth()
         let monthName
         if (month === 0) {
             monthName = '01'

@@ -10,6 +10,15 @@ const createUser = async (usuario: Usuario): Promise<AxiosResponse|any> => {
     }
 }
 
+const deleteUser = async (userId: string): Promise<AxiosResponse|any> => {
+    try {
+        const response = await axios.post('/api/users/deleteUser', {id: userId})
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
 const editUser = async (usuario: Usuario): Promise<AxiosResponse|any> => {
     try {
         const response = await axios.post('/api/users/editUser', usuario)
@@ -57,6 +66,7 @@ const getOperadores = async (): Promise<AxiosResponse|any> => {
 
 export default {
     createUser,
+    deleteUser,
     editUser,
     getUserById,
     getUsers,

@@ -70,7 +70,7 @@ const editUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const userId: string = req.params.id
+        const userId: string = req.body.id
         const userLocale = req.cookies.language || locale
         const deleteUserData: User = await UserService.deleteUser(userId, userLocale)
 

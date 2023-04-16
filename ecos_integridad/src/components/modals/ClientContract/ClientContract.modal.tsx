@@ -135,7 +135,7 @@ const ClientContractModal = (
             </IonButton>
         </IonToolbar>
         <IonDatetime
-            onIonChange={(e: any) => {guardarFechaInicio(e)}}
+            onIonChange={(e: any) => {guardarFechaInicio(e); console.log(e)}}
             firstDayOfWeek={1}
             id='datetime' 
             style={{ margin: 'auto', borderColor: '#ccc', borderStyle: 'solid', borderWidth: 1, borderRadius: 20 }}

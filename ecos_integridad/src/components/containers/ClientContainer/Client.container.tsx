@@ -1,14 +1,16 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonRow, IonTitle, IonToolbar } from "@ionic/react"
 import { AxiosResponse } from "axios"
 import { arrowBack } from "ionicons/icons"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router"
 import { format, validate } from "rut.js"
 import { nuevoClienteCreado } from "../../../connections/socket.connection"
 import { Cliente, Empresa } from "../../../interfaces/Cliente"
 import { clientsRouter } from "../../../router"
+import { AuthContext } from "../../../context/Auth.context"
 
 const ClientContainer = () => {
+    const { usuario } = useContext(AuthContext)
     const _id: {id: string} = useParams()
     const [ showLoading, setShowLoading ] = useState<boolean>(false)
     const history = useHistory()
@@ -88,7 +90,8 @@ const ClientContainer = () => {
                 console.log(response)
                 if (response) {
                     history.goBack()
-                    nuevoClienteCreado()
+                    if (usuario)
+                    nuevoClienteCreado(usuario)
                 }
             } catch (error: any) {
                 console.log(error)

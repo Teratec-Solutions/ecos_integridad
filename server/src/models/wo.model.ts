@@ -30,6 +30,12 @@ const woSchema: Schema = new Schema(
         fechaTermino: {
             type: Date
         },
+        fechaInicioEjecucion: {
+            type: Date
+        },
+        fechaTerminoEjecucion: {
+            type: Date
+        },
         tareas: [
             {
                 type: Object,

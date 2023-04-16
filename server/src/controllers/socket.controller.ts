@@ -15,12 +15,16 @@ const SocketController = async (server: any) => {
             console.log('Activado!!!', data)
         })
         socket.on('nuevoUsuario', (data) => {
-            io.emit(`actualizar_${data._id}`, {title: 'Actualizados usuarios'})
+            io.emit(`nuevoUsuario_${data._id}`, {title: 'Actualizados usuarios'})
+        })
+        socket.on('usuarioEliminado', (data) => {
+            io.emit(`usuarioEliminado_${data._id}`, {title: 'Eliminado usuarios'})
         })
         socket.on('nuevoCliente', (data) => {
-            console.log('Nuevo cliente creado')
-            console.log(data)
             io.emit(`nuevoClienteCreado_${data._id}`, {title: 'Actualizados clientes'})
+        })
+        socket.on('clienteEliminado', (data) => {
+            io.emit(`clienteEliminado_${data._id}`, {title: 'Eliminado cliente'})
         })
     })
 }
