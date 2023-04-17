@@ -5,7 +5,7 @@ import { authRouter } from "../router"
 
 interface AuthType {
     login:(data: LoginData) => Promise<boolean>
-    logout: () => void
+    logout: () => Promise<boolean>
     usuario?: Usuario
     isAuth: boolean
     loading: boolean
@@ -71,6 +71,7 @@ export const AuthProvider = (props: any) => {
         if (usuario) {
             if (usuario.subRoles?.length === 0 && usuario.role === 'superAdmin') {
                 setUserType('admin')
+                setLoading(false)
             } else {
                 if (
                     (usuario.subRoles && 
@@ -134,7 +135,11 @@ export const AuthProvider = (props: any) => {
     }
 
     const logout = () => {
-
+        return new Promise<boolean>(resolve => {
+            window.localStorage.clear()
+            setIsAuth(false)
+            resolve(true)
+        })
     }
 
     const values = {

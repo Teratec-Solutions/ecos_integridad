@@ -4,7 +4,7 @@ import { HomeContainer, HomeUserContainer } from "../../components/containers"
 const HomePage = ({userType}:{userType: string | undefined}) => {
     return (
         <IonPage>
-            {(userType === 'Operador') ? <HomeUserContainer userType={userType} /> : <HomeContainer userType={userType} />}
+            {(userType === 'Operador') ? <HomeUserContainer userType={userType} /> : <HomeContainer />}
         </IonPage>
     )
 }

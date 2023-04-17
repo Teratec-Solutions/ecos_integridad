@@ -4,3 +4,13 @@
 2023-04-16 16:09:10 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
 2023-04-16 16:09:11 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
 2023-04-16 16:13:40 error: [POST] /api/login >> StatusCode:: 409, Message:: Contraseña incorrecta
+2023-04-16 17:00:57 error: [POST] /api/logout >> StatusCode:: 409, Message:: Email okenobi@email.com no encontrado
+2023-04-16 17:01:04 error: [POST] /api/logout >> StatusCode:: 409, Message:: Email okenobi@email.com no encontrado
+2023-04-16 17:03:28 error: [POST] /api/logout >> StatusCode:: 409, Message:: Email okenobi@email.com no encontrado
+2023-04-16 17:56:30 error: [GET] /api/clients/getClients >> StatusCode:: 401, Message:: Wrong authentication token
+2023-04-16 17:56:30 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2023-04-16 17:59:03 error: [GET] /api/clients/getClients >> StatusCode:: 401, Message:: Wrong authentication token
+2023-04-16 17:59:06 error: [POST] /api/logout >> StatusCode:: 409, Message:: Email lskywalker@email.com no encontrado
+2023-04-16 17:59:14 error: [GET] /api/clients/getClients >> StatusCode:: 401, Message:: Wrong authentication token
+2023-04-16 21:14:56 error: [GET] /api/users/getUsers >> StatusCode:: 401, Message:: Wrong authentication token
+2023-04-16 21:14:56 error: [GET] /api/clients/getClients >> StatusCode:: 401, Message:: Wrong authentication token

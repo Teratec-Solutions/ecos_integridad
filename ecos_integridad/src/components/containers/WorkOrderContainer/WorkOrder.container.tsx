@@ -1,18 +1,24 @@
 import { IonButton, IonCol, IonContent, IonDatetime, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonModal, IonPopover, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar } from '@ionic/react'
 import { AxiosResponse } from 'axios'
 import { arrowBack } from 'ionicons/icons'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { Cliente, Contrato } from '../../../interfaces/Cliente'
-import { clientsRouter, contratosRouter, templateRouter, usersRouter, woRouter } from '../../../router'
+import { clientsRouter, templateRouter, woRouter } from '../../../router'
 import { close } from 'ionicons/icons'
 import './WorkOrderContainer.css'
 import { getSimpleDateTime } from '../../../functions'
 import { Ordenes } from '../../../interfaces/Ordenes'
 import { Usuario } from '../../../interfaces/Usuario'
 import { Template } from '../../../interfaces/Template'
+import { UsersContext } from '../../../context/Users.context'
+import { ClientsContext } from '../../../context/Clients.context'
+import { AuthContext } from '../../../context/Auth.context'
 
 const WorkOrderContainer = () => {
+    const {usuario} = useContext(AuthContext)
+    const {supervisores, operadores} = useContext(UsersContext)
+    const {clients} = useContext(ClientsContext)
     const _id: {id: string} = useParams()
     const [ woNumber, setWoNumber ] = useState<number>()
     const [ nombreSupervisor, setSupervisor ] = useState<string>('')
@@ -20,62 +26,77 @@ const WorkOrderContainer = () => {
     const [ prioridad, setPrioridad ] = useState<string>('')
     const [ fechaEjecucion, setFechaEjecucion ] = useState<Date>()
     const [ fechaTermino, setFechaTermino ] = useState<Date>()
-    /* const [ openModalFechaEjecucion, setOpenModalFechaEjecucion ] = useState<boolean>(false) */
     const [ description, setDescription ] = useState<string>('')
-    const [ clientes, setClientes ] = useState<Cliente[]>([])
     const [ clienteSeleccionado, setClienteSeleccionado ] = useState<string>()
     const [ contratoSeleccionado, setContratoSeleccionado ] = useState<string>()
     const [ protocoloSeleccionado, setProtocoloSeleccionado ] = useState<string>()
     const [ protocolos, setProtocolos ] = useState<Template[]>([])
     const [ contratos, setContratos ] = useState<Contrato[]>([])
-    const [ supervisores, setSupervisores ] = useState<Usuario[]>([])
-    const [ supervisoresCache, setSupervisoresCache ] = useState<Usuario[]>([])
-    const [ usuarios, setUsuarios ] = useState<Usuario[]>([])
-    const [ usuariosCache, setUsuariosCache ] = useState<Usuario[]>([])
+    const [ operadoresFiltrados, setOperadoresFiltrados ] = useState<Usuario[]>([])
+    const [ supervisoresFiltrados, setSupervisoresFiltrados ] = useState<Usuario[]>([])
     const [ supervisorSeleccionado, setSupervisorSeleccionado ] = useState<string>('')
     const [ operadorSeleccionado, setOperadorSeleccionado ] = useState<string>('')
-    const [ userData, setUserData ] = useState<Usuario>()
     const [ showLoading, setShowLoading ] = useState<boolean>(false)
     const [ contratoDeshabilitado, setContratoDeshabilitado ] = useState<boolean>(true)
     const [ supervisorOpenPopover, setSupervisorOpenPopover ] = useState<boolean>(false)
     const [ usuarioOpenPopover, setUsuarioOpenPopover ] = useState<boolean>(false)
+    const [ orden, setOrden ] = useState<Ordenes>()
     const history = useHistory()
     const modalInicio = useRef<HTMLIonModalElement>(null);
     const modalTermino = useRef<HTMLIonModalElement>(null);
     useEffect(() => {
-        console.log(_id)
+        if (operadores && supervisores) {
+            setOperadoresFiltrados(operadores)
+            setSupervisoresFiltrados(supervisores)
+        }
+    }, [supervisores, operadores])
+    useEffect(() => {
         setShowLoading(true)
         init()
     }, [])
-    const init = async () => {
-        const response: AxiosResponse = await clientsRouter.getClients()
-        setClientes(response.data.data)
-        const responseSupervisores: AxiosResponse = await usersRouter.getSupervisores()
-        setSupervisores(responseSupervisores.data.data)
-        setSupervisoresCache(responseSupervisores.data.data)
-        const responseUsuarios: AxiosResponse = await usersRouter.getOperadores()
-        setUsuarios(responseUsuarios.data.data)
-        setUsuariosCache(responseUsuarios.data.data)
-        const u: Usuario = JSON.parse(window.localStorage.getItem('usuario')|| '{}')
-        setUserData(u)
-        if (_id.id) {
-            const res: AxiosResponse = await woRouter.getWoById(_id.id)
-            const orden : Ordenes = res.data.data
-            console.log(orden)
+    useEffect(() => {
+        if (orden) {
             orden.cliente && console.log(orden.cliente[0])
             setWoNumber(orden.nroWo)
             setPrioridad(orden.prioridad)
             setFechaEjecucion(orden.fechaInicio)
             setFechaTermino(orden.fechaTermino)
-            orden.cliente && setClienteSeleccionado(orden.cliente[0]._id || '')
             orden.supervisor && setSupervisor(`${orden.supervisor[0].nombre} ${orden.supervisor[0].apellido1} ${orden.supervisor[0].apellido2}`)
             orden.supervisor && setSupervisorSeleccionado(orden.supervisor[0]._id)
             orden.asignado && setAsignacion(`${orden.asignado[0].nombre} ${orden.asignado[0].apellido1} ${orden.asignado[0].apellido2}`)
             orden.asignado && setOperadorSeleccionado(orden.asignado[0]._id)
-            orden.contrato && setContratoSeleccionado(orden.contrato[0]._id)
-            orden.protocolo[0] && setProtocoloSeleccionado(orden.protocolo[0]._id)
             setDescription(orden.descripcion)
             setShowLoading(false)
+        }
+    },[orden])
+    useEffect(() => {
+        if (clients.length > 0 && orden) {
+            if (orden.cliente)
+            if (orden.cliente[0]._id)
+            seleccionarCliente(orden.cliente[0]._id)
+        }
+    }, [clients, orden])
+    useEffect(() => {
+        if (contratos.length > 0 && orden) {
+            console.log(contratos)
+            if (orden.contrato)
+            if (orden.contrato[0]._id)
+            seleccionarContrato(orden.contrato[0]._id)
+        }
+    },[contratos, orden])
+    useEffect(() => {
+        if (protocolos.length > 0 && orden) {
+            console.log(protocolos)
+            if (orden.protocolo)
+            if (orden.protocolo[0]._id)
+            seleccionarProtocolo(orden.protocolo[0]._id)
+        }
+    },[protocolos, orden])
+    const init = async () => {
+        if (_id.id) {
+            const res: AxiosResponse = await woRouter.getWoById(_id.id)
+            const ordenResponse : Ordenes = res.data.data
+            setOrden(ordenResponse)
         } else {
             const responseWO: AxiosResponse = await woRouter.getNumberWorkOrders()
             setWoNumber((responseWO.data.data.total + 1))
@@ -102,37 +123,36 @@ const WorkOrderContainer = () => {
     }
     const buscarSupervisores = (value: string) => {
         if (value.length > 2) {
-            const dataFiltered = supervisoresCache.filter(usuario => {
+            const dataFiltered = supervisores.filter(usuario => {
                 if (`${usuario.nombre?.toLocaleLowerCase()} ${usuario.apellido1?.toLocaleLowerCase()} ${usuario.apellido2?.toLocaleLowerCase()}`.match(value.toLocaleLowerCase())||`${usuario.run}`.match(value)) {
                     return usuario
                 } else {
                     return null
                 }
             })
-            setSupervisores(dataFiltered)
+            setSupervisoresFiltrados(dataFiltered)
         } else {
-            setSupervisores(supervisoresCache)
+            setSupervisoresFiltrados(supervisores)
         }
     }
-    const buscarUsuarios = (value: string) => {
+    const buscarOperadores = (value: string) => {
         if (value.length > 2) {
-            const dataFiltered = usuariosCache.filter(usuario => {
+            const dataFiltered = operadores.filter(usuario => {
                 if (`${usuario.nombre?.toLocaleLowerCase()} ${usuario.apellido1?.toLocaleLowerCase()} ${usuario.apellido2?.toLocaleLowerCase()}`.match(value.toLocaleLowerCase())||`${usuario.run}`.match(value)) {
                     return usuario
                 } else {
                     return null
                 }
             })
-            setUsuarios(dataFiltered)
+            console.log(dataFiltered)
+            setOperadoresFiltrados(dataFiltered)
         } else {
-            setUsuarios(usuariosCache)
+            setOperadoresFiltrados(operadores)
         }
     }
-    const seleccionarCliente = async (userString: string) => {
-        setClienteSeleccionado(userString)
-        const response = await clientsRouter.getClientById(userString)
-        /* setContratos(response?.data.data) */
-        /* console.log(response?.data.data) */
+    const seleccionarCliente = async (clienteId: string) => {
+        setClienteSeleccionado(clienteId)
+        const response = await clientsRouter.getClientById(clienteId)
         const client: Cliente = response?.data.data
         client.contratos && setContratos(client.contratos)
         if (client.contratos) {
@@ -173,9 +193,10 @@ const WorkOrderContainer = () => {
                     asignado: [{_id: operadorSeleccionado}],
                     supervisor: [{_id: supervisorSeleccionado}],
                     prioridad: prioridad,
-                    lastEditedBy: userData?._id,
+                    lastEditedBy: usuario?._id,
                     descripcion: description,
                     fechaInicio: fechaEjecucion,
+                    fechaTermino: fechaTermino,
                     cliente: [{_id: clienteSeleccionado} as Cliente],
                     contrato: [{_id: contratoSeleccionado} as Contrato],
                     protocolo: [{_id: protocoloSeleccionado} as Template],
@@ -195,9 +216,10 @@ const WorkOrderContainer = () => {
                     asignado: [{_id: operadorSeleccionado}],
                     supervisor: [{_id: supervisorSeleccionado}],
                     prioridad: prioridad,
-                    createdBy: userData?._id,
+                    createdBy: usuario?._id,
                     descripcion: description,
                     fechaInicio: fechaEjecucion,
+                    fechaTermino: fechaTermino,
                     cliente: [{_id: clienteSeleccionado} as Cliente],
                     contrato: [{_id: contratoSeleccionado} as Contrato],
                     protocolo: [{_id: protocoloSeleccionado} as Template],
@@ -287,7 +309,7 @@ const WorkOrderContainer = () => {
                                             <IonLabel position={'floating'}>Cliente</IonLabel>
                                             <IonSelect value={clienteSeleccionado} onIonChange={(e: any) => {seleccionarCliente(e.target.value)}} interface={'popover'} className='item-select-style'>
                                                 {
-                                                    clientes.map((cliente, index) => {
+                                                    clients.map((cliente, index) => {
                                                         return (
                                                             <IonSelectOption key={index} value={cliente._id}>{cliente.empresa ? cliente.empresa.nombre : ''}</IonSelectOption>
                                                         )
@@ -334,11 +356,11 @@ const WorkOrderContainer = () => {
                                         <IonItem id="supervisor-trigger" button className='item-style' onClick={() => {setSupervisorOpenPopover(true)}}>
                                             <IonLabel style={{ paddingTop: 8, paddingBottom: 8}}>Supervisor {nombreSupervisor}</IonLabel>
                                         </IonItem>
-                                        <IonPopover isOpen={supervisorOpenPopover} backdropDismiss /* dismissOnSelect */ trigger="supervisor-trigger" size='cover' alignment="start">
+                                        <IonPopover isOpen={supervisorOpenPopover} backdropDismiss trigger="supervisor-trigger" size='cover' alignment="start">
                                             <IonContent class="ion-padding" style={{ minWidth: 300 }}>
                                                 <IonSearchbar onIonChange={(e: any) => { buscarSupervisores(e.target.value) }} />
                                                 {
-                                                    supervisores.map((supervisor, index) => {
+                                                    supervisoresFiltrados.map((supervisor, index) => {
                                                         return (
                                                             <IonItem key={index} button onClick={() => { selectSupervisor(supervisor._id, `${supervisor.nombre} ${supervisor.apellido1}`) }}>
                                                                 {supervisor.nombre} {supervisor.apellido1}
@@ -355,11 +377,11 @@ const WorkOrderContainer = () => {
                                         <IonItem id="usuario-trigger" button className='item-style' onClick={() => {setUsuarioOpenPopover(true)}}>
                                             <IonLabel style={{ paddingTop: 8, paddingBottom: 8}}>Asignación {nombreAsignacion}</IonLabel>
                                         </IonItem>
-                                        <IonPopover isOpen={usuarioOpenPopover} backdropDismiss /* dismissOnSelect */ trigger="usuario-trigger" size='cover' alignment="start">
+                                        <IonPopover isOpen={usuarioOpenPopover} backdropDismiss trigger="usuario-trigger" size='cover' alignment="start">
                                             <IonContent class="ion-padding" style={{ minWidth: 300 }}>
-                                                <IonSearchbar onIonChange={(e: any) => { buscarUsuarios(e.target.value) }} />
+                                                <IonSearchbar onIonChange={(e: any) => { buscarOperadores(e.target.value) }} />
                                                 {
-                                                    usuarios.map((usuario, index) => {
+                                                    operadoresFiltrados.map((usuario, index) => {
                                                         return (
                                                             <IonItem key={index} button onClick={() => { selectUsuario(usuario._id, `${usuario.nombre} ${usuario.apellido1}`) }}>
                                                                 {usuario.nombre} {usuario.apellido1}

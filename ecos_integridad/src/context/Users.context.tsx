@@ -5,6 +5,8 @@ import { usersRouter } from "../router";
 import { io } from "socket.io-client";
 interface UsersType {
     users: Usuario[]
+    supervisores: Usuario[]
+    operadores: Usuario[]
     loading: boolean
     deleteUser: (idUser: string) => Promise<any>
 }
@@ -14,6 +16,8 @@ export const UsersProvider = (props: any) => {
     const {isAuth, userType, usuario} = useContext(AuthContext)
     const [users, setUsers] = useState<Usuario[]>([])
     const [loading, setLoading] = useState<boolean>(false)
+    const [supervisores, setSupervisores] = useState<Usuario[]>([])
+    const [operadores, setOperadores] = useState<Usuario[]>([])
 
     useEffect(() => {
         if (isAuth && usuario) {
@@ -33,7 +37,27 @@ export const UsersProvider = (props: any) => {
         if (userType === 'admin') {
             getUsers()
         }
-    }, [isAuth, userType])
+    }, [userType])
+
+    useEffect(() => {
+        const supervisoresCache: Usuario[] = []
+        const operadoresCache: Usuario[] = []
+        users.forEach((user, index) => {
+            if(user.subRoles)
+            user.subRoles.forEach((subRol) => {
+                if (subRol === "Supervisor") {
+                    supervisoresCache.push(user)
+                }
+                if (subRol === "Operador") {
+                    operadoresCache.push(user)
+                }
+            })
+            if (index === (users.length - 1)) {
+                setSupervisores(supervisoresCache)
+                setOperadores(operadoresCache)
+            }
+        })
+    }, [users])
 
     const getUsers = async () => {
         setLoading(true)
@@ -51,6 +75,8 @@ export const UsersProvider = (props: any) => {
 
     const values = {
         users: users,
+        supervisores: supervisores,
+        operadores: operadores,
         loading: loading,
         deleteUser: deleteUser
     }
