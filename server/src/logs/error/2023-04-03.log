@@ -1,2 +1,0 @@
-2023-04-03 18:21:29 error: [GET] /api/clients/getClients >> StatusCode:: 401, Message:: Wrong authentication token
-2023-04-03 18:21:55 error: [POST] /api/login >> StatusCode:: 409, Message:: Contraseña incorrecta
